@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>降落點選擇圖版 — NGM 下降段危害分析</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --plate:#DDE1E0;
+  --plate-deep:#CBD2D1;
+  --plate-panel:#E8EBEA;
+  --ink:#17222A;
+  --ink-soft:#5A6771;
+  --rule:#A3ADAD;
+  --survey:#0D4C5C;
+  --oxide:#A03528;
+  --citrine:#B8890C;
+  --violet:#6E4480;
+  --copper:#A9662B;
+  --slate:#5A6771;
+  --steel:#2D6A8F;
+  --display:"Archivo Narrow","Noto Sans TC",system-ui,sans-serif;
+  --body:"IBM Plex Sans","Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --mono:"IBM Plex Mono","Noto Sans TC",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--plate);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:15px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  background-image:
+    linear-gradient(var(--plate-deep) 1px,transparent 1px),
+    linear-gradient(90deg,var(--plate-deep) 1px,transparent 1px);
+  background-size:44px 44px;
+  background-position:-1px -1px;
+}
+.sheet{max-width:1280px;margin:0 auto;padding:28px 22px 64px}
+
+/* ---- 圖版標題欄 ---- */
+header{border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:26px}
+.eyebrow{
+  font-family:var(--display);font-weight:600;font-size:11px;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--survey);
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+.eyebrow span:last-child{color:var(--ink-soft)}
+h1{
+  font-family:var(--display);font-weight:700;
+  font-size:clamp(30px,5vw,50px);line-height:1.02;
+  letter-spacing:-.005em;margin:.28em 0 .1em;
+}
+.standfirst{max-width:62ch;color:var(--ink-soft);font-size:14.5px;margin:0}
+
+/* ---- 版面 ---- */
+.layout{display:grid;grid-template-columns:290px minmax(0,1fr);gap:26px;align-items:start}
+@media (max-width:900px){.layout{grid-template-columns:1fr}}
+
+.rail{display:flex;flex-direction:column;gap:20px;position:sticky;top:18px}
+@media (max-width:900px){.rail{position:static}}
+
+.block{background:var(--plate-panel);border:1px solid var(--rule);padding:14px 15px 16px}
+.block h2{
+  font-family:var(--display);font-size:11px;font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--survey);
+  margin:0 0 2px;display:flex;justify-content:space-between;align-items:baseline;
+}
+.block h2 em{font-style:normal;font-family:var(--mono);font-size:10px;letter-spacing:0;color:var(--ink-soft);text-transform:none}
+.blurb{font-size:12.5px;color:var(--ink-soft);margin:0 0 12px;line-height:1.45}
+
+/* ---- 滑桿 ---- */
+.ctl{margin:0 0 13px}
+.ctl:last-child{margin-bottom:0}
+.ctl .lab{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:3px}
+.ctl .lab b{font-weight:500;font-size:13px}
+.ctl .lab output{font-family:var(--mono);font-size:12.5px;font-weight:500;color:var(--survey);font-variant-numeric:tabular-nums}
+input[type=range]{
+  -webkit-appearance:none;appearance:none;width:100%;height:18px;background:transparent;cursor:pointer;margin:0;
+}
+input[type=range]::-webkit-slider-runnable-track{height:2px;background:var(--rule)}
+input[type=range]::-moz-range-track{height:2px;background:var(--rule)}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:13px;height:13px;margin-top:-5.5px;
+  background:var(--survey);border:0;border-radius:0;transform:rotate(45deg);
+}
+input[type=range]::-moz-range-thumb{
+  width:11px;height:11px;background:var(--survey);border:0;border-radius:0;
+}
+input[type=range]:focus-visible{outline:2px solid var(--citrine);outline-offset:3px}
+
+/* ---- 檢視切換 ---- */
+.views{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.views button{
+  font-family:var(--display);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--plate-panel);color:var(--ink-soft);border:0;padding:9px 6px;cursor:pointer;
+}
+.views button[aria-pressed=true]{background:var(--survey);color:var(--plate)}
+.views button:focus-visible{outline:2px solid var(--citrine);outline-offset:-2px}
+.views button:last-child{grid-column:1/-1}
+
+.reset{
+  width:100%;margin-top:12px;font-family:var(--display);font-size:11px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;background:transparent;color:var(--ink);
+  border:1px solid var(--ink);padding:8px;cursor:pointer;
+}
+.reset:hover{background:var(--ink);color:var(--plate)}
+.reset:focus-visible{outline:2px solid var(--citrine);outline-offset:2px}
+
+/* ---- 圖版 ---- */
+.plate{border:1px solid var(--ink);background:var(--plate-panel)}
+.plate-head{
+  display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;
+  padding:10px 14px;border-bottom:1px solid var(--rule);
+  font-family:var(--display);font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+}
+.plate-head .stat{font-family:var(--mono);letter-spacing:0;text-transform:none;font-size:12px;color:var(--ink-soft)}
+.plate-head .stat b{color:var(--oxide);font-weight:600}
+.canvas-wrap{position:relative;padding:14px}
+canvas{width:100%;height:auto;display:block;image-rendering:pixelated;border:1px solid var(--rule);cursor:crosshair;background:var(--plate-deep)}
+.readout{
+  border-top:1px solid var(--rule);padding:9px 14px;font-family:var(--mono);font-size:12px;
+  color:var(--ink-soft);display:flex;gap:18px;flex-wrap:wrap;min-height:38px;align-items:center;
+  font-variant-numeric:tabular-nums;
+}
+.readout b{color:var(--ink);font-weight:500}
+
+/* ---- 圖例 ---- */
+.legend{display:flex;flex-wrap:wrap;gap:14px;padding:11px 14px;border-top:1px solid var(--rule);font-size:12px}
+.legend i{display:inline-block;width:13px;height:13px;margin-right:6px;vertical-align:-2px;border:1px solid rgba(23,34,42,.35)}
+.ramp{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11px;color:var(--ink-soft)}
+.ramp .bar{width:150px;height:11px;border:1px solid var(--rule)}
+
+/* ---- 候選表 ---- */
+.candidates{margin-top:26px;border:1px solid var(--ink);background:var(--plate-panel)}
+table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums}
+caption{
+  text-align:left;padding:10px 14px;border-bottom:1px solid var(--rule);
+  font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--survey);
+}
+th,td{padding:7px 10px;text-align:right;border-bottom:1px solid var(--plate-deep)}
+th{font-weight:500;color:var(--ink-soft);font-size:11px;letter-spacing:.04em}
+th:first-child,td:first-child{text-align:left;width:34px}
+tbody tr:last-child td{border-bottom:0}
+tbody tr.best td{background:rgba(184,137,12,.14)}
+tbody tr.best td:first-child{box-shadow:inset 3px 0 0 var(--citrine)}
+.empty{padding:22px 14px;color:var(--oxide);font-size:13px;font-family:var(--body)}
+
+footer{margin-top:34px;padding-top:14px;border-top:1px solid var(--rule);font-size:12.5px;color:var(--ink-soft);max-width:74ch}
+footer code{font-family:var(--mono);font-size:12px;background:var(--plate-panel);padding:1px 4px;border:1px solid var(--rule)}
+@media (prefers-reduced-motion:no-preference){
+  .plate,.block,.candidates{transition:none}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+<header>
+  <div class="eyebrow">
+    <span>下降段危害圖版 · Hazard Plate</span>
+    <span>ICP/NDT 融合 DEM · 0.5 m · seed 7</span>
+  </div>
+  <h1>降落點選擇圖版</h1>
+  <p class="standfirst">
+    這張圖版來自登陸艇下降段的六幀光學掃描，經 ICP／NDT 配準後融合成 0.5 m 解析度地形。
+    調整右側的門檻與權重，可著陸區域與候選點會即時重算——門檻放寬多少才換得到一個落點，
+    以及是哪一項條件先擋住你，都直接畫在圖上。
+  </p>
+</header>
+
+<div class="layout">
+
+  <!-- ============ 控制軌 ============ -->
+  <div class="rail">
+
+    <section class="block">
+      <h2>硬性門檻 <em>hard limits</em></h2>
+      <p class="blurb">任一項不通過即判定為不可著陸，該格不列入候選。</p>
+
+      <div class="ctl">
+        <label class="lab" for="s-slope"><b>坡度上限</b><output id="o-slope"></output></label>
+        <input type="range" id="s-slope" min="2" max="25" step="0.5" value="10">
+      </div>
+      <div class="ctl">
+        <label class="lab" for="s-rough"><b>粗糙度上限</b><output id="o-rough"></output></label>
+        <input type="range" id="s-rough" min="0.03" max="0.40" step="0.005" value="0.14">
+      </div>
+      <div class="ctl">
+        <label class="lab" for="s-protr"><b>最大凸起上限</b><output id="o-protr"></output></label>
+        <input type="range" id="s-protr" min="0.05" max="0.80" step="0.01" value="0.30">
+      </div>
+      <div class="ctl">
+        <label class="lab" for="s-cov"><b>資料覆蓋率下限</b><output id="o-cov"></output></label>
+        <input type="range" id="s-cov" min="0.3" max="1" step="0.01" value="0.75">
+      </div>
+      <div class="ctl">
+        <label class="lab" for="s-div"><b>轉向距離上限</b><output id="o-div"></output></label>
+        <input type="range" id="s-div" min="5" max="70" step="1" value="30">
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>評分權重 <em>weights</em></h2>
+      <p class="blurb">只影響通過門檻的格點如何排序，會自動正規化為總和 1。</p>
+
+      <div class="ctl">
+        <label class="lab" for="w-slope"><b>坡度</b><output id="ow-slope"></output></label>
+        <input type="range" id="w-slope" min="0" max="100" step="1" value="34">
+      </div>
+      <div class="ctl">
+        <label class="lab" for="w-rough"><b>粗糙度</b><output id="ow-rough"></output></label>
+        <input type="range" id="w-rough" min="0" max="100" step="1" value="26">
+      </div>
+      <div class="ctl">
+        <label class="lab" for="w-protr"><b>最大凸起</b><output id="ow-protr"></output></label>
+        <input type="range" id="w-protr" min="0" max="100" step="1" value="24">
+      </div>
+      <div class="ctl">
+        <label class="lab" for="w-cov"><b>覆蓋率</b><output id="ow-cov"></output></label>
+        <input type="range" id="w-cov" min="0" max="100" step="1" value="6">
+      </div>
+      <div class="ctl">
+        <label class="lab" for="w-div"><b>轉向燃料代價</b><output id="ow-div"></output></label>
+        <input type="range" id="w-div" min="0" max="100" step="1" value="10">
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>檢視 <em>view</em></h2>
+      <p class="blurb">點圖版任一處可改設標稱目標點，轉向距離會跟著重算。</p>
+      <div class="views" role="group" aria-label="檢視模式">
+        <button data-view="score" aria-pressed="true">安全分數</button>
+        <button data-view="binding" aria-pressed="false">限制因子</button>
+        <button data-view="slope" aria-pressed="false">坡度</button>
+        <button data-view="rough" aria-pressed="false">粗糙度</button>
+        <button data-view="protr" aria-pressed="false">最大凸起</button>
+      </div>
+      <button class="reset" id="reset">回到基準設定</button>
+    </section>
+  </div>
+
+  <!-- ============ 圖版 ============ -->
+  <div>
+    <div class="plate">
+      <div class="plate-head">
+        <span id="view-title">安全分數</span>
+        <span class="stat" id="area-stat"></span>
+      </div>
+      <div class="canvas-wrap">
+        <canvas id="map" width="600" height="600" role="img"
+                aria-label="降落區危害圖，可著陸區域以青綠至黃色標示"></canvas>
+      </div>
+      <div class="legend" id="legend"></div>
+      <div class="readout" id="readout"><span>把游標移到圖版上讀取單點數值。</span></div>
+    </div>
+
+    <div class="candidates">
+      <table>
+        <caption>候選降落點 · 依綜合安全分數排序</caption>
+        <thead>
+          <tr>
+            <th>#</th><th>X (m)</th><th>Y (m)</th><th>分數</th>
+            <th>坡度 °</th><th>粗糙 m</th><th>凸起 m</th><th>覆蓋</th><th>轉向 m</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <div class="empty" id="empty" hidden>目前設定下沒有任何格點通過全部門檻。放寬其中一項，或把轉向距離上限拉大。</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  資料由 <code>descent_hda.py --seed 7</code> 產生：六幀掃描經 ICP／NDT 配準（地圖 RMSE 0.022 m）後融合，
+  再以 2.5 m 著陸足跡半徑做加權最小平方平面擬合，逐格算出坡度、粗糙度與最大凸起。
+  圖版上的所有計算都在瀏覽器端即時重跑，改門檻不需要重跑模擬。
+</footer>
+</div>
+
+<script type="application/json" id="data">__DATA__</script>
+<script>
+(function(){
+"use strict";
+
+const D = JSON.parse(document.getElementById("data").textContent);
+const NX = D.nx, NY = D.ny, RES = D.res, N = NX*NY;
+
+function unb64(s){
+  const bin = atob(s), a = new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) a[i] = bin.charCodeAt(i);
+  return a;
+}
+function unpack(s, n){
+  const b = unb64(s), out = new Uint8Array(n);
+  for(let i=0;i<n;i++) out[i] = (b[i>>3] >> (7-(i&7))) & 1;
+  return out;
+}
+function dequant(s, lo, hi){
+  const b = unb64(s), out = new Float32Array(b.length), k = (hi-lo)/255;
+  for(let i=0;i<b.length;i++) out[i] = lo + b[i]*k;
+  return out;
+}
+
+const VALID = unpack(D.valid, N);
+const SLOPE = dequant(D.slope, 0, D.slopeMax);
+const ROUGH = dequant(D.rough, 0, D.roughMax);
+const PROTR = dequant(D.protr, 0, D.protrMax);
+const COV   = dequant(D.cov,   0, 1);
+const DEM   = dequant(D.dem, D.zmin, D.zmax);
+
+// 格點索引 -> 地圖座標 (m)。row 0 對應 y0，畫布上下需翻轉。
+const xOf = c => D.x0 + c*RES;
+const yOf = r => D.y0 + r*RES;
+
+// ---- 山體陰影 (光源方位 315°, 仰角 45°) ----
+const SHADE = new Float32Array(N);
+(function(){
+  const az = 315*Math.PI/180, alt = 45*Math.PI/180;
+  for(let r=0;r<NY;r++) for(let c=0;c<NX;c++){
+    const i = r*NX+c;
+    if(!VALID[i]){ SHADE[i] = 1; continue; }
+    const l = VALID[i-1]&&c>0 ? DEM[i-1] : DEM[i];
+    const rt = VALID[i+1]&&c<NX-1 ? DEM[i+1] : DEM[i];
+    const d = VALID[i-NX]&&r>0 ? DEM[i-NX] : DEM[i];
+    const u = VALID[i+NX]&&r<NY-1 ? DEM[i+NX] : DEM[i];
+    const gx = (rt-l)/(2*RES), gy = (u-d)/(2*RES);
+    const sl = Math.atan(Math.hypot(gx,gy)), asp = Math.atan2(-gx, gy);
+    SHADE[i] = Math.max(0, Math.sin(alt)*Math.cos(sl) + Math.cos(alt)*Math.sin(sl)*Math.cos(az-asp));
+  }
+})();
+
+// ---- 色階 ----
+function ramp(stops){
+  return t => {
+    t = Math.max(0, Math.min(1, t));
+    const x = t*(stops.length-1), i = Math.min(stops.length-2, Math.floor(x)), f = x-i;
+    const a = stops[i], b = stops[i+1];
+    return [a[0]+(b[0]-a[0])*f, a[1]+(b[1]-a[1])*f, a[2]+(b[2]-a[2])*f];
+  };
+}
+const SCORE_RAMP = ramp([[11,58,70],[23,96,95],[76,134,86],[157,168,63],[220,192,59]]);
+const HAZ_RAMP   = ramp([[232,235,234],[168,183,180],[160,110,60],[160,53,40],[70,20,16]]);
+const CSS_SCORE  = "linear-gradient(90deg,#0B3A46,#17605F,#4C8656,#9DA83F,#DCC03B)";
+const CSS_HAZ    = "linear-gradient(90deg,#E8EBEA,#A8B7B4,#A06E3C,#A03528,#461410)";
+
+const CRIT = [
+  {key:"slope",  name:"坡度",   rgb:[160,53,40]},
+  {key:"rough",  name:"粗糙度", rgb:[110,68,128]},
+  {key:"protr",  name:"凸起",   rgb:[169,102,43]},
+  {key:"cov",    name:"覆蓋率", rgb:[90,103,113]},
+  {key:"divert", name:"轉向",   rgb:[45,106,143]}
+];
+
+// ---- 狀態 ----
+const BASE = {slope:10, rough:0.14, protr:0.30, cov:0.75, divert:30,
+              wSlope:34, wRough:26, wProtr:24, wCov:6, wDiv:10,
+              tx:0, ty:0, view:"score"};
+let S = Object.assign({}, BASE);
+
+const SCORE   = new Float32Array(N);
+const BINDING = new Int8Array(N);   // -1 可著陸, 否則為 CRIT 索引
+
+function recompute(){
+  const wsum = S.wSlope+S.wRough+S.wProtr+S.wCov+S.wDiv || 1;
+  const w = [S.wSlope/wsum, S.wRough/wsum, S.wProtr/wsum, S.wCov/wsum, S.wDiv/wsum];
+  const covSpan = Math.max(1e-6, 1 - S.cov);
+  let feasible = 0;
+
+  for(let r=0;r<NY;r++){
+    const y = yOf(r);
+    for(let c=0;c<NX;c++){
+      const i = r*NX+c;
+      if(!VALID[i]){ SCORE[i]=0; BINDING[i]=-2; continue; }
+      const dv = Math.hypot(xOf(c)-S.tx, y-S.ty);
+      // 各項「超標比」>1 即違反；取最嚴重者作為限制因子
+      const ex = [SLOPE[i]/S.slope, ROUGH[i]/S.rough, PROTR[i]/S.protr,
+                  S.cov/Math.max(COV[i],1e-6), dv/S.divert];
+      let worst = -1, wv = 1;
+      for(let k=0;k<5;k++) if(ex[k] > wv){ wv = ex[k]; worst = k; }
+      if(worst >= 0){ SCORE[i]=0; BINDING[i]=worst; continue; }
+      BINDING[i] = -1; feasible++;
+      SCORE[i] = w[0]*(1-SLOPE[i]/S.slope) + w[1]*(1-ROUGH[i]/S.rough)
+               + w[2]*(1-PROTR[i]/S.protr) + w[3]*Math.min(1,(COV[i]-S.cov)/covSpan)
+               + w[4]*(1-dv/S.divert);
+    }
+  }
+  return feasible;
+}
+
+// ---- 非極大值抑制取前 5 名 ----
+function topSites(k, minSep){
+  const tmp = Float32Array.from(SCORE);
+  const sep = Math.round(minSep/RES), out = [];
+  for(let n=0;n<k;n++){
+    let bi=-1, bv=0;
+    for(let i=0;i<N;i++) if(tmp[i]>bv){ bv=tmp[i]; bi=i; }
+    if(bi<0) break;
+    const r = (bi/NX)|0, c = bi%NX;
+    out.push({x:xOf(c), y:yOf(r), score:bv, slope:SLOPE[bi], rough:ROUGH[bi],
+              protr:PROTR[bi], cov:COV[bi], divert:Math.hypot(xOf(c)-S.tx, yOf(r)-S.ty)});
+    for(let rr=Math.max(0,r-sep);rr<Math.min(NY,r+sep+1);rr++)
+      for(let cc=Math.max(0,c-sep);cc<Math.min(NX,c+sep+1);cc++) tmp[rr*NX+cc]=0;
+  }
+  return out;
+}
+
+// ---- 繪圖 ----
+const cv = document.getElementById("map"), ctx = cv.getContext("2d");
+const off = document.createElement("canvas");
+off.width = NX; off.height = NY;
+const octx = off.getContext("2d");
+const img = octx.createImageData(NX, NY);
+
+function paint(sites){
+  const px = img.data;
+  const view = S.view;
+  for(let r=0;r<NY;r++){
+    const dr = NY-1-r;                       // 翻轉：畫布 y 向下，地圖 y 向上
+    for(let c=0;c<NX;c++){
+      const i = r*NX+c, o = (dr*NX+c)*4;
+      if(!VALID[i]){ px[o]=221; px[o+1]=225; px[o+2]=224; px[o+3]=255; continue; }
+      const sh = 0.55 + 0.45*SHADE[i];
+      let col;
+      if(view === "score"){
+        if(BINDING[i] === -1){
+          col = SCORE_RAMP(SCORE[i]/0.85).map(v => v*(0.72+0.28*SHADE[i]));
+        }else{
+          const g = 236*sh;
+          col = [g,g*1.005,g];
+          // 對角線細影線標出「是哪一項擋住的」——圖版式的拒斥網目。
+          // 「轉向超標」不畫影線：虛線圓已經說明同一件事，再疊一整片會蓋掉可著陸的小島。
+          if(BINDING[i] !== 4 && ((c+dr) % 7) === 0){
+            const h = CRIT[BINDING[i]].rgb;
+            col = [col[0]*0.52+h[0]*0.48, col[1]*0.52+h[1]*0.48, col[2]*0.52+h[2]*0.48];
+          }
+        }
+      }else if(view === "binding"){
+        col = BINDING[i] === -1 ? SCORE_RAMP(SCORE[i]/0.85)
+                                : CRIT[BINDING[i]].rgb.map(v => 255-(255-v)*0.82);
+        col = col.map(v => v*(0.78+0.22*SHADE[i]));
+      }else{
+        const t = view==="slope" ? SLOPE[i]/25 : view==="rough" ? ROUGH[i]/0.4 : PROTR[i]/0.8;
+        col = HAZ_RAMP(t).map(v => v*(0.8+0.2*SHADE[i]));
+      }
+      px[o]=col[0]; px[o+1]=col[1]; px[o+2]=col[2]; px[o+3]=255;
+    }
+  }
+  octx.putImageData(img, 0, 0);
+
+  const SC = 4;
+  cv.width = NX*SC; cv.height = NY*SC;
+  ctx.imageSmoothingEnabled = false;
+  ctx.drawImage(off, 0, 0, cv.width, cv.height);
+
+  // 座標網格 (每 20 m)
+  ctx.save();
+  ctx.strokeStyle = "rgba(23,34,42,.16)"; ctx.lineWidth = 1;
+  ctx.font = "500 13px 'IBM Plex Mono', monospace";
+  ctx.fillStyle = "rgba(23,34,42,.55)";
+  const g = 20;
+  for(let x = Math.ceil(D.x0/g)*g; x <= D.x0+NX*RES; x += g){
+    const cx = ((x-D.x0)/RES)*SC;
+    ctx.beginPath(); ctx.moveTo(cx,0); ctx.lineTo(cx,cv.height); ctx.stroke();
+    ctx.fillText(x+"", cx+4, cv.height-6);
+  }
+  for(let y = Math.ceil(D.y0/g)*g; y <= D.y0+NY*RES; y += g){
+    const cy = cv.height - ((y-D.y0)/RES)*SC;
+    ctx.beginPath(); ctx.moveTo(0,cy); ctx.lineTo(cv.width,cy); ctx.stroke();
+    ctx.fillText(y+"", 5, cy-5);
+  }
+
+  // 標稱目標 + 轉向半徑
+  const tX = ((S.tx-D.x0)/RES)*SC, tY = cv.height - ((S.ty-D.y0)/RES)*SC;
+  ctx.strokeStyle = "rgba(13,76,92,.5)"; ctx.setLineDash([7,6]); ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.arc(tX, tY, (S.divert/RES)*SC, 0, 6.2832); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.strokeStyle = "#0D4C5C"; ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(tX-11,tY); ctx.lineTo(tX+11,tY); ctx.moveTo(tX,tY-11); ctx.lineTo(tX,tY+11);
+  ctx.stroke();
+
+  // 候選點
+  sites.forEach((s, n) => {
+    const sx = ((s.x-D.x0)/RES)*SC, sy = cv.height - ((s.y-D.y0)/RES)*SC;
+    ctx.lineWidth = n===0 ? 3 : 2;
+    ctx.strokeStyle = n===0 ? "#B8890C" : "rgba(23,34,42,.75)";
+    ctx.beginPath(); ctx.arc(sx, sy, (2.5/RES)*SC, 0, 6.2832); ctx.stroke();
+    ctx.fillStyle = n===0 ? "#B8890C" : "rgba(23,34,42,.85)";
+    ctx.beginPath(); ctx.arc(sx, sy, 10, 0, 6.2832); ctx.fill();
+    ctx.fillStyle = "#E8EBEA";
+    ctx.font = "700 13px 'IBM Plex Mono', monospace";
+    ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.fillText(String(n+1), sx, sy+.5);
+    ctx.textAlign = "start"; ctx.textBaseline = "alphabetic";
+  });
+  ctx.restore();
+}
+
+// ---- 圖例 ----
+const VIEW_NAME = {score:"安全分數", binding:"限制因子", slope:"坡度", rough:"粗糙度", protr:"最大凸起"};
+function drawLegend(){
+  const el = document.getElementById("legend");
+  if(S.view === "score"){
+    el.innerHTML =
+      `<span class="ramp">低 <span class="bar" style="background:${CSS_SCORE}"></span> 高　安全分數</span>` +
+      `<span style="color:var(--ink-soft)">影線區＝不可著陸，線色即擋住它的條件</span>` +
+      CRIT.slice(0,4).map(c => `<span><i style="background:rgb(${c.rgb})"></i>${c.name}</span>`).join("") +
+      `<span style="color:var(--ink-soft)">轉向超標＝虛線圓以外</span>`;
+  }else if(S.view === "binding"){
+    el.innerHTML = `<span><i style="background:#4C8656"></i>可著陸</span>` +
+      CRIT.map(c => `<span><i style="background:rgb(${c.rgb.map(v=>255-(255-v)*0.82).map(Math.round)})"></i>${c.name}超標</span>`).join("");
+  }else{
+    const hi = S.view==="slope" ? "25°" : S.view==="rough" ? "0.40 m" : "0.80 m";
+    el.innerHTML = `<span class="ramp">0 <span class="bar" style="background:${CSS_HAZ}"></span> ${hi}　${VIEW_NAME[S.view]}</span>`;
+  }
+}
+
+// ---- 表格 ----
+function drawTable(sites){
+  const tb = document.getElementById("tbody"), empty = document.getElementById("empty");
+  tb.innerHTML = sites.map((s,n) => `<tr class="${n===0?"best":""}">
+      <td>${n+1}</td><td>${s.x.toFixed(2)}</td><td>${s.y.toFixed(2)}</td>
+      <td>${s.score.toFixed(3)}</td><td>${s.slope.toFixed(2)}</td>
+      <td>${s.rough.toFixed(3)}</td><td>${s.protr.toFixed(3)}</td>
+      <td>${Math.round(s.cov*100)}%</td><td>${s.divert.toFixed(2)}</td></tr>`).join("");
+  empty.hidden = sites.length > 0;
+}
+
+// ---- 主更新 ----
+function update(){
+  const feasible = recompute();
+  const sites = topSites(5, 5);
+  paint(sites);
+  drawLegend();
+  drawTable(sites);
+  document.getElementById("view-title").textContent = VIEW_NAME[S.view];
+  const area = feasible*RES*RES;
+  const scanned = VALID.reduce((a,b)=>a+b, 0)*RES*RES;
+  document.getElementById("area-stat").innerHTML =
+    feasible ? `可著陸 <b>${area.toFixed(0)} m²</b> · 佔掃描區 ${(area/scanned*100).toFixed(1)}%`
+             : `可著陸 <b>0 m²</b> · 無解`;
+}
+
+// ---- 綁定 ----
+const fmt = {
+  slope: v => v.toFixed(1)+" °", rough: v => v.toFixed(3)+" m",
+  protr: v => v.toFixed(2)+" m", cov: v => Math.round(v*100)+" %", divert: v => v.toFixed(0)+" m"
+};
+const SLIDERS = [["s-slope","o-slope","slope"],["s-rough","o-rough","rough"],
+                 ["s-protr","o-protr","protr"],["s-cov","o-cov","cov"],["s-div","o-div","divert"]];
+const WEIGHTS = [["w-slope","ow-slope","wSlope"],["w-rough","ow-rough","wRough"],
+                 ["w-protr","ow-protr","wProtr"],["w-cov","ow-cov","wCov"],["w-div","ow-div","wDiv"]];
+
+function syncLabels(){
+  SLIDERS.forEach(([id,oid,key]) => {
+    document.getElementById(id).value = S[key];
+    document.getElementById(oid).textContent = fmt[key](S[key]);
+  });
+  const wsum = S.wSlope+S.wRough+S.wProtr+S.wCov+S.wDiv || 1;
+  WEIGHTS.forEach(([id,oid,key]) => {
+    document.getElementById(id).value = S[key];
+    document.getElementById(oid).textContent = Math.round(S[key]/wsum*100)+" %";
+  });
+  document.querySelectorAll(".views button").forEach(b =>
+    b.setAttribute("aria-pressed", String(b.dataset.view === S.view)));
+}
+
+SLIDERS.concat(WEIGHTS).forEach(([id,,key]) => {
+  document.getElementById(id).addEventListener("input", e => {
+    S[key] = parseFloat(e.target.value);
+    syncLabels(); update();
+  });
+});
+
+document.querySelectorAll(".views button").forEach(b =>
+  b.addEventListener("click", () => { S.view = b.dataset.view; syncLabels(); update(); }));
+
+document.getElementById("reset").addEventListener("click", () => {
+  S = Object.assign({}, BASE); syncLabels(); update();
+});
+
+function cellAt(evt){
+  const rect = cv.getBoundingClientRect();
+  const fx = (evt.clientX - rect.left)/rect.width, fy = (evt.clientY - rect.top)/rect.height;
+  if(fx<0||fx>1||fy<0||fy>1) return null;
+  const c = Math.min(NX-1, Math.max(0, Math.floor(fx*NX)));
+  const dr = Math.min(NY-1, Math.max(0, Math.floor(fy*NY)));
+  return {c, r: NY-1-dr};
+}
+
+cv.addEventListener("mousemove", e => {
+  const p = cellAt(e), ro = document.getElementById("readout");
+  if(!p){ return; }
+  const i = p.r*NX + p.c;
+  if(!VALID[i]){ ro.innerHTML = "<span>此處無掃描資料。</span>"; return; }
+  const status = BINDING[i] === -1
+    ? `<b style="color:#2F6B3E">可著陸 · 分數 ${SCORE[i].toFixed(3)}</b>`
+    : `<b style="color:var(--oxide)">不可著陸 · ${CRIT[BINDING[i]].name}超標</b>`;
+  ro.innerHTML =
+    `<span>X <b>${xOf(p.c).toFixed(1)}</b> · Y <b>${yOf(p.r).toFixed(1)}</b></span>` +
+    `<span>坡度 <b>${SLOPE[i].toFixed(2)}°</b></span>` +
+    `<span>粗糙 <b>${ROUGH[i].toFixed(3)} m</b></span>` +
+    `<span>凸起 <b>${PROTR[i].toFixed(3)} m</b></span>` +
+    `<span>覆蓋 <b>${Math.round(COV[i]*100)}%</b></span>` +
+    `<span>${status}</span>`;
+});
+cv.addEventListener("mouseleave", () => {
+  document.getElementById("readout").innerHTML = "<span>把游標移到圖版上讀取單點數值。</span>";
+});
+cv.addEventListener("click", e => {
+  const p = cellAt(e); if(!p) return;
+  S.tx = xOf(p.c); S.ty = yOf(p.r); update();
+});
+
+syncLabels();
+update();
+})();
+</script>
+</body>
+</html>
