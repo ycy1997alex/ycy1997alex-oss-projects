@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: "Microsoft JhengHei UI", "Segoe UI", sans-serif; }
+    a { color: #0a58ca; } a:hover { color: #084298; }
+    .k { font-family: Consolas, 'Cascadia Mono', monospace; }
+  </style>
+</helmet>
+
+<div style="width: 760px; height: 720px; background: #ffffff; color: #212529; display: flex; flex-direction: column; gap: 22px; padding: 32px 36px; overflow: hidden;">
+
+  <div style="display: flex; flex-direction: column; gap: 5px;">
+    <div style="font-size: 21px; font-weight: 600; letter-spacing: 0.5px;">設計規格</div>
+    <div style="font-size: 12px; color: #686d71;">全部取自 ttkbootstrap 2.1.1 的 <span class="k">bootstrap-light</span> 主題實際值，不是另外調的顏色</div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 10px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="font-size: 12px; font-weight: 700; letter-spacing: 1.5px;">色票</span>
+      <span style="flex-grow: 1; height: 1px; background: #d6d6d6;"></span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px;">
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <div style="height: 40px; background: #0a58ca; border: 1px solid #d6d6d6;"></div>
+        <div style="font-size: 12px; font-weight: 600;">primary</div>
+        <div class="k" style="font-size: 11px; color: #686d71;">#0a58ca</div>
+        <div style="font-size: 11px; color: #686d71;">主按鈕、進度條、開啟中的開關</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <div style="height: 40px; background: #146c43; border: 1px solid #d6d6d6;"></div>
+        <div style="font-size: 12px; font-weight: 600;">success</div>
+        <div class="k" style="font-size: 11px; color: #686d71;">#146c43</div>
+        <div style="font-size: 11px; color: #686d71;">記錄中的 [完成]、完成計數</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <div style="height: 40px; background: #b02a37; border: 1px solid #d6d6d6;"></div>
+        <div style="font-size: 12px; font-weight: 600;">danger</div>
+        <div class="k" style="font-size: 11px; color: #686d71;">#b02a37</div>
+        <div style="font-size: 11px; color: #686d71;">記錄中的 [失敗]、失敗計數</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <div style="height: 40px; background: #686d71; border: 1px solid #d6d6d6;"></div>
+        <div style="font-size: 12px; font-weight: 600;">secondary</div>
+        <div class="k" style="font-size: 11px; color: #686d71;">#686d71</div>
+        <div style="font-size: 11px; color: #686d71;">次要按鈕框線、提示文字、[略過]</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <div style="height: 40px; background: #ffffff; border: 1px solid #d6d6d6;"></div>
+        <div style="font-size: 12px; font-weight: 600;">bg</div>
+        <div class="k" style="font-size: 11px; color: #686d71;">#ffffff</div>
+        <div style="font-size: 11px; color: #686d71;">內容區、記錄區底色</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <div style="height: 40px; background: #eff0f2; border: 1px solid #d6d6d6;"></div>
+        <div style="font-size: 12px; font-weight: 600;">light</div>
+        <div class="k" style="font-size: 11px; color: #686d71;">#eff0f2</div>
+        <div style="font-size: 11px; color: #686d71;">底部動作列、唯讀來源欄</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <div style="height: 40px; background: #d6d6d6; border: 1px solid #d6d6d6;"></div>
+        <div style="font-size: 12px; font-weight: 600;">border</div>
+        <div class="k" style="font-size: 11px; color: #686d71;">#d6d6d6</div>
+        <div style="font-size: 11px; color: #686d71;">所有 1px 分隔線與輸入框框線</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <div style="height: 40px; background: #212529; border: 1px solid #d6d6d6;"></div>
+        <div style="font-size: 12px; font-weight: 600;">fg</div>
+        <div class="k" style="font-size: 11px; color: #686d71;">#212529</div>
+        <div style="font-size: 11px; color: #686d71;">標題與一般內文</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 32px;">
+
+    <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 10px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 12px; font-weight: 700; letter-spacing: 1.5px;">字級</span>
+        <span style="flex-grow: 1; height: 1px; background: #d6d6d6;"></span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <div style="display: flex; align-items: baseline; gap: 12px;">
+          <span style="font-size: 21px; font-weight: 600; min-width: 118px;">WebP 轉圖片</span>
+          <span class="k" style="font-size: 11px; color: #686d71;">JhengHei UI 16 bold</span>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 12px;">
+          <span style="font-size: 12px; font-weight: 700; letter-spacing: 1.5px; min-width: 118px;">區段標籤</span>
+          <span class="k" style="font-size: 11px; color: #686d71;">JhengHei UI 9 bold</span>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 12px;">
+          <span style="font-size: 13px; min-width: 118px;">輸入與標籤文字</span>
+          <span class="k" style="font-size: 11px; color: #686d71;">JhengHei UI 10</span>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 12px;">
+          <span style="font-size: 12px; color: #686d71; min-width: 118px;">提示與狀態文字</span>
+          <span class="k" style="font-size: 11px; color: #686d71;">JhengHei UI 9</span>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 12px;">
+          <span class="k" style="font-size: 12px; min-width: 118px;">[完成] IMG.webp</span>
+          <span class="k" style="font-size: 11px; color: #686d71;">Consolas 9</span>
+        </div>
+      </div>
+      <div style="font-size: 11px; color: #686d71; padding-top: 2px;">預設 <span class="k">TkFixedFont</span> 是細明體，記錄區要明確指定 Consolas</div>
+    </div>
+
+    <div style="width: 300px; display: flex; flex-direction: column; gap: 10px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 12px; font-weight: 700; letter-spacing: 1.5px;">尺寸</span>
+        <span style="flex-grow: 1; height: 1px; background: #d6d6d6;"></span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 7px; font-size: 12px;">
+        <div style="display: flex; justify-content: space-between;"><span style="color: #686d71;">視窗（記錄收起）</span><span class="k">720 × 540</span></div>
+        <div style="display: flex; justify-content: space-between;"><span style="color: #686d71;">視窗（記錄展開）</span><span class="k">720 × 720</span></div>
+        <div style="display: flex; justify-content: space-between;"><span style="color: #686d71;">內容區左右留白</span><span class="k">32 px</span></div>
+        <div style="display: flex; justify-content: space-between;"><span style="color: #686d71;">區段之間</span><span class="k">22 px</span></div>
+        <div style="display: flex; justify-content: space-between;"><span style="color: #686d71;">區段標題到內容</span><span class="k">10 px</span></div>
+        <div style="display: flex; justify-content: space-between;"><span style="color: #686d71;">輸入框 / 次要按鈕高</span><span class="k">32 px</span></div>
+        <div style="display: flex; justify-content: space-between;"><span style="color: #686d71;">主按鈕</span><span class="k">260 × 42</span></div>
+        <div style="display: flex; justify-content: space-between;"><span style="color: #686d71;">進度條高</span><span class="k">6 px</span></div>
+        <div style="display: flex; justify-content: space-between;"><span style="color: #686d71;">記錄區高</span><span class="k">196 px</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 10px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="font-size: 12px; font-weight: 700; letter-spacing: 1.5px;">實作對應</span>
+      <span style="flex-grow: 1; height: 1px; background: #d6d6d6;"></span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 32px; font-size: 12px;">
+      <div style="display: flex; gap: 10px;"><span style="color: #686d71; min-width: 92px;">區段分隔線</span><span class="k" style="font-size: 11px;">Frame(height=1) + 背景色</span></div>
+      <div style="display: flex; gap: 10px;"><span style="color: #686d71; min-width: 92px;">底部動作列</span><span class="k" style="font-size: 11px;">Frame + Action.TFrame 樣式</span></div>
+      <div style="display: flex; gap: 10px;"><span style="color: #686d71; min-width: 92px;">開關</span><span class="k" style="font-size: 11px;">Checkbutton round-toggle</span></div>
+      <div style="display: flex; gap: 10px;"><span style="color: #686d71; min-width: 92px;">次要按鈕</span><span class="k" style="font-size: 11px;">Button secondary-outline</span></div>
+      <div style="display: flex; gap: 10px;"><span style="color: #686d71; min-width: 92px;">記錄著色</span><span class="k" style="font-size: 11px;">Text tag_config 三個 tag</span></div>
+      <div style="display: flex; gap: 10px;"><span style="color: #686d71; min-width: 92px;">展開／收起</span><span class="k" style="font-size: 11px;">pack_forget + geometry 調高</span></div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

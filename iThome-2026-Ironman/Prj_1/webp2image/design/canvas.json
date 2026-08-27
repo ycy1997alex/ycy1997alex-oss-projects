@@ -1,0 +1,13 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 720, "h": 540, "title": "閒置" },
+    { "file": "Converting.dc.html", "x": 840, "y": 0, "w": 720, "h": 720, "title": "轉換中" },
+    { "file": "Done.dc.html", "x": 1680, "y": 0, "w": 720, "h": 720, "title": "完成" },
+    { "file": "Tokens.dc.html", "x": 0, "y": 880, "w": 760, "h": 720, "title": "設計規格" }
+  ],
+  "annotations": [
+    { "id": "note-scope", "x": 0, "y": -180, "w": 720, "text": "只重畫外觀：功能、按鈕、流程完全不變，Model / Presenter 一行不動。\n所有顏色取自 ttkbootstrap 2.1.1 的 bootstrap-light 主題實際值。" },
+    { "id": "note-log", "x": 840, "y": -180, "w": 1560, "text": "詳細記錄預設收起（閒置視窗 540 高）；點「顯示詳細記錄」才展開到 720 高。\n現有的 ScrolledText 改成三個顏色 tag：完成 綠、略過 灰、失敗 紅。" }
+  ],
+  "launch": { "view": "canvas" }
+}

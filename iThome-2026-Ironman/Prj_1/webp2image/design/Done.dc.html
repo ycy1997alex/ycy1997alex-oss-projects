@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: "Microsoft JhengHei UI", "Segoe UI", sans-serif; }
+    a { color: #0a58ca; } a:hover { color: #084298; }
+  </style>
+</helmet>
+
+<div style="width: 720px; height: 720px; background: #ffffff; color: #212529; display: flex; flex-direction: column; overflow: hidden;">
+
+  <div style="height: 32px; background: #eff0f2; border-bottom: 1px solid #d6d6d6; display: flex; align-items: center; padding: 0 0 0 10px; gap: 8px; flex-shrink: 0;">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#686d71" stroke-width="1.4" stroke-linejoin="round">
+      <rect x="2.5" y="2.5" width="11" height="11" rx="2"></rect>
+      <path d="M2.5 10.5l3-3 3 3 2-2 3 3"></path>
+    </svg>
+    <span style="font-size: 12px; color: #45484c;">WebP 轉圖片 v1</span>
+    <span style="flex-grow: 1;"></span>
+    <div style="display: flex; align-items: center;">
+      <div style="width: 44px; height: 32px; display: flex; align-items: center; justify-content: center;">
+        <svg width="11" height="11" viewBox="0 0 12 12" stroke="#45484c" stroke-width="1.1"><path d="M1.5 6h9"></path></svg>
+      </div>
+      <div style="width: 44px; height: 32px; display: flex; align-items: center; justify-content: center;">
+        <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="#45484c" stroke-width="1.1"><rect x="1.7" y="1.7" width="8.6" height="8.6"></rect></svg>
+      </div>
+      <div style="width: 44px; height: 32px; display: flex; align-items: center; justify-content: center;">
+        <svg width="11" height="11" viewBox="0 0 12 12" stroke="#45484c" stroke-width="1.1"><path d="M2 2l8 8M10 2l-8 8"></path></svg>
+      </div>
+    </div>
+  </div>
+
+  <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 22px; padding: 26px 32px 0 32px;">
+
+    <div style="display: flex; flex-direction: column; gap: 5px;">
+      <div style="font-size: 21px; font-weight: 600; letter-spacing: 0.5px; line-height: 1.2;">WebP 轉圖片</div>
+      <div style="font-size: 12px; color: #686d71;">把 .webp 批次轉成 PNG、JPEG、BMP 或 TIFF</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 12px; font-weight: 700; letter-spacing: 1.5px;">來源</span>
+        <span style="flex-grow: 1; height: 1px; background: #d6d6d6;"></span>
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <div style="flex-grow: 1; height: 32px; border: 1px solid #d6d6d6; background: #eff0f2; display: flex; align-items: center; padding: 0 11px; font-size: 13px; color: #212529;">D:\Photos\webp_batch</div>
+        <div style="height: 32px; border: 1px solid #686d71; color: #686d71; display: flex; align-items: center; padding: 0 16px; font-size: 13px;">選檔案</div>
+        <div style="height: 32px; border: 1px solid #686d71; color: #686d71; display: flex; align-items: center; padding: 0 16px; font-size: 13px;">選資料夾</div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 12px; font-weight: 700; letter-spacing: 1.5px;">輸出</span>
+        <span style="flex-grow: 1; height: 1px; background: #d6d6d6;"></span>
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <div style="flex-grow: 1; height: 32px; border: 1px solid #d6d6d6; background: #ffffff; display: flex; align-items: center; padding: 0 11px; font-size: 13px; color: #212529;">D:\Photos\png_out</div>
+        <div style="height: 32px; border: 1px solid #686d71; color: #686d71; display: flex; align-items: center; padding: 0 16px; font-size: 13px;">選資料夾</div>
+      </div>
+      <div style="font-size: 12px; color: #686d71;">留空則輸出到原始檔所在資料夾</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 12px; font-weight: 700; letter-spacing: 1.5px;">選項</span>
+        <span style="flex-grow: 1; height: 1px; background: #d6d6d6;"></span>
+      </div>
+      <div style="display: flex; gap: 26px; align-items: center;">
+        <div style="display: flex; gap: 9px; align-items: center;">
+          <span style="font-size: 13px; color: #45484c;">格式</span>
+          <div style="width: 104px; height: 32px; border: 1px solid #d6d6d6; background: #ffffff; display: flex; align-items: center; justify-content: space-between; padding: 0 10px 0 11px; font-size: 13px;">
+            <span>PNG</span>
+            <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="#686d71" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4.5l3 3 3-3"></path></svg>
+          </div>
+        </div>
+        <div style="display: flex; gap: 9px; align-items: center;">
+          <div style="width: 34px; height: 18px; border-radius: 9px; background: #d6d6d6; display: flex; align-items: center; padding: 0 2px;">
+            <div style="width: 14px; height: 14px; border-radius: 7px; background: #ffffff;"></div>
+          </div>
+          <span style="font-size: 13px; color: #45484c;">覆寫同名檔案</span>
+        </div>
+        <div style="display: flex; gap: 9px; align-items: center;">
+          <div style="width: 34px; height: 18px; border-radius: 9px; background: #0a58ca; display: flex; align-items: center; justify-content: flex-end; padding: 0 2px;">
+            <div style="width: 14px; height: 14px; border-radius: 7px; background: #ffffff;"></div>
+          </div>
+          <span style="font-size: 13px; color: #45484c;">含子資料夾</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="background: #eff0f2; border-top: 1px solid #d6d6d6; padding: 18px 32px 16px 32px; display: flex; flex-direction: column; gap: 14px; flex-shrink: 0;">
+    <div style="display: flex; justify-content: center;">
+      <div style="width: 260px; height: 42px; background: #0a58ca; color: #ffffff; font-size: 14px; font-weight: 600; letter-spacing: 1px; display: flex; align-items: center; justify-content: center;">開始轉換</div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 14px;">
+      <div style="flex-grow: 1; height: 6px; background: #ffffff; border: 1px solid #d6d6d6; display: flex;">
+        <div style="width: 100%; background: #0a58ca;"></div>
+      </div>
+      <div style="display: flex; gap: 12px; font-size: 12px;">
+        <span style="color: #146c43;">完成 20</span>
+        <span style="color: #686d71;">略過 2</span>
+        <span style="color: #b02a37;">失敗 1</span>
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 6px;">
+      <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="#686d71" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5l3.5 3.5 3.5-3.5"></path></svg>
+      <span style="font-size: 12px; color: #686d71;">隱藏詳細記錄</span>
+    </div>
+  </div>
+
+  <div style="height: 196px; background: #ffffff; border-top: 1px solid #d6d6d6; padding: 12px 32px; display: flex; flex-direction: column; gap: 3px; font-family: Consolas, 'Cascadia Mono', monospace; font-size: 12px; line-height: 1.55; flex-shrink: 0; overflow: hidden;">
+    <div><span style="color: #146c43;">[完成]</span> IMG_0448.webp</div>
+    <div><span style="color: #146c43;">[完成]</span> IMG_0449.webp</div>
+    <div><span style="color: #686d71;">[略過]</span> IMG_0450.webp（目標檔已存在）</div>
+    <div><span style="color: #146c43;">[完成]</span> IMG_0451.webp</div>
+    <div><span style="color: #146c43;">[完成]</span> IMG_0452.webp</div>
+    <div><span style="color: #146c43;">[完成]</span> IMG_0453.webp</div>
+    <div style="color: #212529; padding-top: 4px;">── 完成 20、略過 2、失敗 1</div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>
