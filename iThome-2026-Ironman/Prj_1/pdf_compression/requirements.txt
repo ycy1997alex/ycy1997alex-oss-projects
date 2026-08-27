@@ -1,0 +1,6 @@
+# pdf_compression 相依套件 — conda env `app` (Python 3.12.13) 實測版本
+# 版本與 image2ico / webp2image 對齊，三個專案共用同一個 env。
+ttkbootstrap==2.2.0
+pillow==12.3.0
+pyinstaller==6.22.0
+pymupdf==1.28.2
