@@ -1,0 +1,29 @@
+幫我建立一個迴歸統計分析程式。
+[基礎設計]
+1. UI 類別: Python TTK
+2. 架構: MVP
+3. UI 設計: 透過 /design 設計
+4. 使用 .ico 檔案
+5. 製作 requirements.txt 與 .spec 檔案
+[UI功能]
+1. 選取 EXCEL 並嘗試讀取，要能確認格式符合規定 (見 Data_Template_Stats_Format_Definition.md)
+2. 辨識輸入變項與結果變項，讓使用者選擇哪些要排除不要分析
+3. 畫面上要包含 (1)選取EXCEL表 (2)選擇輸出目錄(預設和輸入EXCEL表相同) (3)修改輸出資料夾名稱(預設 "Output [{INPUT FILENAME}] @{yyyy-MM-dd HHmmss}") (4)EXCEL欄位選擇(上面第2點) (5)開始分析按鈕 (6)進度條(只要左右動、顯示還在進行中就可) (7) 分析LOG(顯示目前進度)
+4. 按下 "開始分析" 並執行中時，關閉原本 UI 可以使用的所有按鈕功能、修改名稱功能
+5. 執行中按下關閉時，先跳出警告視窗確認使用者意圖，若真的要關閉，就停止分析並且不要在背景留下殘留
+[分析流程]
+1. 讀取資料
+2. 建立輸出資料夾 "Output [{INPUT FILENAME}] @{yyyy-MM-dd HHmmss}"
+3. 統計視覺化 (沒有特別寫就是輸出到 "視覺化輸出資料夾" - 新建 "Visualization" 資料夾): 
+ - a. 所有連續型欄位畫 violin plot (內含 boxplot)，同一張圖有許多子圖
+ - b. 所有連續型欄位畫 histogram (各50個bin、擬合線)，一個變項一張圖，在 "Visualization" 建立子資料夾 "Variable Analysis" 並放入
+ - c. 所有連續型輸入欄位與所有連續型結果欄位畫 scatter plot，一個結果變項一張圖含不同輸入變項之子圖，在 "Visualization" 建立子資料夾 "Input×Result Analysis" 並放入
+ - d. 所有連續型欄位畫 Spearman / Pearson Correlation Matrix (範圍 -1 ~ +1、套用colormap "coolwarm")，同一張圖
+ - e. 所有連續型欄位畫一張 pair plot。
+4. 針對不同結果變項，分別進行200次 Bolasso ，以篩選欄位
+5. 針對不同結果變項，建立統計模型並撰寫分析報告
+ - a. 統計模型的結果需要整理成合適的EXCEL報表
+ - b. 回歸統計指標請包含 MAE, MSE, RMSE, Max Error, R², Adjusted R² 並畫在一張圖上
+ - c. 輸出EXCEL表，不同工作表代表不同結果變項，包含原始的欄位與模型預測的數字，以及誤差值(pred-true)與誤差率
+ - d. 統計模型結果要有合適的表與圖 (可能是我沒想到的部分) 並輸出到 "Output @{yyyy-MM-dd HHmmss}"
+ - e. 分析報告請撰寫成一份 Word 並輸出到 "Output @{yyyy-MM-dd HHmmss}"
