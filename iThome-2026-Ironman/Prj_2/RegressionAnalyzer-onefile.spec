@@ -2,7 +2,7 @@
 """onefile 打包設定（單一 exe 好交付，代價是每次啟動都要解壓）。
 
 建置：
-    C:\\Users\\AlexYu\\.conda\\envs\\stats\\python.exe -m PyInstaller ^
+    C:\\Users\\Alex\\anaconda3\\envs\\stats\\python.exe -m PyInstaller ^
         RegressionAnalyzer-onefile.spec --noconfirm --distpath dist\\onefile --workpath build\\onefile
 
 驗收標準是「建置紀錄裡沒有任何 Library not found」，不是 exit 0 —— 兩者都會回 0。

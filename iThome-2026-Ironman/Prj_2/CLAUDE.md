@@ -4,15 +4,15 @@
 
 架構、模組職責、指令與相依套件的完整說明在 [README.md](README.md)，不要在這裡重複。
 
-## 環境（已驗證 2026-08-28）
+## 環境（已驗證 2026-08-29）
 
 `conda` **不在 PATH 上**。一律用絕對路徑呼叫，不要 `conda activate`：
 
 ```
-C:\Users\AlexYu\.conda\envs\stats\python.exe
+C:\Users\Alex\anaconda3\envs\stats\python.exe
 ```
 
-該環境已具備全部相依套件（pandas 3.0.4、scikit-learn 1.9.0、statsmodels 0.14.6、matplotlib 3.11.0、seaborn 0.13.2、ttkbootstrap 1.20.4、python-docx 1.2.0、XlsxWriter 3.2.9、pyinstaller 6.21.0）。
+該環境是 Python 3.13.14，已具備全部相依套件（pandas 3.0.4、scikit-learn 1.9.0、statsmodels 0.14.6、matplotlib 3.11.0、seaborn 0.13.2、ttkbootstrap 1.20.4、python-docx 1.2.0、XlsxWriter 3.2.9、pyinstaller 6.21.0）。補裝套件時加 `--no-deps`，免得 pip 順手把 pandas／numpy 換版。
 
 ## 常用指令
 

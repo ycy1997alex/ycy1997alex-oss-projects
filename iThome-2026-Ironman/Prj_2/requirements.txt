@@ -1,5 +1,5 @@
 # 迴歸統計分析工具 — 執行時相依套件
-# 驗證環境：C:\Users\AlexYu\.conda\envs\stats (Python 3.13.14)
+# 驗證環境：C:\Users\Alex\anaconda3\envs\stats (Python 3.13.14)
 
 pandas==3.0.4
 numpy==2.5.0

@@ -2,7 +2,7 @@
 
 excel_reader 是整個專案規則最密集的地方，改動它之後跑這支：
 
-    C:\\Users\\AlexYu\\.conda\\envs\\stats\\python.exe tools\\check_format_rules.py
+    C:\\Users\\Alex\\anaconda3\\envs\\stats\\python.exe tools\\check_format_rules.py
 
 每個案例都在暫存目錄現做一個 xlsx，驗證該擋的有擋下來、該放行的有放行，
 而且錯誤訊息要指得出問題在 Excel 的哪一格。exit code 0 表示全過。

@@ -77,30 +77,30 @@ Prj_2_StatisticalAnalysis/
 
 ```powershell
 # 安裝相依套件
-C:\Users\AlexYu\.conda\envs\stats\python.exe -m pip install -r requirements.txt
+C:\Users\Alex\anaconda3\envs\stats\python.exe -m pip install -r requirements.txt
 
 # 開啟圖形介面
-C:\Users\AlexYu\.conda\envs\stats\python.exe main.py
+C:\Users\Alex\anaconda3\envs\stats\python.exe main.py
 
 # 不開介面跑完整條分析（打包驗收用；結果寫進 <輸出目錄>\_selftest.log，成敗看 exit code）
-C:\Users\AlexYu\.conda\envs\stats\python.exe main.py --selftest Data_Template_Stats.xlsx out\
+C:\Users\Alex\anaconda3\envs\stats\python.exe main.py --selftest Data_Template_Stats.xlsx out\
 
 # 格式檢查的回歸測試（改過 excel_reader.py 就跑這支）
-C:\Users\AlexYu\.conda\envs\stats\python.exe tools\check_format_rules.py
+C:\Users\Alex\anaconda3\envs\stats\python.exe tools\check_format_rules.py
 
 # 重新產生圖示
-C:\Users\AlexYu\.conda\envs\stats\python.exe tools\make_icon.py
+C:\Users\Alex\anaconda3\envs\stats\python.exe tools\make_icon.py
 ```
 
 打包：
 
 ```powershell
 # onedir：啟動快，交付時整個資料夾一起給
-C:\Users\AlexYu\.conda\envs\stats\python.exe -m PyInstaller RegressionAnalyzer-onedir.spec `
+C:\Users\Alex\anaconda3\envs\stats\python.exe -m PyInstaller RegressionAnalyzer-onedir.spec `
     --noconfirm --distpath dist\onedir --workpath build\onedir
 
 # onefile：單一 exe，每次啟動都要先解壓到暫存資料夾
-C:\Users\AlexYu\.conda\envs\stats\python.exe -m PyInstaller RegressionAnalyzer-onefile.spec `
+C:\Users\Alex\anaconda3\envs\stats\python.exe -m PyInstaller RegressionAnalyzer-onefile.spec `
     --noconfirm --distpath dist\onefile --workpath build\onefile
 ```
 

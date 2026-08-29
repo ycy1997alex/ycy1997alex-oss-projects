@@ -2,7 +2,7 @@
 """onedir 打包設定（啟動快，交付時整個資料夾一起給）。
 
 建置：
-    C:\\Users\\AlexYu\\.conda\\envs\\stats\\python.exe -m PyInstaller ^
+    C:\\Users\\Alex\\anaconda3\\envs\\stats\\python.exe -m PyInstaller ^
         RegressionAnalyzer-onedir.spec --noconfirm --distpath dist\\onedir --workpath build\\onedir
 
 驗收標準是「建置紀錄裡沒有任何 Library not found」，不是 exit 0 —— 兩者都會回 0。

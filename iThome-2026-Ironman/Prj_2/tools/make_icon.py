@@ -1,7 +1,7 @@
 """產生 app.ico。
 
 要換圖示就改這裡再重跑一次：
-    C:\\Users\\AlexYu\\.conda\\envs\\stats\\python.exe tools\\make_icon.py
+    C:\\Users\\Alex\\anaconda3\\envs\\stats\\python.exe tools\\make_icon.py
 
 在 1024px 畫布上畫、再降採樣，形狀刻意做粗，縮到 16px 時才不會糊成一團。
 """
