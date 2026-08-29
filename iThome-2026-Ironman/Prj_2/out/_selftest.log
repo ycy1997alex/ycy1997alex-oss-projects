@@ -1,0 +1,56 @@
+LOG   建立輸出資料夾 Prj_2_StatisticalAnalysis
+LOG   載入資料 500 列，輸入變項 6 欄、結果變項 3 欄（其中連續型共 9 欄）
+STAGE 視覺化 1／5
+LOG   [視覺化 1/5] violin + box 完成（9 子圖）
+STAGE 視覺化 2／5
+LOG   [視覺化 2/5] histogram 完成（9 張，50 bins ＋ KDE 與常態擬合線）
+STAGE 視覺化 3／5
+LOG   [視覺化 3/5] scatter 完成（3 張，各 6 子圖）
+STAGE 視覺化 4／5
+LOG   [視覺化 4/5] Pearson ／ Spearman 相關矩陣完成
+STAGE 視覺化 5／5
+LOG   [視覺化 5/5] pair plot 完成
+LOG   設計矩陣 500 × 6 欄（類別型已展開為 One-Hot）
+STAGE Bolasso 1／3
+LOG   [Bolasso 1/3] U_read　α = 0.2380（5-fold LassoCV 於全樣本選定），開始 200 次 bootstrap
+STAGE [Bolasso 1/3] U_read　bootstrap 50／200
+STAGE [Bolasso 1/3] U_read　bootstrap 100／200
+STAGE [Bolasso 1/3] U_read　bootstrap 150／200
+STAGE [Bolasso 1/3] U_read　bootstrap 200／200
+LOG   [Bolasso 1/3] U_read　選入 2 欄：U_motiv、U_verbal
+STAGE 建模 1／3
+LOG   [建模 1/3] U_read　n=500　R²=0.6371　Adjusted R²=0.6357　交叉驗證 R²=0.6320
+STAGE Bolasso 2／3
+LOG   [Bolasso 2/3] U_arith　α = 0.0183（5-fold LassoCV 於全樣本選定），開始 200 次 bootstrap
+STAGE [Bolasso 2/3] U_arith　bootstrap 50／200
+STAGE [Bolasso 2/3] U_arith　bootstrap 100／200
+STAGE [Bolasso 2/3] U_arith　bootstrap 150／200
+STAGE [Bolasso 2/3] U_arith　bootstrap 200／200
+LOG   [Bolasso 2/3] U_arith　選入 6 欄：U_motiv、U_harm、U_stabi、U_ppsych、U_ses、U_verbal
+STAGE 建模 2／3
+LOG   [建模 2/3] U_arith　n=500　R²=0.5799　Adjusted R²=0.5748　交叉驗證 R²=0.5721
+STAGE Bolasso 3／3
+LOG   [Bolasso 3/3] U_spell　α = 0.2370（5-fold LassoCV 於全樣本選定），開始 200 次 bootstrap
+STAGE [Bolasso 3/3] U_spell　bootstrap 50／200
+STAGE [Bolasso 3/3] U_spell　bootstrap 100／200
+STAGE [Bolasso 3/3] U_spell　bootstrap 150／200
+STAGE [Bolasso 3/3] U_spell　bootstrap 200／200
+LOG   [Bolasso 3/3] U_spell　選入 2 欄：U_motiv、U_verbal
+STAGE 建模 3／3
+LOG   [建模 3/3] U_spell　n=500　R²=0.5010　Adjusted R²=0.4990　交叉驗證 R²=0.4916
+STAGE 模型圖表
+LOG   [模型圖表] 六項指標總覽完成
+LOG   [模型圖表] Bolasso 選入頻率完成
+LOG   [模型圖表] 係數森林圖完成
+LOG   [模型圖表] U_read 實際vs預測 與 殘差診斷完成
+LOG   [模型圖表] U_arith 實際vs預測 與 殘差診斷完成
+LOG   [模型圖表] U_spell 實際vs預測 與 殘差診斷完成
+STAGE 輸出報表
+LOG   [報表] Model_Report.xlsx 完成
+LOG   [報表] Predictions.xlsx 完成（每個結果變項一張工作表）
+STAGE 撰寫報告
+LOG   [報表] Analysis_Report.docx 完成
+STAGE 完成
+LOG   全部完成，產出位於 D:\Research\iThome2026\Prj_2_StatisticalAnalysis
+SELFTEST: 3 個模型、2600 個檔案
+SELFTEST PASSED
