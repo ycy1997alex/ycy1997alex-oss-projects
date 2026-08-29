@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: "Segoe UI", "Microsoft JhengHei UI", system-ui, sans-serif; }
+    a { color: #2780e3; } a:hover { color: #1a5fa8; }
+  </style>
+</helmet>
+
+<div style="width: 480px; height: 240px; background: #f8f9fa; border: 1px solid #ced4da; color: #373a3c; display: flex; flex-direction: column;">
+
+  <div style="height: 30px; background: #f3f3f3; border-bottom: 1px solid #ced4da; display: flex; align-items: center; gap: 8px; padding-left: 10px; flex-shrink: 0;">
+    <span style="font-size: 12px;">分析尚未結束</span>
+    <div style="flex-grow: 1;"></div>
+    <div style="width: 40px; height: 30px; display: flex; align-items: center; justify-content: center;"><svg width="10" height="10" viewBox="0 0 10 10" stroke="#373a3c" stroke-width="1"><path d="M0 0l10 10M10 0L0 10"></path></svg></div>
+  </div>
+
+  <div style="flex-grow: 1; display: flex; gap: 14px; padding: 20px 22px;">
+    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#ff7518" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M12 3.5L22 20H2z"></path><path d="M12 10v4"></path><path d="M12 17v.1"></path></svg>
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <span style="font-size: 14px; font-weight: 600;">分析正在執行中，確定要關閉嗎？</span>
+      <span style="font-size: 12px; line-height: 19px; color: #373a3c;">關閉後會立刻中止分析，已產生的圖表與報表會留在輸出資料夾中，但內容不完整。</span>
+      <span style="font-size: 12px; line-height: 19px; color: #7E8081;">目前進度：Bolasso 2 ／ 3（U_arith）</span>
+    </div>
+  </div>
+
+  <div style="height: 56px; background: #f1f3f4; border-top: 1px solid #ced4da; display: flex; align-items: center; justify-content: flex-end; gap: 10px; padding: 0 18px; flex-shrink: 0;">
+    <div style="height: 32px; background: #ffffff; color: #373a3c; border: 1px solid #ced4da; padding: 0 20px; display: flex; align-items: center; font-size: 13px;">繼續分析</div>
+    <div style="height: 32px; background: #ff0039; color: #ffffff; padding: 0 20px; display: flex; align-items: center; font-size: 13px; font-weight: 600;">中止並關閉</div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

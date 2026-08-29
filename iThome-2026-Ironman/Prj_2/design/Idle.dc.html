@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: "Segoe UI", "Microsoft JhengHei UI", system-ui, sans-serif; }
+    a { color: #2780e3; } a:hover { color: #1a5fa8; }
+    .tvhead { display: grid; grid-template-columns: 26px 96px 52px 1fr; align-items: center; height: 26px; padding: 0 8px; font-size: 12px; font-weight: 600; color: #a5a7a8; background: #f1f3f4; border-bottom: 1px solid #dee2e6; }
+    .logline { display: grid; grid-template-columns: 62px 1fr; gap: 8px; }
+    .logt { color: #7E8081; }
+  </style>
+</helmet>
+
+<div style="width: 1536px; height: 907px; background: #ffffff; color: #373a3c; display: flex; flex-direction: column;">
+
+  <div style="height: 32px; background: #f3f3f3; border-bottom: 1px solid #ced4da; display: flex; align-items: center; gap: 8px; padding-left: 10px; flex-shrink: 0;">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2780e3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><path d="M6 16l4-5 3.5 3L20 7"></path><circle cx="10" cy="11" r="1.4" fill="#2780e3" stroke="none"></circle><circle cx="13.5" cy="14" r="1.4" fill="#2780e3" stroke="none"></circle></svg>
+    <span style="font-size: 12px; color: #373a3c;">迴歸統計分析工具</span>
+    <div style="flex-grow: 1;"></div>
+    <div style="display: flex; align-items: center;">
+      <div style="width: 44px; height: 32px; display: flex; align-items: center; justify-content: center;"><svg width="10" height="10" viewBox="0 0 10 10" stroke="#373a3c" stroke-width="1"><path d="M0 5h10"></path></svg></div>
+      <div style="width: 44px; height: 32px; display: flex; align-items: center; justify-content: center;"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#373a3c" stroke-width="1"><rect x="0.5" y="0.5" width="9" height="9"></rect></svg></div>
+      <div style="width: 44px; height: 32px; display: flex; align-items: center; justify-content: center;"><svg width="10" height="10" viewBox="0 0 10 10" stroke="#373a3c" stroke-width="1"><path d="M0 0l10 10M10 0L0 10"></path></svg></div>
+    </div>
+  </div>
+
+  <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 12px; padding: 18px 14px 14px 14px; min-height: 0;">
+
+    <div style="border: 1px solid #ced4da; padding: 14px; position: relative; flex-shrink: 0;">
+      <span style="position: absolute; top: -9px; left: 10px; background: #ffffff; padding: 0 6px; font-size: 13px; font-weight: 600; color: #2780e3;">1. 資料來源</span>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="width: 78px; font-size: 13px;">輸入 Excel</span>
+        <div style="flex-grow: 1; height: 30px; border: 1px solid #ced4da; background: #f8f9fa; padding: 0 8px; display: flex; align-items: center; font-size: 13px; color: #a5a7a8;">尚未選擇檔案</div>
+        <div style="height: 30px; background: #2780e3; color: #ffffff; padding: 0 14px; display: flex; align-items: center; gap: 6px; font-size: 13px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+          <span>瀏覽…</span>
+        </div>
+      </div>
+      <div style="margin-top: 10px; height: 32px; background: #f8f9fa; border-left: 3px solid #ced4da; display: flex; align-items: center; gap: 8px; padding: 0 10px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#7E8081" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5"></path><path d="M12 16.2v.1"></path></svg>
+        <span style="font-size: 12px; color: #7E8081;">請選擇符合樣板格式的 Excel（需含 Definition 與 Data 兩張工作表）</span>
+      </div>
+    </div>
+
+    <div style="border: 1px solid #dee2e6; padding: 14px; position: relative; flex-shrink: 0;">
+      <span style="position: absolute; top: -9px; left: 10px; background: #ffffff; padding: 0 6px; font-size: 13px; font-weight: 600; color: #a5a7a8;">2. 輸出設定</span>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="width: 78px; font-size: 13px; color: #a5a7a8;">輸出目錄</span>
+          <div style="flex-grow: 1; height: 30px; border: 1px solid #dee2e6; background: #f1f3f4; padding: 0 8px; display: flex; align-items: center; font-size: 13px; color: #a5a7a8;">（選擇 Excel 後自動帶入其所在資料夾）</div>
+          <div style="height: 30px; background: #e9ecef; color: #adb5bd; padding: 0 14px; display: flex; align-items: center; gap: 6px; font-size: 13px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#adb5bd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+            <span>瀏覽…</span>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="width: 78px; font-size: 13px; color: #a5a7a8;">資料夾名稱</span>
+          <div style="flex-grow: 1; height: 30px; border: 1px solid #dee2e6; background: #f1f3f4; padding: 0 8px; display: flex; align-items: center; font-size: 13px; color: #a5a7a8;">Output [{檔名}] @{yyyy-MM-dd HHmmss}</div>
+          <div style="height: 30px; background: #e9ecef; color: #adb5bd; border: 1px solid #dee2e6; padding: 0 14px; display: flex; align-items: center; font-size: 13px;">還原預設</div>
+        </div>
+        <div style="padding-left: 86px;">
+          <span style="font-size: 11px; color: #a5a7a8;">實際輸出至　—</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="border: 1px solid #dee2e6; padding: 14px; position: relative; flex-shrink: 0;">
+      <span style="position: absolute; top: -9px; left: 10px; background: #ffffff; padding: 0 6px; font-size: 13px; font-weight: 600; color: #a5a7a8;">3. 分析欄位</span>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px;">
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 12px; font-weight: 600; color: #a5a7a8;">輸入變項　Input</span>
+            <div style="height: 26px; background: #e9ecef; color: #adb5bd; border: 1px solid #dee2e6; padding: 0 12px; display: flex; align-items: center; font-size: 12px; margin-left: 6px;">全選</div>
+            <div style="height: 26px; background: #e9ecef; color: #adb5bd; border: 1px solid #dee2e6; padding: 0 12px; display: flex; align-items: center; font-size: 12px;">全不選</div>
+            <div style="flex-grow: 1;"></div>
+            <span style="font-size: 12px; color: #a5a7a8;">已選 0 ／ 0</span>
+          </div>
+          <div style="border: 1px solid #dee2e6; background: #f8f9fa; height: 182px; display: flex; flex-direction: column;">
+            <div class="tvhead"><span>　</span><span>欄位</span><span>類型</span><span>備註</span></div>
+            <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #a5a7a8;">尚未載入資料</div>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 12px; font-weight: 600; color: #a5a7a8;">結果變項　Result</span>
+            <div style="height: 26px; background: #e9ecef; color: #adb5bd; border: 1px solid #dee2e6; padding: 0 12px; display: flex; align-items: center; font-size: 12px; margin-left: 6px;">全選</div>
+            <div style="height: 26px; background: #e9ecef; color: #adb5bd; border: 1px solid #dee2e6; padding: 0 12px; display: flex; align-items: center; font-size: 12px;">全不選</div>
+            <div style="flex-grow: 1;"></div>
+            <span style="font-size: 12px; color: #a5a7a8;">已選 0 ／ 0</span>
+          </div>
+          <div style="border: 1px solid #dee2e6; background: #f8f9fa; height: 182px; display: flex; flex-direction: column;">
+            <div class="tvhead"><span>　</span><span>欄位</span><span>類型</span><span>備註</span></div>
+            <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #a5a7a8;">尚未載入資料</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 14px; flex-shrink: 0;">
+      <div style="height: 40px; background: #e9ecef; color: #adb5bd; padding: 0 26px; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="#adb5bd" stroke="none"><path d="M7 4.5v15l13-7.5z"></path></svg>
+        <span>開始分析</span>
+      </div>
+      <div style="height: 40px; background: #e9ecef; color: #adb5bd; padding: 0 22px; display: flex; align-items: center; gap: 8px; font-size: 14px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="#adb5bd" stroke="none"><rect x="6" y="6" width="12" height="12"></rect></svg>
+        <span>停止計算</span>
+      </div>
+      <div style="flex-grow: 1; height: 14px; background: #e9ecef;"></div>
+      <span style="font-size: 12px; color: #7E8081; width: 130px; text-align: right;">請先選擇檔案</span>
+      <div style="height: 30px; background: #ffffff; color: #7E8081; border: 1px solid #ced4da; padding: 0 12px; display: flex; align-items: center; font-size: 12px;">另存為 .log</div>
+      <div style="height: 30px; background: #ffffff; color: #7E8081; border: 1px solid #ced4da; padding: 0 12px; display: flex; align-items: center; font-size: 12px;">清除紀錄</div>
+    </div>
+
+    <div style="border: 1px solid #ced4da; padding: 14px; position: relative; flex-grow: 1; display: flex; flex-direction: column; min-height: 0;">
+      <span style="position: absolute; top: -9px; left: 10px; background: #ffffff; padding: 0 6px; font-size: 13px; font-weight: 600; color: #2780e3;">分析紀錄</span>
+      <div style="flex-grow: 1; background: #fdfdfe; border: 1px solid #ced4da; padding: 8px 10px; font-family: Consolas, 'Cascadia Mono', monospace; font-size: 12px; line-height: 19px; color: #373a3c; display: flex; flex-direction: column; overflow: hidden;">
+        <div class="logline"><span class="logt">14:29:41</span><span>迴歸統計分析工具 v1.0.0 已啟動</span></div>
+        <div class="logline"><span class="logt">14:29:41</span><span>等待選擇輸入 Excel</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

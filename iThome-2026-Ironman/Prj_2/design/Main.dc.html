@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: "Segoe UI", "Microsoft JhengHei UI", system-ui, sans-serif; }
+    a { color: #2780e3; } a:hover { color: #1a5fa8; }
+    .tvrow { display: grid; grid-template-columns: 26px 96px 52px 1fr; align-items: center; height: 26px; padding: 0 8px; font-size: 13px; color: #373a3c; }
+    .tvhead { display: grid; grid-template-columns: 26px 96px 52px 1fr; align-items: center; height: 26px; padding: 0 8px; font-size: 12px; font-weight: 600; color: #373a3c; background: #f8f9fa; border-bottom: 1px solid #ced4da; }
+    .logline { display: grid; grid-template-columns: 62px 1fr; gap: 8px; }
+    .logt { color: #7E8081; }
+  </style>
+</helmet>
+
+<div style="width: 1536px; height: 907px; background: #ffffff; color: #373a3c; display: flex; flex-direction: column;">
+
+  <!-- Windows title bar -->
+  <div style="height: 32px; background: #f3f3f3; border-bottom: 1px solid #ced4da; display: flex; align-items: center; gap: 8px; padding-left: 10px; flex-shrink: 0;">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2780e3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><path d="M6 16l4-5 3.5 3L20 7"></path><circle cx="10" cy="11" r="1.4" fill="#2780e3" stroke="none"></circle><circle cx="13.5" cy="14" r="1.4" fill="#2780e3" stroke="none"></circle></svg>
+    <span style="font-size: 12px; color: #373a3c;">迴歸統計分析工具</span>
+    <div style="flex-grow: 1;"></div>
+    <div style="display: flex; align-items: center;">
+      <div style="width: 44px; height: 32px; display: flex; align-items: center; justify-content: center;"><svg width="10" height="10" viewBox="0 0 10 10" stroke="#373a3c" stroke-width="1"><path d="M0 5h10"></path></svg></div>
+      <div style="width: 44px; height: 32px; display: flex; align-items: center; justify-content: center;"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#373a3c" stroke-width="1"><rect x="0.5" y="0.5" width="9" height="9"></rect></svg></div>
+      <div style="width: 44px; height: 32px; display: flex; align-items: center; justify-content: center;"><svg width="10" height="10" viewBox="0 0 10 10" stroke="#373a3c" stroke-width="1"><path d="M0 0l10 10M10 0L0 10"></path></svg></div>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 12px; padding: 18px 14px 14px 14px; min-height: 0;">
+
+    <!-- Section 1 -->
+    <div style="border: 1px solid #ced4da; padding: 14px; position: relative; flex-shrink: 0;">
+      <span style="position: absolute; top: -9px; left: 10px; background: #ffffff; padding: 0 6px; font-size: 13px; font-weight: 600; color: #2780e3;">1. 資料來源</span>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="width: 78px; font-size: 13px;">輸入 Excel</span>
+        <div style="flex-grow: 1; height: 30px; border: 1px solid #ced4da; background: #f8f9fa; padding: 0 8px; display: flex; align-items: center; font-size: 13px; color: #373a3c;">D:\AlexYu\2_Personal\DEMO_TEST\iT2026\Prj_2_StatisticalAnalysis\Data_Template_Stats.xlsx</div>
+        <div style="height: 30px; background: #7E8081; color: #ffffff; padding: 0 14px; display: flex; align-items: center; gap: 6px; font-size: 13px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+          <span>瀏覽…</span>
+        </div>
+      </div>
+      <div style="margin-top: 10px; height: 32px; background: #ecf9e8; border-left: 3px solid #3fb618; display: flex; align-items: center; gap: 8px; padding: 0 10px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3fb618" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M8 12.5l2.6 2.6L16 9.5"></path></svg>
+        <span style="font-size: 12px; color: #2f7d16;">格式檢查通過　·　500 筆樣本　·　1 Info ／ 6 Input ／ 3 Result　·　缺失值 0　·　不參與分析：ID</span>
+      </div>
+    </div>
+
+    <!-- Section 2 -->
+    <div style="border: 1px solid #ced4da; padding: 14px; position: relative; flex-shrink: 0;">
+      <span style="position: absolute; top: -9px; left: 10px; background: #ffffff; padding: 0 6px; font-size: 13px; font-weight: 600; color: #2780e3;">2. 輸出設定</span>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="width: 78px; font-size: 13px;">輸出目錄</span>
+          <div style="flex-grow: 1; height: 30px; border: 1px solid #ced4da; background: #fdfdfe; padding: 0 8px; display: flex; align-items: center; font-size: 13px;">D:\AlexYu\2_Personal\DEMO_TEST\iT2026\Prj_2_StatisticalAnalysis</div>
+          <div style="height: 30px; background: #7E8081; color: #ffffff; padding: 0 14px; display: flex; align-items: center; gap: 6px; font-size: 13px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+            <span>瀏覽…</span>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="width: 78px; font-size: 13px;">資料夾名稱</span>
+          <div style="flex-grow: 1; height: 30px; border: 1px solid #2780e3; background: #ffffff; padding: 0 8px; display: flex; align-items: center; font-size: 13px;">Output [Data_Template_Stats] @2026-08-28 143022</div>
+          <div style="height: 30px; background: #ffffff; color: #7E8081; border: 1px solid #ced4da; padding: 0 14px; display: flex; align-items: center; font-size: 13px;">還原預設</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px; padding-left: 86px;">
+          <span style="font-size: 11px; color: #7E8081;">實際輸出至　D:\…\Prj_2_StatisticalAnalysis\Output [Data_Template_Stats] @2026-08-28 143022\</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3 -->
+    <div style="border: 1px solid #ced4da; padding: 14px; position: relative; flex-shrink: 0;">
+      <span style="position: absolute; top: -9px; left: 10px; background: #ffffff; padding: 0 6px; font-size: 13px; font-weight: 600; color: #2780e3;">3. 分析欄位</span>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px;">
+
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 12px; font-weight: 600; color: #373a3c;">輸入變項　Input</span>
+            <div style="height: 26px; background: #ffffff; color: #2780e3; border: 1px solid #2780e3; padding: 0 12px; display: flex; align-items: center; font-size: 12px; margin-left: 6px;">全選</div>
+            <div style="height: 26px; background: #ffffff; color: #7E8081; border: 1px solid #ced4da; padding: 0 12px; display: flex; align-items: center; font-size: 12px;">全不選</div>
+            <div style="flex-grow: 1;"></div>
+            <span style="font-size: 12px; color: #7E8081;">已選 5 ／ 6</span>
+          </div>
+          <div style="border: 1px solid #ced4da; background: #fdfdfe;">
+            <div class="tvhead"><span>　</span><span>欄位</span><span>類型</span><span>備註</span></div>
+            <div class="tvrow"><span style="color: #2780e3;">☑</span><span>U_motiv</span><span>連續</span><span style="color: #7E8081;">原始欄位 motiv</span></div>
+            <div class="tvrow"><span style="color: #2780e3;">☑</span><span>U_harm</span><span>連續</span><span style="color: #7E8081;">原始欄位 harm</span></div>
+            <div class="tvrow"><span style="color: #2780e3;">☑</span><span>U_stabi</span><span>連續</span><span style="color: #7E8081;">原始欄位 stabi</span></div>
+            <div class="tvrow"><span style="color: #2780e3;">☑</span><span>U_ppsych</span><span>連續</span><span style="color: #7E8081;">原始欄位 ppsych</span></div>
+            <div class="tvrow"><span style="color: #ced4da;">☐</span><span style="color: #7E8081;">U_ses</span><span style="color: #7E8081;">連續</span><span style="color: #7E8081;">原始欄位 ses</span></div>
+            <div class="tvrow"><span style="color: #2780e3;">☑</span><span>U_verbal</span><span>連續</span><span style="color: #7E8081;">原始欄位 verbal</span></div>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 12px; font-weight: 600; color: #373a3c;">結果變項　Result</span>
+            <div style="height: 26px; background: #ffffff; color: #2780e3; border: 1px solid #2780e3; padding: 0 12px; display: flex; align-items: center; font-size: 12px; margin-left: 6px;">全選</div>
+            <div style="height: 26px; background: #ffffff; color: #7E8081; border: 1px solid #ced4da; padding: 0 12px; display: flex; align-items: center; font-size: 12px;">全不選</div>
+            <div style="flex-grow: 1;"></div>
+            <span style="font-size: 12px; color: #7E8081;">已選 3 ／ 3</span>
+          </div>
+          <div style="border: 1px solid #ced4da; background: #fdfdfe;">
+            <div class="tvhead"><span>　</span><span>欄位</span><span>類型</span><span>備註</span></div>
+            <div class="tvrow"><span style="color: #2780e3;">☑</span><span>U_read</span><span>連續</span><span style="color: #7E8081;">原始欄位 read</span></div>
+            <div class="tvrow"><span style="color: #2780e3;">☑</span><span>U_arith</span><span>連續</span><span style="color: #7E8081;">原始欄位 arith</span></div>
+            <div class="tvrow"><span style="color: #2780e3;">☑</span><span>U_spell</span><span>連續</span><span style="color: #7E8081;">原始欄位 spell</span></div>
+            <div class="tvrow" style="color: #ced4da;"><span>　</span><span>　</span><span>　</span><span>　</span></div>
+            <div class="tvrow" style="color: #ced4da;"><span>　</span><span>　</span><span>　</span><span>　</span></div>
+            <div class="tvrow" style="color: #ced4da;"><span>　</span><span>　</span><span>　</span><span>　</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Run row -->
+    <div style="display: flex; align-items: center; gap: 14px; flex-shrink: 0;">
+      <div style="height: 40px; background: #2780e3; color: #ffffff; padding: 0 26px; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="#ffffff" stroke="none"><path d="M7 4.5v15l13-7.5z"></path></svg>
+        <span>開始分析</span>
+      </div>
+      <div style="height: 40px; background: #e9ecef; color: #adb5bd; padding: 0 22px; display: flex; align-items: center; gap: 8px; font-size: 14px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="#adb5bd" stroke="none"><rect x="6" y="6" width="12" height="12"></rect></svg>
+        <span>停止計算</span>
+      </div>
+      <div style="flex-grow: 1; height: 14px; background: #e9ecef;"></div>
+      <span style="font-size: 12px; color: #7E8081; width: 130px; text-align: right;">待命中</span>
+      <div style="height: 30px; background: #ffffff; color: #7E8081; border: 1px solid #ced4da; padding: 0 12px; display: flex; align-items: center; font-size: 12px;">另存為 .log</div>
+      <div style="height: 30px; background: #ffffff; color: #7E8081; border: 1px solid #ced4da; padding: 0 12px; display: flex; align-items: center; font-size: 12px;">清除紀錄</div>
+    </div>
+
+    <!-- Log -->
+    <div style="border: 1px solid #ced4da; padding: 14px; position: relative; flex-grow: 1; display: flex; flex-direction: column; min-height: 0;">
+      <span style="position: absolute; top: -9px; left: 10px; background: #ffffff; padding: 0 6px; font-size: 13px; font-weight: 600; color: #2780e3;">分析紀錄</span>
+      <div style="flex-grow: 1; background: #fdfdfe; border: 1px solid #ced4da; padding: 8px 10px; font-family: Consolas, 'Cascadia Mono', monospace; font-size: 12px; line-height: 19px; color: #373a3c; display: flex; flex-direction: column; gap: 0; overflow: hidden;">
+        <div class="logline"><span class="logt">14:29:58</span><span>已載入 Data_Template_Stats.xlsx</span></div>
+        <div class="logline"><span class="logt">14:29:58</span><span>Definition 7 列 × 11 欄，Data 500 列 × 10 欄</span></div>
+        <div class="logline"><span class="logt">14:29:58</span><span>欄位名稱比對通過（Definition 與 Data 完全一致）</span></div>
+        <div class="logline"><span class="logt">14:29:58</span><span>角色判定：Info 1、Input 6、Result 3</span></div>
+        <div class="logline"><span class="logt">14:30:12</span><span>使用者取消勾選 U_ses，本次分析將排除</span></div>
+        <div class="logline"><span class="logt">14:30:22</span><span>就緒，可開始分析</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

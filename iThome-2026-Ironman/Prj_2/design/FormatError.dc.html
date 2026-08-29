@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: "Segoe UI", "Microsoft JhengHei UI", system-ui, sans-serif; }
+    a { color: #2780e3; } a:hover { color: #1a5fa8; }
+    .logline { display: grid; grid-template-columns: 62px 1fr; gap: 8px; }
+    .logt { color: #7E8081; }
+  </style>
+</helmet>
+
+<div style="width: 1536px; height: 300px; background: #ffffff; color: #373a3c; display: flex; flex-direction: column; gap: 14px; padding: 20px 14px 14px 14px;">
+
+  <div style="border: 1px solid #ced4da; padding: 14px; position: relative; flex-shrink: 0;">
+    <span style="position: absolute; top: -9px; left: 10px; background: #ffffff; padding: 0 6px; font-size: 13px; font-weight: 600; color: #2780e3;">1. 資料來源</span>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span style="width: 78px; font-size: 13px;">輸入 Excel</span>
+      <div style="flex-grow: 1; height: 30px; border: 1px solid #ff0039; background: #fff5f7; padding: 0 8px; display: flex; align-items: center; font-size: 13px;">D:\Data\我的實驗數據_2026Q3.xlsx</div>
+      <div style="height: 30px; background: #2780e3; color: #ffffff; padding: 0 14px; display: flex; align-items: center; gap: 6px; font-size: 13px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+        <span>瀏覽…</span>
+      </div>
+    </div>
+    <div style="margin-top: 10px; background: #fff0f3; border-left: 3px solid #ff0039; display: flex; align-items: flex-start; gap: 8px; padding: 9px 10px;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ff0039" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 1px;"><path d="M12 3.5L22 20H2z"></path><path d="M12 10v4"></path><path d="M12 17v.1"></path></svg>
+      <div style="display: flex; flex-direction: column; gap: 3px;">
+        <span style="font-size: 12px; font-weight: 600; color: #c4002c;">格式不符，發現 3 項問題（未載入）</span>
+        <span style="font-size: 12px; color: #c4002c;">Definition 第 3 欄 age：Data_Type「Numeric」不是合法值，須為 Continuous ／ Categorical ／ None</span>
+        <span style="font-size: 12px; color: #c4002c;">Data 缺少 Definition 宣告的欄位：income</span>
+        <span style="font-size: 12px; color: #c4002c;">Definition 未宣告任何 Result_XX 欄位，無法建立迴歸模型</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="border: 1px solid #ced4da; padding: 14px; position: relative; flex-grow: 1; display: flex; flex-direction: column; min-height: 0;">
+    <span style="position: absolute; top: -9px; left: 10px; background: #ffffff; padding: 0 6px; font-size: 13px; font-weight: 600; color: #2780e3;">分析紀錄</span>
+    <div style="flex-grow: 1; background: #fdfdfe; border: 1px solid #ced4da; padding: 8px 10px; font-family: Consolas, 'Cascadia Mono', monospace; font-size: 12px; line-height: 19px; display: flex; flex-direction: column; overflow: hidden;">
+      <div class="logline"><span class="logt">14:31:07</span><span>讀取 我的實驗數據_2026Q3.xlsx</span></div>
+      <div class="logline"><span class="logt">14:31:07</span><span>找到工作表：Definition、Data、備註（備註 不讀取）</span></div>
+      <div class="logline"><span class="logt">14:31:07</span><span style="color: #ff0039;">格式檢查未通過，共 3 項問題，詳見上方訊息</span></div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>
