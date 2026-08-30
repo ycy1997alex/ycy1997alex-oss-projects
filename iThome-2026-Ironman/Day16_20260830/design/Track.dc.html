@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap">
+  <style>
+    body { margin: 0; font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif; }
+    a { color: #C1121F; } a:hover { color: #8E0D17; }
+  </style>
+</helmet>
+<div style="width: 1280px; height: 720px; background: #F6F7F9; color: #101828; display: flex; flex-direction: column; box-sizing: border-box; overflow: hidden;">
+
+  <div style="background: #0C2340; color: #F6F7F9; padding: 20px 56px; display: flex; align-items: baseline; gap: 18px;">
+    <div style="font-family: 'IBM Plex Mono', monospace; font-size: 15px; color: #C1121F; font-weight: 600;">01</div>
+    <div style="font-size: 30px; font-weight: 700;">上週指數軌跡</div>
+    <div style="font-size: 14px; color: #9FB3CC; margin-left: auto;">先看發生了什麼，再看誰講對了什麼</div>
+  </div>
+
+  <div style="flex-grow: 1; padding: 26px 56px 0 56px; display: flex; flex-direction: column; gap: 0;">
+
+    <div style="display: grid; grid-template-columns: 132px 214px 200px 1fr; gap: 0; border-bottom: 2px solid #0C2340; padding-bottom: 8px;">
+      <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; color: #5B6472;">日期</div>
+      <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; color: #5B6472;">收盤／變動</div>
+      <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; color: #5B6472;">成交量</div>
+      <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; color: #5B6472;">當日主軸</div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 132px 214px 200px 1fr; gap: 0; align-items: center; border-bottom: 1px solid #D8DEE7; padding: 14px 0;">
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 17px; font-weight: 600;">08/24 <span style="color: #5B6472; font-size: 13px;">一</span></div>
+      <div style="display: flex; flex-direction: column; gap: 2px;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 20px; font-weight: 600;">44,762</div>
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 15px; color: #0F7A55; font-weight: 600;">-461</div>
+      </div>
+      <div style="font-size: 14px; color: #101828;">6,294 億<div style="font-size: 12px; color: #5B6472;">今年 4 月以來新低量</div></div>
+      <div style="font-size: 15px;">極度觀望；矽晶圓全面漲價成為弱勢盤中亮點</div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 132px 214px 200px 1fr; gap: 0; align-items: center; border-bottom: 1px solid #D8DEE7; padding: 14px 0; background: #FFFFFF;">
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 17px; font-weight: 600;">08/25 <span style="color: #5B6472; font-size: 13px;">二</span></div>
+      <div style="font-size: 15px; color: #C1121F; font-weight: 500;">破底後尾盤大拉近千點</div>
+      <div style="font-size: 14px;">量縮觀望</div>
+      <div style="font-size: 15px;">44,000 點支撐守住，等輝達財報與 PCE</div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 132px 214px 200px 1fr; gap: 0; align-items: center; border-bottom: 1px solid #D8DEE7; padding: 14px 0;">
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 17px; font-weight: 600;">08/26 <span style="color: #5B6472; font-size: 13px;">三</span></div>
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 20px; color: #C1121F; font-weight: 600;">+663</div>
+      <div style="font-size: 14px;">放大至 8,000 億以上</div>
+      <div style="font-size: 15px;">美債殖利率與油價大跌，資金回流電子；貨櫃航運重挫</div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 132px 214px 200px 1fr; gap: 0; align-items: center; border-bottom: 1px solid #D8DEE7; padding: 14px 0; background: #FFFFFF;">
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 17px; font-weight: 600;">08/27 <span style="color: #5B6472; font-size: 13px;">四</span></div>
+      <div style="display: flex; flex-direction: column; gap: 2px;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 20px; font-weight: 600;">45,975</div>
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 15px; color: #C1121F; font-weight: 600;">+142 <span style="font-family: 'Noto Sans TC', sans-serif; font-size: 12px; color: #5B6472;">收長上影線</span></div>
+      </div>
+      <div style="font-size: 14px;">量能不足</div>
+      <div style="font-size: 15px;">輝達財報超標，盤中漲逾 500 點挑戰前高後收斂</div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 132px 214px 200px 1fr; gap: 0; align-items: center; border-bottom: 1px solid #D8DEE7; padding: 14px 0;">
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 17px; font-weight: 600;">08/28 <span style="color: #5B6472; font-size: 13px;">五</span></div>
+      <div style="display: flex; flex-direction: column; gap: 2px;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 20px; color: #C1121F; font-weight: 600;">+2,300</div>
+        <div style="font-size: 12px; color: #5B6472;">四天自低點累計</div>
+      </div>
+      <div style="font-size: 14px;">突破兆元</div>
+      <div style="font-size: 15px;">外資 8 月買超 3,707 億元創單月新高，台幣升至 31.57</div>
+    </div>
+
+    <div style="margin-top: 22px; background: #0C2340; color: #F6F7F9; padding: 18px 24px; display: flex; flex-direction: column; gap: 8px;">
+      <div style="font-size: 17px; font-weight: 700;">週一恐慌新低量　→　週二尾盤反攻　→　週三資金回流電子　→　週四輝達利多但收上影線　→　週五量能過兆但未過前高</div>
+      <div style="font-size: 14px; color: #C7D5E5;">陳昆仁在週一即指出「新低量不等於新低價」，是主力量縮洗浮額；四天後大盤自低點漲逾 2,000 點。</div>
+    </div>
+
+  </div>
+
+  <div style="padding: 14px 56px 18px 56px; font-size: 11px; color: #5B6472;">指數與量能數字均為節目中提及者，未經另行查證。</div>
+
+</div>
+</x-dc>
+</body>
+</html>

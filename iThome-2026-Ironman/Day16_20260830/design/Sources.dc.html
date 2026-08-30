@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap">
+  <style>
+    body { margin: 0; font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif; }
+    a { color: #C1121F; } a:hover { color: #8E0D17; }
+  </style>
+</helmet>
+<div style="width: 1280px; height: 720px; background: #F6F7F9; color: #101828; display: flex; flex-direction: column; box-sizing: border-box; overflow: hidden;">
+
+  <div style="background: #0C2340; color: #F6F7F9; padding: 20px 56px; display: flex; align-items: baseline; gap: 18px;">
+    <div style="font-family: 'IBM Plex Mono', monospace; font-size: 15px; color: #C1121F; font-weight: 600;">08</div>
+    <div style="font-size: 30px; font-weight: 700;">資料來源與整理原則</div>
+  </div>
+
+  <div style="flex-grow: 1; padding: 26px 56px 0 56px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px;">
+
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="font-size: 18px; font-weight: 700; color: #0C2340;">來源檔案</div>
+        <div style="background: #FFFFFF; padding: 14px 18px; display: flex; flex-direction: column; gap: 6px;">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 14px;">Stock_Summary/20260824_StockSummary.txt</div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #5B6472;">…　20260825　20260826　20260827　…</div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 14px;">Stock_Summary/20260828_StockSummary.txt</div>
+          <div style="font-size: 13px; color: #5B6472; border-top: 1px solid #D8DEE7; padding-top: 8px;">每份為當日多支財經節目的彙整摘要，五份合計約 12 萬字。</div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="font-size: 18px; font-weight: 700; color: #0C2340;">整理原則<span style="font-size: 13px; font-weight: 400; color: #5B6472;">　沿用同一份摘要規則書</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <div style="background: #FFFFFF; padding: 10px 16px; font-size: 14px; line-height: 1.6;">只寫來源明確講過的內容，不推論、不補充來源之外的知識</div>
+          <div style="background: #FFFFFF; padding: 10px 16px; font-size: 14px; line-height: 1.6;">每一條都標明是哪位分析師講的；同一人在多個頻道發言合併計算一次</div>
+          <div style="background: #FFFFFF; padding: 10px 16px; font-size: 14px; line-height: 1.6;">態度只用看多／偏多／中性／偏空／看空五個詞，信心分高／中／低</div>
+          <div style="background: #FFFFFF; padding: 10px 16px; font-size: 14px; line-height: 1.6;">來源未查證的股名或代號一律保留「待確認」，不憑印象補上</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C1121F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path></svg>
+          <div style="font-size: 18px; font-weight: 700; color: #C1121F;">已知的來源限制</div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <div style="background: #FFFFFF; border-left: 3px solid #C1121F; padding: 12px 16px; font-size: 14px; line-height: 1.65;">08/28 的來源檔在最後一位分析師的個股段落中斷（新盛力 3211 之後無內容），該段未納入本簡報</div>
+          <div style="background: #FFFFFF; border-left: 3px solid #C1121F; padding: 12px 16px; font-size: 14px; line-height: 1.65;">來源檔在 08/25 寫「蔡明漢」、08/26 寫「蔡明翰」，經確認為同一人，正確為<span style="font-weight: 700;">蔡明翰</span>，本簡報已統一</div>
+          <div style="background: #FFFFFF; border-left: 3px solid #C1121F; padding: 12px 16px; font-size: 14px; line-height: 1.65;">指數、成交量、財務數字均為節目中所述，未另行向公開資訊源查證</div>
+        </div>
+      </div>
+
+      <div style="background: #0C2340; color: #F6F7F9; padding: 20px 24px; display: flex; flex-direction: column; gap: 10px; margin-top: auto;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 10px; height: 10px; background: #C1121F;"></div>
+          <div style="font-size: 19px; font-weight: 700;">本簡報為節目內容整理</div>
+        </div>
+        <div style="font-size: 17px; font-weight: 700; color: #FFD9DC;">不構成任何投資建議。</div>
+        <div style="font-size: 13px; color: #9FB3CC; border-top: 1px solid rgba(246,247,249,0.2); padding-top: 10px;">內容為講者說法的轉述，非整理者的看法。投資決策請自行查證並承擔風險。</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="padding: 14px 56px 18px 56px; font-size: 11px; color: #5B6472; display: flex; justify-content: space-between;">
+    <span>2026/08/24 – 08/28　台股財經節目週摘要</span>
+    <span style="letter-spacing: 0.1em;">Generated with Claude Code</span>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

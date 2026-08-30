@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap">
+  <style>
+    body { margin: 0; font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif; }
+    a { color: #C1121F; } a:hover { color: #8E0D17; }
+  </style>
+</helmet>
+<div style="width: 1280px; height: 720px; background: #F6F7F9; color: #101828; display: flex; flex-direction: column; box-sizing: border-box; overflow: hidden;">
+
+  <div style="background: #0C2340; color: #F6F7F9; padding: 20px 56px; display: flex; align-items: baseline; gap: 18px;">
+    <div style="font-family: 'IBM Plex Mono', monospace; font-size: 15px; color: #C1121F; font-weight: 600;">02</div>
+    <div style="font-size: 30px; font-weight: 700;">總體環境：三個變數同時轉向</div>
+    <div style="font-size: 14px; color: #9FB3CC; margin-left: auto;">利率、油價、匯率</div>
+  </div>
+
+  <div style="flex-grow: 1; padding: 26px 56px 0 56px; display: flex; flex-direction: column; gap: 14px;">
+
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px;">
+
+      <div style="background: #FFFFFF; border-top: 3px solid #0F7A55; padding: 20px 22px; display: flex; flex-direction: column; gap: 12px;">
+        <div style="font-size: 19px; font-weight: 700;">美債殖利率</div>
+        <div style="display: flex; flex-direction: column; gap: 4px;">
+          <div style="font-size: 12px; letter-spacing: 0.12em; color: #5B6472;">週初</div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 22px; font-weight: 600;">4.73% <span style="font-size: 13px; color: #5B6472; font-family: 'Noto Sans TC', sans-serif;">10 年期</span></div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 22px; font-weight: 600;">5.27% <span style="font-size: 13px; color: #5B6472; font-family: 'Noto Sans TC', sans-serif;">30 年期</span></div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; color: #0F7A55; font-size: 15px; font-weight: 700;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F7A55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg>
+          長天期殖利率下滑
+        </div>
+        <div style="font-size: 14px; line-height: 1.65; color: #101828; border-top: 1px solid #D8DEE7; padding-top: 10px;">財政部擴大長債回購，規模約 1 兆美元；利率走跌有助高本益比成長股估值修復。</div>
+        <div style="font-size: 13px; color: #5B6472;">游庭皓、林漢偉、容逸燊</div>
+      </div>
+
+      <div style="background: #FFFFFF; border-top: 3px solid #0F7A55; padding: 20px 22px; display: flex; flex-direction: column; gap: 12px;">
+        <div style="font-size: 19px; font-weight: 700;">油價與通膨</div>
+        <div style="display: flex; flex-direction: column; gap: 4px;">
+          <div style="font-size: 12px; letter-spacing: 0.12em; color: #5B6472;">週初</div>
+          <div style="font-size: 15px;">關稅戰擴大至加拿大，通膨預期升溫</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; color: #0F7A55; font-size: 15px; font-weight: 700;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F7A55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg>
+          布蘭特原油單日大跌約 4%
+        </div>
+        <div style="font-size: 14px; line-height: 1.65; color: #101828; border-top: 1px solid #D8DEE7; padding-top: 10px;">伊朗與阿曼協商重啟霍爾木茲海峽臨時航道並排雷，全球通膨預期降溫。</div>
+        <div style="font-size: 13px; color: #5B6472;">林漢偉、劉育綸、蔚辰</div>
+      </div>
+
+      <div style="background: #FFFFFF; border-top: 3px solid #C1121F; padding: 20px 22px; display: flex; flex-direction: column; gap: 12px;">
+        <div style="font-size: 19px; font-weight: 700;">匯率與外資</div>
+        <div style="display: flex; flex-direction: column; gap: 4px;">
+          <div style="font-size: 12px; letter-spacing: 0.12em; color: #5B6472;">週初</div>
+          <div style="font-size: 15px;">外資大舉匯出 280 億美元</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; color: #C1121F; font-size: 15px; font-weight: 700;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C1121F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"></path><path d="m5 12 7-7 7 7"></path></svg>
+          台幣升至 31.57
+        </div>
+        <div style="font-size: 14px; line-height: 1.65; color: #101828; border-top: 1px solid #D8DEE7; padding-top: 10px;">美元指數走弱，外資期現貨同步翻多，8 月買超 <span style="font-family: 'IBM Plex Mono', monospace; font-weight: 600; color: #C1121F;">3,707 億元</span>，創史上單月最高。</div>
+        <div style="font-size: 13px; color: #5B6472;">容逸燊、高憲容</div>
+      </div>
+
+    </div>
+
+    <div style="background: #FFFFFF; border-left: 4px solid #0C2340; padding: 16px 22px; display: flex; flex-direction: column; gap: 8px;">
+      <div style="font-size: 16px; font-weight: 700; color: #0C2340;">其他總經數字</div>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px;">
+        <div style="font-size: 14px; line-height: 1.6;">7 月 PCE 年增 <span style="font-family: 'IBM Plex Mono', monospace; font-weight: 600;">3.7%</span>、核心 <span style="font-family: 'IBM Plex Mono', monospace; font-weight: 600;">3.3%</span>，與 6 月持平，通膨具黏滯性；9 月大機率按兵不動<div style="font-size: 13px; color: #5B6472;">胡睿涵、祥維、紀緯明</div></div>
+        <div style="font-size: 14px; line-height: 1.6;">台灣 7 月工業生產與製造業生產指數創單月歷史新高，景氣燈號連八紅<div style="font-size: 13px; color: #5B6472;">蔚辰、游庭皓</div></div>
+        <div style="font-size: 14px; line-height: 1.6;">大摩上修台灣今年經濟成長率至 <span style="font-family: 'IBM Plex Mono', monospace; font-weight: 600;">11.6%</span>，為 40 年來最快<div style="font-size: 13px; color: #5B6472;">胡睿涵</div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="padding: 14px 56px 18px 56px; font-size: 11px; color: #5B6472;">以上為節目中提及的數據，未另行查證原始統計來源。</div>
+
+</div>
+</x-dc>
+</body>
+</html>

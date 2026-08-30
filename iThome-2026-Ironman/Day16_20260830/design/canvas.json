@@ -1,0 +1,14 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 1280, "h": 720, "title": "封面" },
+    { "file": "Track.dc.html", "x": 1400, "y": 0, "w": 1280, "h": 720, "title": "01 上週指數軌跡" },
+    { "file": "Macro.dc.html", "x": 2800, "y": 0, "w": 1280, "h": 720, "title": "02 總體環境" },
+    { "file": "ConsensusUp.dc.html", "x": 0, "y": 880, "w": 1280, "h": 720, "title": "03 一週共識：看多" },
+    { "file": "ConsensusDown.dc.html", "x": 1400, "y": 880, "w": 1280, "h": 720, "title": "04 看空與風險標的" },
+    { "file": "Splits.dc.html", "x": 2800, "y": 880, "w": 1280, "h": 720, "title": "05 貫穿整週的分歧" },
+    { "file": "Calendar.dc.html", "x": 0, "y": 1760, "w": 1280, "h": 720, "title": "06 下週起的關鍵時程" },
+    { "file": "NextWeek.dc.html", "x": 1400, "y": 1760, "w": 1280, "h": 720, "title": "07 下週判斷" },
+    { "file": "Sources.dc.html", "x": 2800, "y": 1760, "w": 1280, "h": 720, "title": "08 資料來源與整理原則" }
+  ],
+  "launch": { "view": "canvas" }
+}
