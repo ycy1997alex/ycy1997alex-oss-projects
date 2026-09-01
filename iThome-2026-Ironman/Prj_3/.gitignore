@@ -1,0 +1,9 @@
+# 本機專屬的裝置設定（含手環 MAC 位址），不進版控
+*.local
+
+__pycache__/
+*.pyc
+
+# PyInstaller 產出
+build/
+dist/

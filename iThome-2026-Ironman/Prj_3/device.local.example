@@ -1,0 +1,9 @@
+# 複製這個檔案成 device.local，填入自己手環的位址。
+# device.local 已被 .gitignore 排除，不會進版控。
+#
+# 位址在掃描結果的 Address 欄；Windows 上是 XX:XX:XX:XX:XX:XX 格式，
+# macOS 上 bleak 給的是一組 UUID，照貼即可。
+#
+# 留白或整個檔案不存在時，測試腳本會改用名稱（Mi Band / Xiaomi / Amazfit）去掃。
+
+address =
