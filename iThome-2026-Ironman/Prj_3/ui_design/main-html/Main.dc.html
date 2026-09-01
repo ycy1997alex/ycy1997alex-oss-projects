@@ -1,0 +1,138 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Segoe UI", "Microsoft JhengHei UI", system-ui, sans-serif; }
+    a { color: #4582ec; } a:hover { color: #2f66c9; }
+    .mono { font-family: Consolas, "Cascadia Mono", monospace; }
+  </style>
+</helmet>
+
+<div style="width:1440px;height:820px;background:#e9edf2;padding:20px;display:flex;flex-direction:column;">
+
+  <div style="flex:1;display:flex;flex-direction:column;background:#ffffff;border:1px solid #ced4da;border-radius:8px;box-shadow:0 8px 24px rgba(33,37,41,0.10);overflow:hidden;">
+
+    <!-- Title bar -->
+    <div style="height:38px;flex:0 0 auto;display:flex;align-items:center;padding:0 14px;background:#f8f9fa;border-bottom:1px solid #e3e6ea;">
+      <span style="font-size:13px;color:#495057;letter-spacing:.2px;">Mi Band 6 BLE Explorer — Read Only</span>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;background:#e6f6ee;">
+        <span style="width:7px;height:7px;border-radius:999px;background:#02b875;"></span>
+        <span style="font-size:11.5px;color:#0d7a4e;font-weight:600;">Connected</span>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div style="flex:1;display:flex;flex-direction:column;padding:16px 18px;gap:12px;min-height:0;">
+
+      <!-- Tabs -->
+      <div style="display:flex;gap:22px;border-bottom:1px solid #e3e6ea;">
+        <div style="padding:8px 2px;font-size:13px;font-weight:600;color:#4582ec;border-bottom:2px solid #4582ec;">Communication Log</div>
+        <div style="padding:8px 2px;font-size:13px;color:#868e96;">GATT Structure</div>
+      </div>
+
+      <!-- Log panel -->
+      <div style="flex:1;min-height:0;border:1px solid #e3e6ea;border-radius:6px;background:#ffffff;padding:14px 16px;overflow:hidden;display:flex;flex-direction:column;gap:3px;" class="mono">
+        <div style="font-size:12px;color:#0d6efd;font-weight:600;margin:6px 0 2px;">[System] Scanning for BLE devices (8 seconds)…</div>
+        <div style="font-size:12px;color:#0d6efd;font-weight:600;margin:2px 0 6px;">[System] Scan complete: Found 113 device(s), listed 4.</div>
+        <div style="font-size:12px;color:#0d6efd;font-weight:600;margin:6px 0 2px;">[System] Connecting to Mi Smart Band 6 | AA:BB:CC:DD:EE:FF…</div>
+        <div style="font-size:12px;color:#0d6efd;font-weight:600;margin:2px 0 6px;">[System] Connection successful</div>
+        <div style="font-size:12px;color:#6f42c1;font-weight:600;">00002a19-0000-1000-8000-00805f9b34fb　電池電量 (%)</div>
+        <div style="font-size:12px;color:#6c757d;padding-left:16px;">63  |c|</div>
+        <div style="font-size:12px;color:#198754;padding-left:16px;">=&gt; 99 %</div>
+        <div style="font-size:12px;color:#b8860b;margin-top:8px;">即時步數: 禁止直接讀取，請用「Start Notify」</div>
+      </div>
+
+      <!-- Log actions bar -->
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 12px;background:#f8f9fa;border:1px solid #e3e6ea;border-radius:6px;">
+        <button style="font-size:12.5px;padding:6px 12px;border-radius:5px;border:1px solid #ced4da;background:#ffffff;color:#495057;">Clear Log Window</button>
+        <button style="font-size:12.5px;padding:6px 12px;border-radius:5px;border:1px solid #ced4da;background:#ffffff;color:#495057;">Save Printed Log</button>
+        <button style="font-size:12.5px;padding:6px 12px;border-radius:5px;border:none;background:#02b875;color:#ffffff;font-weight:600;">Start to Save Log</button>
+        <button style="font-size:12.5px;padding:6px 12px;border-radius:5px;border:none;background:#f1b0b7;color:#ffffff;font-weight:600;opacity:.7;">Finish to Save Log</button>
+        <button style="font-size:12.5px;padding:6px 12px;border-radius:5px;border:1px solid #ced4da;background:#ffffff;color:#495057;">Path to Save</button>
+        <div style="flex:1;font-size:12px;color:#868e96;padding:6px 10px;border:1px solid #e3e6ea;border-radius:5px;background:#ffffff;" class="mono">C:\Users\AlexYu\Documents\MiBand6_Explorer_Log</div>
+        <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;color:#495057;">
+          Dark
+          <span style="width:34px;height:18px;border-radius:999px;background:#ced4da;position:relative;display:inline-block;">
+            <span style="width:14px;height:14px;border-radius:999px;background:#fff;position:absolute;top:2px;left:2px;"></span>
+          </span>
+        </label>
+      </div>
+
+      <!-- Bottom split -->
+      <div style="display:grid;grid-template-columns:420px 1fr;gap:12px;">
+
+        <!-- Device Connection -->
+        <div style="border:1px solid #e3e6ea;border-radius:6px;padding:12px 14px;display:flex;flex-direction:column;gap:10px;">
+          <div style="font-size:12.5px;font-weight:700;color:#343a40;">Device Connection</div>
+          <div style="border:1px solid #e3e6ea;border-radius:5px;overflow:hidden;">
+            <div style="display:grid;grid-template-columns:1.6fr 1.6fr 0.7fr;background:#f8f9fa;font-size:11.5px;font-weight:600;color:#868e96;padding:6px 10px;">
+              <span>Name</span><span>Address</span><span style="text-align:right;">RSSI</span>
+            </div>
+            <div style="display:grid;grid-template-columns:1.6fr 1.6fr 0.7fr;padding:6px 10px;font-size:12px;font-weight:700;color:#212529;background:#eef4ff;">
+              <span>Mi Smart Band 6</span><span class="mono">AA:BB:CC:DD:EE:FF</span><span style="text-align:right;">-45</span>
+            </div>
+            <div style="display:grid;grid-template-columns:1.6fr 1.6fr 0.7fr;padding:6px 10px;font-size:12px;color:#495057;">
+              <span>(無名稱)</span><span class="mono">4B:19:2C:00:11:9A</span><span style="text-align:right;">-61</span>
+            </div>
+            <div style="display:grid;grid-template-columns:1.6fr 1.6fr 0.7fr;padding:6px 10px;font-size:12px;color:#495057;">
+              <span>ITAG</span><span class="mono">D4:6F:22:0C:8E:31</span><span style="text-align:right;">-72</span>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:12px;color:#495057;">
+            <span>Timeout (s)</span>
+            <span style="border:1px solid #ced4da;border-radius:4px;padding:3px 8px;width:34px;text-align:center;">8</span>
+            <label style="display:flex;align-items:center;gap:6px;margin-left:8px;">
+              <span style="width:30px;height:16px;border-radius:999px;background:#4582ec;position:relative;display:inline-block;">
+                <span style="width:12px;height:12px;border-radius:999px;background:#fff;position:absolute;top:2px;right:2px;"></span>
+              </span>
+              Named devices only
+            </label>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button style="flex:1;font-size:12.5px;padding:7px 0;border-radius:5px;border:none;background:#02b875;color:#fff;font-weight:600;">Scan</button>
+            <button style="flex:1;font-size:12.5px;padding:7px 0;border-radius:5px;border:1px solid #4582ec;background:#eef4ff;color:#2f66c9;font-weight:600;">Connect</button>
+            <button style="flex:1;font-size:12.5px;padding:7px 0;border-radius:5px;border:1px solid #f1aeb5;background:#fdf1f2;color:#c9333f;font-weight:600;">Disconnect</button>
+          </div>
+        </div>
+
+        <!-- Explorer Actions -->
+        <div style="border:1px solid #e3e6ea;border-radius:6px;padding:12px 14px;display:flex;flex-direction:column;gap:12px;">
+          <div style="font-size:12.5px;font-weight:700;color:#343a40;">Explorer Actions</div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <span style="font-size:12px;color:#495057;white-space:nowrap;">Read UUID</span>
+            <span style="flex:1;border:1px solid #ced4da;border-radius:5px;padding:6px 10px;font-size:12px;color:#212529;" class="mono">2a28</span>
+            <button style="font-size:12.5px;padding:6px 16px;border-radius:5px;border:none;background:#4582ec;color:#fff;font-weight:600;">Read</button>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+            <button style="font-size:12px;padding:8px 0;border-radius:5px;border:none;background:#17a2b8;color:#fff;font-weight:600;">Enumerate GATT</button>
+            <button style="font-size:12px;padding:8px 0;border-radius:5px;border:none;background:#17a2b8;color:#fff;font-weight:600;">Read All</button>
+            <button style="font-size:12px;padding:8px 0;border-radius:5px;border:none;background:#17a2b8;color:#fff;font-weight:600;">Summary</button>
+            <button style="font-size:12px;padding:8px 0;border-radius:5px;border:none;background:#f0ad4e;color:#fff;font-weight:600;">Start Notify</button>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;font-size:12px;color:#868e96;">
+            <span>Status: Connected</span>
+            <span>Target: Mi Smart Band 6 | AA:BB:CC:DD:EE:FF</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
