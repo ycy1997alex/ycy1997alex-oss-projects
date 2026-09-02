@@ -1,0 +1,29 @@
+
+[System] Mi Band 6 BLE Explorer — read-only mode.
+本工具不會寫入手環，也不會嘗試認證。
+
+[System] Scanning for BLE devices (20 seconds)…
+
+[System] Scan complete: Found 19 device(s), listed 2.
+已隱藏 17 個無名稱裝置
+其中 1 個疑似小米/華米裝置
+
+[System] Connecting to Mi Smart Band 6 | C2:45:**:**:**:2E…
+
+[System] Connection successful
+
+[System] GATT enumerated: 11 service(s), 46 characteristic(s).
+完整結構請看上方「GATT Structure」分頁
+
+[System] Band summary (unauthenticated fields only)
+  裝置名稱: Mi Smart Band 6
+  序號: 32**********74
+  硬體版本: V0.82.114.3
+  韌體版本: V1.0.6.20
+  電池電量: 78 %
+  電池詳情: 電量 78 %，狀態 未充電，時間戳1 2026-08-28 14:59:23 (UTC+8)，時間戳2 2026-08-28 16:09:32 (UTC+8)，上次充電結束電量 99 %
+  手環時間: 2026-08-30 14:33:02 星期日
+  即時步數: 禁止直接讀取，請用「Start Notify」
+
+[System] Disconnected
+

@@ -1,0 +1,12 @@
+14:32:32  按下 Scan
+14:32:53  選擇裝置：Mi Smart Band 6
+14:32:53  按下 Connect
+14:33:01  按下 Dump GATT
+14:33:01  按下 Summary
+14:33:03  截圖 03_gui_light.png
+14:33:03  切到 GATT Structure 分頁並展開
+14:33:04  截圖 04_gui_gatt_tree.png
+14:33:04  切回通訊紀錄分頁，打開 Dark 開關
+14:33:05  截圖 05_gui_dark.png
+14:33:05  按下 Disconnect
+14:33:06  關閉視窗（走 presenter.close 的五步流程）
