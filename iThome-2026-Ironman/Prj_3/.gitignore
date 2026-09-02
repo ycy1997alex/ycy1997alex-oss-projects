@@ -4,6 +4,9 @@
 __pycache__/
 *.pyc
 
-# PyInstaller 產出
+# PyInstaller 產出（onefile 成品另外留下來交付）
 build/
-dist/
+dist/*
+!dist/onefile/
+dist/onefile/*
+!dist/onefile/MiBand6BleExplorer.exe
