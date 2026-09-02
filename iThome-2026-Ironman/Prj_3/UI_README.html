@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MiBand6BleExplorer — 架構文件</title>
+<style>
+  :root{
+    --bg:#ffffff; --panel:#f7f8fa; --line:#dde1e7; --ink:#212529; --dim:#6c757d;
+    --primary:#0d6efd; --ok:#198754; --warn:#b8860b; --fail:#dc3545;
+    --code-bg:#f1f3f5;
+  }
+  html[data-theme="dark"]{
+    --bg:#1b1b1b; --panel:#242424; --line:#3a3a3a; --ink:#e0e0e0; --dim:#909296;
+    --primary:#4dabf7; --ok:#51cf66; --warn:#ffd43b; --fail:#ff6b6b;
+    --code-bg:#2a2a2a;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Segoe UI","Microsoft JhengHei","PingFang TC",system-ui,sans-serif;
+    font-size:15px; line-height:1.75;
+  }
+  a{color:var(--primary)}
+  code,pre{font-family:Consolas,"Cascadia Mono",monospace}
+  code{background:var(--code-bg); padding:1px 5px; border-radius:4px; font-size:.9em}
+  pre{background:var(--code-bg); padding:14px 16px; border-radius:8px; overflow-x:auto;
+      font-size:13px; line-height:1.55; border:1px solid var(--line)}
+  pre code{background:none; padding:0; font-size:inherit}
+
+  .wrap{display:flex; min-height:100vh}
+
+  nav{
+    width:250px; flex:0 0 250px; border-right:1px solid var(--line);
+    background:var(--panel); position:sticky; top:0; height:100vh; overflow-y:auto; padding:22px 0;
+  }
+  nav .brand{padding:0 20px 14px; border-bottom:1px solid var(--line); margin-bottom:12px}
+  nav .brand b{display:block; font-size:15px}
+  nav .brand span{font-size:12px; color:var(--dim)}
+  nav a{
+    display:block; padding:7px 20px; color:var(--ink); text-decoration:none;
+    font-size:13.5px; border-left:3px solid transparent;
+  }
+  nav a:hover{background:var(--code-bg)}
+  nav a.active{border-left-color:var(--primary); color:var(--primary); font-weight:600}
+
+  main{flex:1; min-width:0; padding:34px 46px 90px; max-width:1010px}
+  header h1{margin:0 0 6px; font-size:27px}
+  header .sub{color:var(--dim); margin-bottom:6px}
+  .badges{display:flex; gap:8px; flex-wrap:wrap; margin:14px 0 6px}
+  .badge{font-size:12px; padding:3px 10px; border-radius:20px; border:1px solid var(--line);
+         background:var(--panel); color:var(--dim)}
+  .badge.ro{border-color:var(--ok); color:var(--ok)}
+
+  section{border-top:1px solid var(--line); margin-top:30px; padding-top:6px; scroll-margin-top:16px}
+  section > h2{
+    font-size:19px; margin:14px 0 4px; cursor:pointer; user-select:none;
+    display:flex; align-items:center; gap:10px;
+  }
+  section > h2::before{content:"\25BE"; color:var(--dim); font-size:13px; transition:transform .15s}
+  section.collapsed > h2::before{transform:rotate(-90deg)}
+  section.collapsed > .body{display:none}
+  h3{font-size:16px; margin:26px 0 6px}
+  h4{font-size:14px; margin:18px 0 4px; color:var(--dim); letter-spacing:.04em}
+
+  table{border-collapse:collapse; width:100%; margin:12px 0; font-size:13.5px}
+  th,td{border:1px solid var(--line); padding:7px 10px; text-align:left; vertical-align:top}
+  th{background:var(--panel); font-weight:600}
+
+  .note{border-left:3px solid var(--warn); background:var(--panel); padding:10px 16px;
+        margin:16px 0; border-radius:0 6px 6px 0}
+  .note.rule{border-left-color:var(--fail)}
+  .note.good{border-left-color:var(--ok)}
+  .note b{color:var(--ink)}
+
+  .flow ol{margin:10px 0; padding-left:22px}
+  .flow li{margin:4px 0}
+  ul{padding-left:22px}
+
+  figure{margin:18px 0}
+  figcaption{font-size:12.5px; color:var(--dim); margin-top:8px}
+  svg{max-width:100%; height:auto; display:block}
+  .sv-box{fill:var(--panel); stroke:var(--line)}
+  .sv-t{fill:var(--ink); font-family:"Segoe UI","Microsoft JhengHei",sans-serif; font-size:12px}
+  .sv-t.b{font-weight:700}
+  .sv-t.s{font-size:10.5px; fill:var(--dim)}
+  .sv-l{stroke:#6c757d; fill:none; stroke-width:1.4}
+  .sv-l.q{stroke:#0d6efd; stroke-dasharray:5 4}
+  html[data-theme="dark"] .sv-l{stroke:#909296}
+  html[data-theme="dark"] .sv-l.q{stroke:#4dabf7}
+
+  .toggle{
+    position:fixed; right:20px; bottom:20px; z-index:9;
+    border:1px solid var(--line); background:var(--panel); color:var(--ink);
+    border-radius:20px; padding:7px 15px; font-size:13px; cursor:pointer; font-family:inherit;
+  }
+  .toggle:hover{border-color:var(--primary); color:var(--primary)}
+
+  footer{margin-top:40px; padding-top:16px; border-top:1px solid var(--line);
+         font-size:12.5px; color:var(--dim)}
+
+  @media (max-width:860px){
+    .wrap{flex-direction:column}
+    nav{width:auto; flex:none; height:auto; position:static; border-right:none;
+        border-bottom:1px solid var(--line)}
+    main{padding:24px 20px 70px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<nav>
+  <div class="brand">
+    <b>MiBand6BleExplorer</b>
+    <span>架構文件 · 給開發者</span>
+  </div>
+  <a href="#overview">1. 這支工具是什麼</a>
+  <a href="#modules">2. 模組設計與職責</a>
+  <a href="#map">3. 模組互動圖</a>
+  <a href="#screens">4. 畫面與元件對照</a>
+  <a href="#flows">5. 互動流程</a>
+  <a href="#state">6. 狀態管理</a>
+  <a href="#threads">7. 執行緒與關閉流程</a>
+  <a href="#limits">8. 功能與限制</a>
+  <a href="#decisions">9. 已經做過的決定</a>
+</nav>
+
+<main>
+<header>
+  <h1>MiBand6BleExplorer</h1>
+  <div class="sub">小米手環 6 的 BLE 唯讀探索工具 — 程式流程與架構設計</div>
+  <div class="badges">
+    <span class="badge ro">唯讀：不寫入、不認證</span>
+    <span class="badge">Python 3.13</span>
+    <span class="badge">bleak 2.0.0</span>
+    <span class="badge">ttkbootstrap 1.19.0</span>
+    <span class="badge">MVP ＋ 背景 asyncio 迴圈</span>
+  </div>
+  <p style="color:var(--dim);font-size:13px">
+    這份文件講的是<b>模組怎麼分、誰呼叫誰、狀態放在哪裡</b>。程式碼一律以符號名稱指涉，不貼函式內容。
+    章節標題可以點開收合。
+  </p>
+</header>
+
+<!-- ============================================================= -->
+<section id="overview">
+<h2>1. 這支工具是什麼</h2>
+<div class="body">
+
+<p>
+對小米手環 6 的 BLE 探索工具：掃描週遭裝置、連線、列舉完整 GATT 結構、讀取所有可讀的
+characteristic、訂閱所有可訂閱的 characteristic，並把已知欄位解碼成看得懂的字。
+命令列版與圖形介面版各一支。
+</p>
+
+<div class="note rule">
+<b>唯讀是硬性規定。</b>不寫入任何 characteristic、不嘗試華米（Huami／Zepp）認證、不修改手環上的任何設定。
+理由：華米私有服務底下有韌體上傳用的 characteristic，一支不會寫入的程式出包上限低很多。
+驗收方式是全專案 grep 不到 <code>write_gatt_char</code>。
+</div>
+
+<h3>兩支主程式，各自完全自包含</h3>
+<table>
+<tr><th>檔案</th><th>形態</th><th>用途</th></tr>
+<tr>
+  <td><code>mi_band_explorer.py</code></td>
+  <td>命令列，互動選單</td>
+  <td>探索階段用這支。例外直接印在主控台，不會被 GUI 吃掉</td>
+</tr>
+<tr>
+  <td><code>mi_band_explorer_gui.py</code></td>
+  <td>ttkbootstrap 圖形介面，MVP</td>
+  <td>PyInstaller 打包的進入點，交付用</td>
+</tr>
+</table>
+
+<p>
+GUI 版<b>不</b> <code>import</code> CLI 版，UUID 對照表（<code>KNOWN_UUIDS</code> / <code>KNOWN_SERVICES</code>）
+與解碼器（<code>decode_value</code> / <code>decode_huami_time</code> / <code>hexdump</code>）各帶一份。
+這是刻意的：GUI 版要能單獨搬走或打包，不用管相對路徑。代價是兩份要手動同步，
+而且目前<b>沒有任何機制</b>會發現它們不同步了。
+</p>
+
+</div>
+</section>
+
+<!-- ============================================================= -->
+<section id="modules">
+<h2>2. 模組設計與職責</h2>
+<div class="body">
+
+<h3>圖形介面版（MVP）</h3>
+<table>
+<tr><th>層</th><th>類別</th><th>職責</th><th>界線</th></tr>
+<tr>
+  <td>Model</td><td><code>BandModel</code></td>
+  <td>所有 BLE 行為：<code>scan</code> / <code>connect</code> / <code>disconnect</code> /
+      <code>dump_gatt</code> / <code>read_all</code> / <code>read_one</code> /
+      <code>summary</code> / <code>start_notify</code> / <code>stop_notify</code>，全部是 coroutine</td>
+  <td>完全不 import tkinter，不持有任何 widget；對外只透過建構時注入的 <code>emit</code> callback 回報</td>
+</tr>
+<tr>
+  <td>Model</td><td><code>LogRecorder</code></td>
+  <td>純檔案 I/O：<code>save_snapshot</code>（一次性快照）、<code>start</code> / <code>write</code> /
+      <code>finish</code>（即時逐行）、<code>close_abruptly</code>（關窗收尾）</td>
+  <td>不碰 Tk，也不認識 BLE</td>
+</tr>
+<tr>
+  <td>View</td><td><code>ExplorerView</code></td>
+  <td>建立與排版所有 widget；對外提供 <code>set_devices</code> / <code>set_gatt</code> /
+      <code>set_status</code> / <code>log_to_window</code> / <code>set_ui_connection_state</code> /
+      <code>set_busy</code> 等純呈現方法</td>
+  <td>完全不懂 BLE，<b>也不持有 Presenter 的參考</b></td>
+</tr>
+<tr>
+  <td>Presenter</td><td><code>ExplorerPresenter</code></td>
+  <td>把 View 的 <code>on_*</code> 指向自己的處理器、送 coroutine 到背景迴圈、
+      輪詢佇列、集中所有日誌出口（<code>_log</code>）、負責關閉流程（<code>close</code>）</td>
+  <td>唯一同時認識 Model 與 View 的地方</td>
+</tr>
+<tr>
+  <td>—</td><td><code>AsyncRunner</code></td>
+  <td>在背景 daemon 執行緒上跑一個 asyncio 事件迴圈；<code>submit</code> 丟工作、
+      <code>shutdown</code> 收尾</td>
+  <td>不認識 Model 也不認識 View，只認識 coroutine</td>
+</tr>
+</table>
+
+<div class="note good">
+<b>View 不反向依賴 Presenter。</b>使用者操作一律經由 View 身上的 <code>on_scan</code> /
+<code>on_connect</code> / <code>on_read_one</code> … 等屬性外露，預設值是空函式，
+由 <code>ExplorerPresenter.__init__</code> 逐一指派。因此 <code>ExplorerView</code> 可以單獨建起來跑，
+什麼都不會壞，只是按了沒反應。這是與一般 MVC 寫法的主要差異。
+</div>
+
+<h4>純函式層（不屬於任何一層，兩支主程式各一份）</h4>
+<table>
+<tr><th>符號</th><th>做的事</th></tr>
+<tr><td><code>describe_uuid(uuid, table)</code></td><td>先查自訂表，查不到退回 bleak 內建的 <code>uuidstr_to_str</code></td></tr>
+<tr><td><code>hexdump(data)</code></td><td>單行 hex ＋ 可列印 ASCII</td></tr>
+<tr><td><code>decode_huami_time(chunk)</code></td><td>華米 8 位元組時間戳：年(2, 小端) 月 日 時 分 秒 時區（15 分鐘為單位）</td></tr>
+<tr><td><code>decode_value(uuid, data)</code></td><td>對已知 characteristic 做語意解碼；解不出來回傳 <code>None</code>，由呼叫端退回 hex</td></tr>
+</table>
+<p style="font-size:13.5px;color:var(--dim)">
+這四個是純函式，沒有 I/O，也不需要手環在場——<code>unit_test/test_connect.py</code> 的
+<code>test_decoders()</code> 拿四筆冷凍下來的真實位元組餵它們，是整包測試裡唯一在任何地方都跑得起來的那支。
+</p>
+
+<h3>命令列版</h3>
+<p>
+沒有分層，是一個 <code>Explorer</code> 類別（持有 <code>found</code> / <code>target</code> /
+<code>client</code>）加上 <code>main()</code> 裡的選單迴圈，選項編號對到 <code>actions</code> 字典。
+唯一需要留意的是 <code>ainput()</code>：<code>input()</code> 包進 <code>asyncio.to_thread</code>，
+否則它會擋住事件迴圈，斷線 callback 永遠不會被呼叫——手環走遠了畫面上也不會有任何反應。
+</p>
+
+<h3>周邊</h3>
+<table>
+<tr><th>檔案</th><th>職責</th></tr>
+<tr><td><code>device_config.py</code></td>
+    <td>只做一件事：決定測試腳本要連哪一支手環。<code>load()</code> 讀 <code>device.local</code>，
+        <code>find_device()</code> 有位址就照位址找，沒有就退回用名稱掃描</td></tr>
+<tr><td><code>tools/make_icon.py</code></td>
+    <td>用 Pillow 在 1024 像素畫布上畫圖示，降採樣成六種解析度包進 <code>app.ico</code></td></tr>
+<tr><td><code>MiBand6BleExplorer-onefile.spec</code></td>
+    <td>PyInstaller 設定。<b>必須</b>在 <code>Analysis(...)</code> 之前把
+        <code>&lt;sys.prefix&gt;\Library\bin</code> 加進 <code>PATH</code></td></tr>
+</table>
+
+</div>
+</section>
+
+<!-- ============================================================= -->
+<section id="map">
+<h2>3. 模組互動圖</h2>
+<div class="body">
+
+<figure>
+<svg viewBox="0 0 900 560" role="img" aria-label="模組相依與資料流圖">
+  <rect x="14" y="14" width="500" height="292" rx="10" class="sv-box" stroke-dasharray="6 5"/>
+  <text x="30" y="36" class="sv-t s b">Tk 主執行緒 — 唯一可以碰 widget 的地方</text>
+
+  <rect x="46" y="52" width="430" height="72" rx="8" class="sv-box"/>
+  <text x="62" y="76" class="sv-t b">ExplorerView</text>
+  <text x="62" y="95" class="sv-t s">ttkbootstrap widget；on_* 屬性外露，預設空函式</text>
+  <text x="62" y="112" class="sv-t s">set_devices / set_gatt / log_to_window / set_busy …</text>
+
+  <rect x="46" y="184" width="430" height="82" rx="8" class="sv-box"/>
+  <text x="62" y="208" class="sv-t b">ExplorerPresenter</text>
+  <text x="62" y="227" class="sv-t s">指派 on_*、_run() 鎖忙碌、_drain_queue() 輪詢、close() 收尾</text>
+  <text x="62" y="244" class="sv-t s">_log() 是視窗與檔案共用的唯一出口</text>
+
+  <path d="M150 124 L150 184" class="sv-l" marker-end="url(#ar)"/>
+  <text x="158" y="158" class="sv-t s">on_*() 使用者操作</text>
+  <path d="M400 184 L400 124" class="sv-l" marker-end="url(#ar)"/>
+  <text x="392" y="158" class="sv-t s" text-anchor="end">呈現方法</text>
+
+  <rect x="556" y="184" width="316" height="82" rx="8" class="sv-box"/>
+  <text x="572" y="208" class="sv-t b">LogRecorder</text>
+  <text x="572" y="227" class="sv-t s">save_snapshot / start / write / finish</text>
+  <text x="572" y="244" class="sv-t s">close_abruptly；純檔案 I/O</text>
+  <path d="M476 225 L556 225" class="sv-l" marker-end="url(#ar)"/>
+
+  <rect x="14" y="330" width="858" height="212" rx="10" class="sv-box" stroke-dasharray="6 5"/>
+  <text x="30" y="352" class="sv-t s b">背景 daemon 執行緒 — 絕不碰任何 widget</text>
+
+  <rect x="46" y="368" width="290" height="66" rx="8" class="sv-box"/>
+  <text x="62" y="392" class="sv-t b">AsyncRunner</text>
+  <text x="62" y="411" class="sv-t s">asyncio event loop；submit() / shutdown()</text>
+
+  <rect x="46" y="456" width="290" height="66" rx="8" class="sv-box"/>
+  <text x="62" y="480" class="sv-t b">BandModel</text>
+  <text x="62" y="499" class="sv-t s">scan / connect / dump_gatt / read_all / notify …</text>
+
+  <path d="M191 434 L191 456" class="sv-l" marker-end="url(#ar)"/>
+
+  <rect x="556" y="368" width="316" height="66" rx="8" class="sv-box"/>
+  <text x="572" y="392" class="sv-t b">bleak → WinRT</text>
+  <text x="572" y="411" class="sv-t s">BleakScanner / BleakClient（只呼叫讀取類 API）</text>
+
+  <rect x="556" y="456" width="316" height="66" rx="8" class="sv-box"/>
+  <text x="572" y="480" class="sv-t b">小米手環 6</text>
+  <text x="572" y="499" class="sv-t s">11 服務 / 46 特徵 / 28 描述元（實測）</text>
+
+  <path d="M336 489 L556 489" class="sv-l" marker-end="url(#ar)"/>
+  <path d="M714 456 L714 434" class="sv-l" marker-end="url(#ar)"/>
+
+  <path d="M110 266 L110 368" class="sv-l" marker-end="url(#ar)"/>
+  <text x="118" y="316" class="sv-t s">submit(coroutine)</text>
+
+  <path d="M300 456 C 300 400, 430 384, 430 300 L430 268" class="sv-l q" marker-end="url(#arq)"/>
+  <text x="442" y="314" class="sv-t s">emit() → queue.Queue</text>
+  <text x="442" y="330" class="sv-t s">after(50ms) 撈出來才碰 widget</text>
+
+  <defs>
+    <marker id="ar" markerWidth="9" markerHeight="9" refX="8" refY="3.2" orient="auto">
+      <path d="M0,0 L8,3.2 L0,6.4 Z" fill="#6c757d"/>
+    </marker>
+    <marker id="arq" markerWidth="9" markerHeight="9" refX="8" refY="3.2" orient="auto">
+      <path d="M0,0 L8,3.2 L0,6.4 Z" fill="#0d6efd"/>
+    </marker>
+  </defs>
+</svg>
+<figcaption>
+實線是直接呼叫，虛線是唯一的回程：背景執行緒把訊息丟進佇列，主執行緒輪詢後才更新畫面。
+</figcaption>
+</figure>
+
+<h3>佇列上跑的訊息種類</h3>
+<p>
+<code>BandModel</code> 對外只有一個出口 <code>emit(kind, payload)</code>，
+它做的事就是 <code>queue.put((kind, payload))</code>。
+<code>ExplorerPresenter._handle</code> 是唯一的分派點：
+</p>
+<table>
+<tr><th>kind</th><th>payload</th><th>主執行緒做什麼</th></tr>
+<tr><td><code>log</code></td><td><code>(text, tag)</code></td><td><code>_log()</code>：寫視窗，並在需要時同步寫檔</td></tr>
+<tr><td><code>status</code></td><td>字串</td><td><code>view.set_status()</code></td></tr>
+<tr><td><code>devices</code></td><td><code>list[ScanRow]</code></td><td><code>view.set_devices()</code></td></tr>
+<tr><td><code>gatt</code></td><td><code>list[GattNode]</code></td><td><code>view.set_gatt()</code></td></tr>
+<tr><td><code>connected</code></td><td><code>None</code></td><td><code>view.set_ui_connection_state(True)</code></td></tr>
+<tr><td><code>disconnected</code></td><td><code>None</code></td><td>清 notify 旗標 ＋ <code>set_ui_connection_state(False)</code></td></tr>
+<tr><td><code>notifying</code></td><td><code>bool</code></td><td><code>view.set_notifying()</code>（按鈕字改成 Stop Notify）</td></tr>
+<tr><td><code>done</code></td><td><code>None</code></td><td>解除忙碌鎖：<code>view.set_busy(False)</code></td></tr>
+</table>
+
+<div class="note">
+<b>View 只認得兩個自訂資料結構</b>：<code>ScanRow</code>（index / name / address / rssi / detail / is_band）
+與 <code>GattNode</code>（label / detail / children）。bleak 的 <code>BLEDevice</code>、
+<code>BleakGATTCharacteristic</code> 從來不會走到 View 面前——這是「View 不懂 BLE」這條界線的實際落點。
+</div>
+
+</div>
+</section>
+
+<!-- ============================================================= -->
+<section id="screens">
+<h2>4. 畫面與元件對照</h2>
+<div class="body">
+
+<p>只有一個視窗，三段式版面。佈局次序是刻意的：下方控制項與 Log Actions 先以
+<code>side=BOTTOM</code> 佈局，確保它們永遠完整顯示，紀錄區最後才填滿剩下的空間。</p>
+
+<figure>
+<svg viewBox="0 0 880 430" role="img" aria-label="主視窗版面與對應的建構函式">
+  <rect x="10" y="10" width="860" height="410" rx="8" class="sv-box"/>
+  <text x="26" y="34" class="sv-t b">Mi Band 6 BLE Explorer — Read Only</text>
+
+  <rect x="26" y="48" width="828" height="176" rx="6" class="sv-box"/>
+  <rect x="38" y="58" width="152" height="22" rx="4" class="sv-box"/>
+  <text x="52" y="74" class="sv-t s b">Communication Log</text>
+  <rect x="196" y="58" width="130" height="22" rx="4" class="sv-box"/>
+  <text x="210" y="74" class="sv-t s">GATT Structure</text>
+  <text x="42" y="106" class="sv-t s">_create_log_display_widgets() → bs.Notebook</text>
+  <text x="42" y="128" class="sv-t s">分頁一：scrolledtext.ScrolledText（self.comm_log），八種語意標籤上色</text>
+  <text x="42" y="150" class="sv-t s">分頁二：bs.Treeview（self.gatt_tree），服務 ▸ 特徵 ▸ 描述元</text>
+  <text x="42" y="176" class="sv-t s">紀錄區永遠是最後才分配空間的那一塊（expand=YES）</text>
+  <text x="42" y="198" class="sv-t s">主題切換時 ScrolledText 不隨 ttk 連動，由 _apply_log_theme() 手動同步</text>
+
+  <rect x="26" y="236" width="828" height="60" rx="6" class="sv-box"/>
+  <text x="40" y="256" class="sv-t s b">Log Actions　_create_log_action_widgets()</text>
+  <text x="40" y="278" class="sv-t s">[Clear Log Window] [Save Printed Log] [Start to Save Log] [Finish to Save Log] [Path to Save] [ 路徑 ] [Dark]</text>
+
+  <rect x="26" y="308" width="404" height="102" rx="6" class="sv-box"/>
+  <text x="40" y="328" class="sv-t s b">Device Connection　_create_device_widgets()</text>
+  <text x="40" y="350" class="sv-t s">device_tree：Name / Address / RSSI（疑似手環的列加粗）</text>
+  <text x="40" y="370" class="sv-t s">Timeout Spinbox　Named devices only 開關</text>
+  <text x="40" y="392" class="sv-t s">[Scan] [Connect] [Disconnect]</text>
+
+  <rect x="450" y="308" width="404" height="102" rx="6" class="sv-box"/>
+  <text x="464" y="328" class="sv-t s b">Explorer Actions　_create_action_widgets()</text>
+  <text x="464" y="350" class="sv-t s">Read UUID [ 2a28 ] [Read]</text>
+  <text x="464" y="370" class="sv-t s">[Enumerate GATT] [Read All] [Summary] [Start Notify]</text>
+  <text x="464" y="392" class="sv-t s">左下 status_label（連線時轉綠加粗）　右下 target_var</text>
+</svg>
+<figcaption>三段式版面與各區塊對應的建構函式。兩欄控制區裝在 <code>bs.Panedwindow</code> 裡，權重 1 : 2。</figcaption>
+</figure>
+
+<h3>元件 → 程式碼</h3>
+<table>
+<tr><th>畫面元素</th><th>屬性</th><th>建立於</th><th>callback</th></tr>
+<tr><td>紀錄分頁（通訊紀錄）</td><td><code>comm_log</code></td><td><code>_create_log_display_widgets</code></td><td>—（由 <code>log_to_window</code> 寫入）</td></tr>
+<tr><td>紀錄分頁（GATT 樹）</td><td><code>gatt_tree</code></td><td><code>_create_log_display_widgets</code></td><td>—（由 <code>set_gatt</code> ／ <code>_insert_gatt_node</code> 遞迴填入）</td></tr>
+<tr><td>裝置清單</td><td><code>device_tree</code></td><td><code>_create_device_widgets</code></td><td><code>&lt;&lt;TreeviewSelect&gt;&gt;</code> → <code>_on_device_selected</code> → <code>on_select_device</code></td></tr>
+<tr><td>Timeout / Named only</td><td><code>timeout_var</code> / <code>named_only_var</code></td><td><code>_create_device_widgets</code></td><td>—（按 Scan 時才讀）</td></tr>
+<tr><td>Scan / Connect / Disconnect</td><td><code>scan_button</code> 等</td><td><code>_create_device_widgets</code></td><td><code>on_scan</code> / <code>on_connect</code> / <code>on_disconnect</code></td></tr>
+<tr><td>Read UUID 欄位</td><td><code>uuid_var</code> / <code>uuid_entry</code></td><td><code>_create_action_widgets</code></td><td><code>on_read_one</code>（按鈕或 Enter 都可）</td></tr>
+<tr><td>四顆探索快捷</td><td><code>gatt_button</code> / <code>read_all_button</code> / <code>summary_button</code> / <code>notify_button</code></td><td><code>_create_action_widgets</code></td><td><code>on_dump_gatt</code> / <code>on_read_all</code> / <code>on_summary</code> / <code>on_toggle_notify</code></td></tr>
+<tr><td>狀態列與目標</td><td><code>status_var</code> / <code>target_var</code></td><td><code>_create_action_widgets</code></td><td>—（由 <code>set_status</code> ／ <code>set_target</code> 更新）</td></tr>
+<tr><td>Log Actions 五顆按鈕</td><td><code>clear_log_button</code> 等</td><td><code>_create_log_action_widgets</code></td><td><code>on_clear_log</code> / <code>on_save_printed</code> / <code>on_start_save</code> / <code>on_finish_save</code> / <code>on_select_path</code></td></tr>
+<tr><td>Dark 開關</td><td><code>theme_var</code></td><td><code>_create_log_action_widgets</code></td><td><code>_toggle_theme</code>（View 內部處理，不經 Presenter）</td></tr>
+<tr><td>關閉視窗</td><td><code>WM_DELETE_WINDOW</code></td><td><code>ExplorerView.__init__</code></td><td><code>on_close</code> → <code>ExplorerPresenter.close</code></td></tr>
+</table>
+
+<div class="note">
+<b>GATT 為什麼要單獨一個分頁。</b>實測手環的 GATT 樹有 85 個節點，全部印進紀錄視窗會把其他東西沖掉。
+所以列舉完之後紀錄區只留一行「完整結構請看上方分頁」，樹本身放在第二頁，可以收合。
+</div>
+
+<div class="note">
+<b>設計稿上有、實作上沒有的東西。</b>原稿右上角有一顆綠色狀態膠囊，ttk 畫不出圓角 pill，
+改以左下角 <code>status_label</code> 在連線時轉成成功色並加粗來傳達同一件事。
+另外，本環境的 ttkbootstrap 只有 <code>Panedwindow</code>（小寫 w），
+<code>bs.PanedWindow</code> 會 <code>AttributeError</code>。
+</div>
+
+</div>
+</section>
+
+<!-- ============================================================= -->
+<section id="flows">
+<h2>5. 互動流程</h2>
+<div class="body">
+
+<p>所有 BLE 操作走同一條骨架，差別只在最後丟出去的 coroutine：</p>
+
+<pre><code>使用者按鈕 → View.on_XXX → Presenter._xxx → Presenter._run(model.xxx())
+    ├─ 若 _busy：coro.close() 後拒絕（否則留下 coroutine was never awaited 警告）
+    ├─ _busy = True；view.set_busy(True) → 按鈕全禁用、游標變 watch
+    ├─ AsyncRunner.submit(wrapper)   ← 這一步之後就在背景執行緒了
+    │     wrapper 內：await coro，例外收成一則 log 訊息，finally 一定 emit("done")
+    └─ 背景 emit(...) → queue → 主執行緒 _drain_queue() → _handle() → 更新 widget</code></pre>
+
+<h3>掃描</h3>
+<div class="flow"><ol>
+<li><code>on_scan</code> → <code>_scan()</code>：讀 <code>timeout_var</code>（解析失敗退回 8.0），先 <code>view.set_devices([])</code> 清空舊清單。</li>
+<li><code>BandModel.scan()</code>：<code>BleakScanner.discover(return_adv=True)</code>，結果按 RSSI 由強到弱排序存進 <code>self.found</code>。</li>
+<li>逐筆轉成 <code>ScanRow</code>；勾了 Named devices only 就跳過無名稱的並計數。名稱命中 <code>MI_BAND_HINTS</code> 的把 <code>is_band</code> 設為真。</li>
+<li><code>emit("devices", rows)</code> → <code>view.set_devices()</code>：重建 Treeview，<code>is_band</code> 的列套 <code>band</code> tag 加粗。清單為空時順手把 Connect 禁用。</li>
+<li>另外 emit 兩三則 log 說明找到幾個、隱藏幾個、其中幾個疑似小米／華米裝置。</li>
+</ol></div>
+
+<h3>選裝置與連線</h3>
+<div class="flow"><ol>
+<li>點選清單 → <code>_on_device_selected</code>：把 Treeview 的列序轉回 <code>self._device_indices</code> 裡的原始索引，再呼叫 <code>on_select_device(index)</code>。同一個函式順手把 Connect 啟用（未連線且不忙碌時）。</li>
+<li><code>_select_device()</code> → <code>BandModel.select_target()</code> 只設 <code>self.target</code>，不碰 BLE；Presenter 接著更新 <code>view.set_target()</code>。</li>
+<li>按 Connect → <code>BandModel.connect()</code>：建 <code>BleakClient</code> 時就把 <code>_on_disconnect</code> 掛成 <code>disconnected_callback</code>。</li>
+<li>成功：<code>emit("connected")</code> → <code>set_ui_connection_state(True)</code>，五顆指令按鈕解禁、Scan 禁用、狀態轉綠。</li>
+<li>失敗：印出 <code>BleakError</code> 原文，並補一行提示「手環同時只能被一個中央裝置連線，請先在手機關閉 Zepp Life」——這是實務上最常見的原因。</li>
+</ol></div>
+
+<h3>列舉 GATT</h3>
+<div class="flow"><ol>
+<li><code>BandModel.dump_gatt()</code> 走訪 <code>client.services</code>，每個服務建一個 <code>GattNode</code>，特徵掛成子節點（標籤含 16-bit 短碼、人話說明、properties 與 handle），描述元再掛一層。</li>
+<li><code>emit("gatt", tree)</code> → <code>view.set_gatt()</code> → <code>_insert_gatt_node()</code> 遞迴填入，只有第一層預設展開。</li>
+<li>紀錄區只留服務／特徵計數，加一行「完整結構請看上方分頁」。</li>
+</ol></div>
+
+<h3>讀取</h3>
+<div class="flow"><ol>
+<li><b>Read All</b>：走訪所有帶 <code>read</code> 屬性的特徵逐一 <code>read_gatt_char</code>。<b>例外捕捉的是 <code>Exception</code> 而不是 <code>BleakError</code></b>——WinRT 後端會拋出不屬於 bleak 例外階層的東西。被拒的收進 <code>denied</code>，最後整批列出。</li>
+<li><b>Read（單一）</b>：先 <code>normalize_uuid_str</code>，所以可以只打 16-bit 短碼（如 <code>2a28</code>）。無效格式直接回報，不送出請求。</li>
+<li>兩條都走 <code>_log_value()</code>：先印 hexdump，再試 <code>decode_value()</code>；解得出來多印一行 <code>=&gt;</code> 開頭的人話，解不出來就只留 hex。</li>
+<li><b>Summary</b> 讀的是一份寫死的七欄清單，那份清單是實機跑過一輪、確認免認證真的拿得到才寫進去的，不是照規範抄的。最後補一行提醒即時步數禁止直接讀取，要用 Start Notify。</li>
+</ol></div>
+
+<h3>Notify 監看</h3>
+<div class="flow"><ol>
+<li><code>on_toggle_notify</code> → <code>_toggle_notify()</code> 依 <code>self._notifying</code> 決定送 <code>start_notify</code> 還是 <code>stop_notify</code>。</li>
+<li><code>BandModel.start_notify()</code> 收集所有帶 <code>notify</code> 或 <code>indicate</code> 的特徵，逐一訂閱，失敗的只記一行不中斷；成功清單存進 <code>self._subscribed</code>。</li>
+<li>封包進來時 callback 在 bleak 的執行緒上跑，它只做一件事：加上毫秒時間戳後 <code>emit("log", …)</code>。</li>
+<li><code>emit("notifying", True)</code> → 按鈕文字改成 Stop Notify。</li>
+<li><code>disconnect()</code> 一定先 <code>await stop_notify()</code>，避免留下沒收掉的訂閱。</li>
+</ol></div>
+
+<h3>存檔</h3>
+<div class="flow"><ol>
+<li><b>Save Printed Log</b>：把視窗現有內容一次寫成 <code>MiBand6_Log-Printed_*.txt</code>。</li>
+<li><b>Start to Save Log</b>：開一個 <code>MiBand6_Log-Interval_*.txt</code> 的檔案 handle，之後每一則訊息都由 <code>Presenter._log()</code> 順手寫進去（每行帶毫秒時間戳，寫完立刻 <code>flush</code>）。<code>set_log_saving_state(True)</code> 把 Start 禁用、Finish 解禁。</li>
+<li><b>Path to Save</b>：<code>filedialog.askdirectory</code>，只改 <code>recorder.save_dir</code>，不影響已經開著的 handle。</li>
+<li>檔案落在 <code>&lt;資料夾&gt;/&lt;YYYYMMDD&gt;/</code>，日期子資料夾在寫入前才建立。</li>
+</ol></div>
+
+<div class="note good">
+<b><code>Presenter._log()</code> 是視窗與檔案共用的唯一出口。</b>因此「即時存檔」不需要在 Model 裡埋任何東西：
+只要訊息走過 <code>_log()</code>，就同時進了視窗與檔案。寫檔失敗也只會多印一行 FATAL，不會把整個流程炸掉。
+</div>
+
+</div>
+</section>
+
+<!-- ============================================================= -->
+<section id="state">
+<h2>6. 狀態管理</h2>
+<div class="body">
+
+<p>沒有共用的狀態容器，狀態散在三個地方，各自有明確的擁有者：</p>
+
+<table>
+<tr><th>狀態</th><th>住在哪</th><th>誰改</th><th>怎麼傳播</th></tr>
+<tr><td>掃描結果、目標裝置、client、訂閱清單</td>
+    <td><code>BandModel.found</code> / <code>.target</code> / <code>.client</code> / <code>._subscribed</code></td>
+    <td>只有 Model 自己（在背景執行緒上）</td>
+    <td>轉成 <code>ScanRow</code> / <code>GattNode</code> 後經佇列送出</td></tr>
+<tr><td>忙碌鎖 <code>_busy</code></td><td>Presenter（另有一份 View 端的 <code>_busy</code> 供按鈕狀態計算）</td>
+    <td><code>_run()</code> 設、<code>done</code> 訊息清</td>
+    <td><code>view.set_busy()</code></td></tr>
+<tr><td>是否正在 notify <code>_notifying</code></td><td>Presenter</td><td><code>notifying</code> / <code>disconnected</code> 訊息</td><td><code>view.set_notifying()</code></td></tr>
+<tr><td>是否正在關閉 <code>_closing</code></td><td>Presenter</td><td><code>close()</code></td><td>讓 <code>_drain_queue()</code> 停止重新排程</td></tr>
+<tr><td>連線狀態 <code>_connected</code></td><td>View（只是快取）</td><td><code>set_ui_connection_state()</code></td><td>供 <code>set_busy(False)</code> 還原按鈕時參考</td></tr>
+<tr><td>存檔中與否</td><td><code>LogRecorder._handler is not None</code></td><td><code>start()</code> / <code>finish()</code></td><td><code>view.set_log_saving_state()</code></td></tr>
+<tr><td>目前主題</td><td><code>ExplorerView.theme</code></td><td><code>_toggle_theme()</code></td><td>View 內部，不經 Presenter</td></tr>
+</table>
+
+<div class="note">
+<b>兩套按鈕狀態不各自還原。</b>「連線狀態」與「忙碌」都會影響同一組按鈕。
+<code>set_busy(False)</code> 不逐一還原之前禁用的按鈕，而是重新呼叫
+<code>set_ui_connection_state(self._connected)</code> 讓連線狀態重算一次——
+兩套狀態各自記憶、各自還原的話一定會打架。
+</div>
+
+</div>
+</section>
+
+<!-- ============================================================= -->
+<section id="threads">
+<h2>7. 執行緒與關閉流程</h2>
+<div class="body">
+
+<p>
+兩個迴圈都想當主人：tkinter 的 <code>mainloop()</code> 要佔住主執行緒，asyncio 的事件迴圈也要佔住一條。
+而且 Tk 的規矩很硬——widget 只能從建立它的那條執行緒去碰，從別條執行緒改一個 Label 的文字，
+可能沒事，可能整個程式當掉，而且不會給一個好看的錯誤。
+</p>
+
+<div class="note rule">
+<b>唯一的規矩：背景執行緒絕不碰任何 widget。</b>一律走 <code>queue.Queue</code> ＋ <code>after()</code>。
+有這一條，剩下的就是機械式搬運。
+</div>
+
+<h3>關閉流程：五個步驟，順序不能換</h3>
+<p><code>ExplorerPresenter.close()</code>：</p>
+<div class="flow"><ol>
+<li><b>取消排程中的 <code>after</code> callback。</b>不取消的話，<code>destroy()</code> 之後那個排程還會觸發，噴 <code>invalid command name</code>。放在最前面是因為後面幾步都要花時間，那段時間裡輪詢還會繼續排。</li>
+<li><b>關閉日誌檔案 handle</b>（<code>recorder.close_abruptly()</code>，會補一行 <code>[System] Suddenly Closed.</code>）。</li>
+<li><b>斷開 BLE</b>，<code>result(timeout=5.0)</code> 給有限等待，避免關窗卡住。</li>
+<li><b>收掉背景事件迴圈</b>（<code>AsyncRunner.shutdown()</code>：取消所有 pending task → <code>await gather</code> → <code>loop.stop</code> → <code>join</code> → <code>close</code>）。</li>
+<li><b><code>root.destroy()</code>。</b></li>
+</ol></div>
+
+<div class="note rule">
+<b>第 4 步的 <code>_cancel_pending()</code> 是掃描中途關窗不炸掉的關鍵。</b>
+必須讓 bleak 的 <code>finally</code> 有機會停掉 WinRT 掃描器；直接關迴圈的話，
+掃描器仍會投遞廣播封包到一個已經關掉的迴圈上，噴 <code>Event loop is closed</code>。
+所以是「先取消並等它們收尾，才停迴圈」，不是反過來。
+</div>
+
+<p>
+另外兩個相關的細節：<code>main()</code> 用 <code>try/finally</code> 包住 <code>mainloop()</code>，
+主迴圈因未預期例外或主控台中斷而結束時仍會走完同一套收尾；
+<code>SetCurrentProcessExplicitAppUserModelID</code> <b>必須在建立 root 之前</b>呼叫，
+否則工作列顯示的是 Python 直譯器的圖示。
+</p>
+
+</div>
+</section>
+
+<!-- ============================================================= -->
+<section id="limits">
+<h2>8. 功能與限制</h2>
+<div class="body">
+
+<h3>做得到</h3>
+<ul>
+<li>掃描週遭 BLE 裝置，依 RSSI 排序，可選只列有名稱的；疑似小米／華米的裝置加粗。</li>
+<li>連線、斷線，斷線由對方發起時也會即時反映到介面上。</li>
+<li>列舉完整 GATT：服務 ▸ 特徵（含 properties 與 handle）▸ 描述元，樹狀可收合。</li>
+<li>讀取所有可讀特徵，或指定單一 UUID（支援 16-bit 短碼）；被拒的連同原因一起列出。</li>
+<li>已知欄位語意解碼：裝置名稱／序號／硬體版本／韌體版本／電池電量、標準 Current Time、
+    標準心率量測（含 8/16-bit 旗標）、華米電池詳情與即時步數。</li>
+<li>訂閱所有可訂閱特徵，逐筆封包帶毫秒時間戳。</li>
+<li>紀錄存檔兩種：一次性快照，或從現在開始邊跑邊寫。</li>
+<li>亮色／暗色主題切換，紀錄視窗配色同步。</li>
+</ul>
+
+<h3>做不到，或刻意不做</h3>
+<table>
+<tr><th>限制</th><th>說明</th></tr>
+<tr><td>不寫入、不認證</td><td>硬性規定。因此需要 auth key 的欄位（心率控制點、多數華米私有欄位）永遠讀不到，這不是 bug</td></tr>
+<tr><td>同時只能一個中央裝置連線</td><td>手機的 Zepp Life 沒關掉就連不上，這是手環的行為不是程式的</td></tr>
+<tr><td>連線中途手環走遠沒有處理</td><td>斷線通知路徑是通的，UI 也會打回未連線；但若斷在「讀取所有可讀特徵」跑到一半，
+    後面幾十個會一個一個失敗、每個印一行錯誤，畫面被洗版。合理做法是在迴圈裡檢查連線狀態、斷了整批中止——<b>知道要做，還沒做</b></td></tr>
+<tr><td>兩份表遲早不同步</td><td>UUID 對照、解碼器、Summary 那七欄清單都各有兩份。目前一致是因為同時寫的。
+    要嘛抽成共用模組，要嘛加一個測試去比對——<b>兩個都還沒做</b></td></tr>
+<tr><td>解碼器只涵蓋看得懂的那幾個</td><td>華米私有欄位還有不少沒解，即時活動封包後面幾個位元組也沒解。
+    這個是<b>刻意停的</b>：再往下就要靠猜，猜出來的東西沒辦法驗證</td></tr>
+<tr><td>打包版沒有標準輸出</td><td><code>console=False</code>，探索階段要看主控台就直接跑 <code>.py</code></td></tr>
+<tr><td>只在 Windows 驗過</td><td>bleak 本身跨平台，但這裡的 WinRT 相關處理、<code>app.ico</code>、AppUserModelID 都是 Windows 專屬</td></tr>
+<tr><td>視窗最小 1100×700</td><td>三段式版面在更窄的視窗會擠在一起</td></tr>
+</table>
+
+<div class="note">
+<b>不是為了什麼設計的。</b>這不是手環管理工具，也不是資料同步工具——它不會改手環上的任何東西，
+也不會把活動資料抓回來。它只回答一個問題：這支裝置在未認證的情況下，願意給什麼。
+</div>
+
+</div>
+</section>
+
+<!-- ============================================================= -->
+<section id="decisions">
+<h2>9. 已經做過的決定</h2>
+<div class="body">
+
+<table>
+<tr><th>決定</th><th>結論</th><th>理由</th></tr>
+<tr><td>唯讀</td><td>硬性規定</td><td>華米私有服務底下有韌體上傳用的 characteristic，一支不會寫入的程式出包上限低很多</td></tr>
+<tr><td>兩支主程式各自自包含</td><td>不共用模組</td><td>GUI 版要能單獨搬走或打包；代價是兩份手動同步</td></tr>
+<tr><td>先做命令列版</td><td>圖形介面留到後面</td><td>tkinter 的 callback 裡出事，預設只在主控台印一行然後繼續跑，視窗上什麼都不會發生</td></tr>
+<tr><td>UI 設計稿選了實作代價最低的那張</td><td>Main（litera 色票、三段式）</td><td>另外兩張的圓角、陰影、固定側欄在 ttk 裡沒有對應物；未採用那張的深色色票整組搬進程式當暗色主題</td></tr>
+<tr><td>打包方式</td><td>只做 onefile</td><td>實測 21.5 MB、冷啟 7.4 秒、之後約 4.5 秒，都在可接受範圍；探索階段本來就直接跑 <code>.py</code></td></tr>
+<tr><td><code>hiddenimports</code></td><td>留空</td><td>原本抄了七個 <code>winrt.*</code>，實測拿掉之後 exe 照樣掃得到裝置、體積也一樣——內建的 bleak hook 已經收乾淨了</td></tr>
+<tr><td>圖示</td><td><code>tools/make_icon.py</code> 產生，六種解析度</td><td>錶面＋兩道廣播弧。置中同心扇形試過，縮到 16px 跟 Wi-Fi 圖示分不出來</td></tr>
+<tr><td>ttkbootstrap 主題</td><td>亮 <code>litera</code>／暗 <code>darkly</code></td><td>設計稿直接取用 litera 色票，確保畫得出來的東西 ttk 真的做得到</td></tr>
+</table>
+
+<h3>踩過的坑（改程式前先看這幾條）</h3>
+<ul>
+<li><code>.spec</code> 必須在 <code>Analysis(...)</code> 之前把 <code>&lt;sys.prefix&gt;\Library\bin</code> 加進 <code>PATH</code>。少了它建置照樣 exit 0，<code>.exe</code> 啟動時死在 <code>ImportError: DLL load failed while importing _ctypes</code>。<b>驗收看的是建置紀錄裡 <code>Library not found</code> 為 0，不是 exit code。</b></li>
+<li>關閉流程的五個步驟不能換順序（見第 7 節）。</li>
+<li>本環境的 ttkbootstrap 只有 <code>Panedwindow</code>（小寫 w）。</li>
+<li><code>SetCurrentProcessExplicitAppUserModelID</code> 必須在建立 root 之前呼叫。</li>
+<li><code>_run()</code> 拒絕重複送出時要 <code>coro.close()</code>，否則留下 <code>coroutine was never awaited</code> 警告。</li>
+<li><code>scrolledtext.ScrolledText</code> 不隨 ttk 主題連動，切主題要自己重上色。</li>
+<li>背景執行緒不得碰任何 widget。</li>
+</ul>
+
+</div>
+</section>
+
+<footer>
+MiBand6BleExplorer — 架構文件。對應原始碼：<code>mi_band_explorer.py</code>、
+<code>mi_band_explorer_gui.py</code>（Python 3.13 / bleak 2.0.0 / ttkbootstrap 1.19.0）。
+專案摘要見 <code>README.md</code>；給非開發者的操作手冊是 <code>使用者指引.html</code>。
+</footer>
+
+</main>
+</div>
+
+<button class="toggle" id="themeBtn" type="button">切換深色</button>
+
+<script>
+(function () {
+  document.querySelectorAll('section > h2').forEach(function (h) {
+    h.addEventListener('click', function () {
+      h.parentElement.classList.toggle('collapsed');
+    });
+  });
+
+  var links = Array.prototype.slice.call(document.querySelectorAll('nav a'));
+  var sections = links.map(function (a) {
+    return document.querySelector(a.getAttribute('href'));
+  });
+
+  function sync() {
+    var current = 0;
+    for (var i = 0; i < sections.length; i++) {
+      if (sections[i] && sections[i].getBoundingClientRect().top <= 120) current = i;
+    }
+    links.forEach(function (a, i) { a.classList.toggle('active', i === current); });
+  }
+  window.addEventListener('scroll', sync, { passive: true });
+  sync();
+
+  var btn = document.getElementById('themeBtn');
+  btn.addEventListener('click', function () {
+    var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark');
+    btn.textContent = dark ? '切換深色' : '切換淺色';
+  });
+})();
+</script>
+</body>
+</html>

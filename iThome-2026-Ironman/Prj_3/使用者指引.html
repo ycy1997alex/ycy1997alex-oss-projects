@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mi Band 6 BLE Explorer — 使用者指引</title>
+<style>
+  :root{
+    --bg:#ffffff; --panel:#f7f8fa; --line:#dde1e7; --ink:#212529; --dim:#6c757d;
+    --primary:#0d6efd; --ok:#198754; --warn:#b8860b; --fail:#dc3545; --purple:#6f42c1;
+    --code-bg:#f1f3f5;
+  }
+  html[data-theme="dark"]{
+    --bg:#1b1b1b; --panel:#242424; --line:#3a3a3a; --ink:#e0e0e0; --dim:#909296;
+    --primary:#4dabf7; --ok:#51cf66; --warn:#ffd43b; --fail:#ff6b6b; --purple:#da77f2;
+    --code-bg:#2a2a2a;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Segoe UI","Microsoft JhengHei","PingFang TC",system-ui,sans-serif;
+    font-size:15.5px; line-height:1.85;
+  }
+  code,.mono{font-family:Consolas,"Cascadia Mono",monospace; background:var(--code-bg);
+             padding:1px 6px; border-radius:4px; font-size:.9em}
+
+  .wrap{display:flex; min-height:100vh}
+  nav{
+    width:230px; flex:0 0 230px; border-right:1px solid var(--line); background:var(--panel);
+    position:sticky; top:0; height:100vh; overflow-y:auto; padding:22px 0;
+  }
+  nav .brand{padding:0 20px 14px; border-bottom:1px solid var(--line); margin-bottom:12px}
+  nav .brand b{display:block; font-size:15px}
+  nav .brand span{font-size:12px; color:var(--dim)}
+  nav a{display:block; padding:8px 20px; color:var(--ink); text-decoration:none;
+        font-size:14px; border-left:3px solid transparent}
+  nav a:hover{background:var(--code-bg)}
+  nav a.active{border-left-color:var(--primary); color:var(--primary); font-weight:600}
+
+  main{flex:1; min-width:0; padding:34px 46px 90px; max-width:980px}
+  h1{margin:0 0 6px; font-size:28px}
+  .sub{color:var(--dim)}
+  .stamp{margin-top:14px; font-size:12.5px; color:var(--dim);
+         border:1px solid var(--line); border-radius:8px; padding:8px 14px; display:inline-block}
+
+  section{border-top:1px solid var(--line); margin-top:32px; padding-top:6px; scroll-margin-top:16px}
+  section > h2{font-size:20px; margin:16px 0 6px; cursor:pointer; user-select:none;
+               display:flex; align-items:center; gap:10px}
+  section > h2::before{content:"\25BE"; color:var(--dim); font-size:13px; transition:transform .15s}
+  section.collapsed > h2::before{transform:rotate(-90deg)}
+  section.collapsed > .body{display:none}
+  h3{font-size:16.5px; margin:26px 0 6px}
+
+  table{border-collapse:collapse; width:100%; margin:14px 0; font-size:14px}
+  th,td{border:1px solid var(--line); padding:8px 11px; text-align:left; vertical-align:top}
+  th{background:var(--panel); font-weight:600}
+
+  .note{border-left:3px solid var(--warn); background:var(--panel); padding:11px 16px;
+        margin:18px 0; border-radius:0 6px 6px 0}
+  .note.rule{border-left-color:var(--fail)}
+  .note.good{border-left-color:var(--ok)}
+
+  ol.steps{counter-reset:s; list-style:none; padding:0; margin:16px 0}
+  ol.steps li{counter-increment:s; position:relative; padding:10px 0 10px 46px;
+              border-bottom:1px dashed var(--line)}
+  ol.steps li:last-child{border-bottom:none}
+  ol.steps li::before{
+    content:counter(s); position:absolute; left:0; top:11px;
+    width:28px; height:28px; border-radius:50%; background:var(--primary); color:#fff;
+    font-size:14px; font-weight:700; display:flex; align-items:center; justify-content:center;
+  }
+  ol.steps b{display:block}
+  ul{padding-left:22px}
+
+  figure{margin:20px 0}
+  figcaption{font-size:12.5px; color:var(--dim); margin-top:8px}
+  svg{max-width:100%; height:auto; display:block}
+  .sv-box{fill:var(--panel); stroke:var(--line)}
+  .sv-w{fill:var(--bg); stroke:var(--line)}
+  .sv-t{fill:var(--ink); font-family:"Segoe UI","Microsoft JhengHei",sans-serif; font-size:12.5px}
+  .sv-t.b{font-weight:700}
+  .sv-t.s{font-size:11px; fill:var(--dim)}
+  .pin{fill:var(--primary)}
+  .pin-t{fill:#ffffff; font-size:11px; font-weight:700;
+         font-family:"Segoe UI",sans-serif; text-anchor:middle}
+  .btn-ok{fill:#198754}
+  .btn-pri{fill:#0d6efd}
+  .btn-info{fill:#0dcaf0}
+  .btn-warn{fill:#ffc107}
+  .btn-dang{fill:#dc3545}
+  .btn-t{fill:#ffffff; font-size:10.5px; font-family:"Segoe UI",sans-serif; text-anchor:middle}
+  .btn-t.dark{fill:#212529}
+
+  .legend{display:flex; flex-wrap:wrap; gap:10px; margin:14px 0}
+  .chip{font-size:13px; padding:4px 12px; border-radius:20px; border:1px solid var(--line)}
+  .chip i{font-style:normal; font-weight:700}
+
+  .faq{border:1px solid var(--line); border-radius:8px; margin:12px 0; overflow:hidden}
+  .faq > .q{background:var(--panel); padding:11px 16px; cursor:pointer; font-weight:600;
+            display:flex; justify-content:space-between; gap:12px; align-items:center}
+  .faq > .q::after{content:"+"; color:var(--dim); font-weight:400; font-size:18px}
+  .faq.open > .q::after{content:"\2212"}
+  .faq > .a{padding:0 16px; max-height:0; overflow:hidden; transition:max-height .2s, padding .2s}
+  .faq.open > .a{padding:12px 16px 16px; max-height:900px}
+
+  .toggle{position:fixed; right:20px; bottom:20px; z-index:9;
+    border:1px solid var(--line); background:var(--panel); color:var(--ink);
+    border-radius:20px; padding:7px 15px; font-size:13px; cursor:pointer; font-family:inherit}
+  .toggle:hover{border-color:var(--primary); color:var(--primary)}
+
+  footer{margin-top:44px; padding-top:16px; border-top:1px solid var(--line);
+         font-size:12.5px; color:var(--dim)}
+
+  @media (max-width:860px){
+    .wrap{flex-direction:column}
+    nav{width:auto; flex:none; height:auto; position:static; border-right:none;
+        border-bottom:1px solid var(--line)}
+    main{padding:24px 20px 70px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<nav>
+  <div class="brand">
+    <b>Mi Band 6 BLE Explorer</b>
+    <span>使用者指引</span>
+  </div>
+  <a href="#about">這是什麼</a>
+  <a href="#quick">快速開始</a>
+  <a href="#tour">畫面導覽</a>
+  <a href="#read">看懂畫面上的東西</a>
+  <a href="#files">存下來的紀錄檔</a>
+  <a href="#tips">使用建議與限制</a>
+  <a href="#faq">常見問題與疑難排解</a>
+</nav>
+
+<main>
+<h1>Mi Band 6 BLE Explorer</h1>
+<div class="sub">看看小米手環 6 在沒有配對的情況下，願意告訴電腦哪些事情</div>
+<div class="stamp">版本 v1　·　本指引對應 2026 年 8 月 31 日的版本　·　適用 Windows 10／11</div>
+
+<!-- ============================================================ -->
+<section id="about">
+<h2>這是什麼</h2>
+<div class="body">
+
+<p>
+這是一支<b>只會看、不會動手</b>的小工具。它用電腦的藍牙去問手環：你身上有哪些資料？
+哪些願意給我看？然後把問到的東西整理成人看得懂的字，顯示在畫面上。
+</p>
+
+<div class="note rule">
+<b>它不會改動手環上的任何東西。</b>不會寫入資料、不會改設定、不會刪除紀錄、不會更新韌體，
+也不會嘗試「破解」需要密碼的部分。全程只有「讀」這一個動作。
+所以放心按，按錯了頂多是看到一行錯誤訊息。
+</div>
+
+<h3>開始之前要準備的</h3>
+<ul>
+<li>一台有藍牙的 Windows 電腦，藍牙是<b>開著</b>的。</li>
+<li>小米手環 6，<b>戴在手上</b>（放在桌上通常訊號會弱很多，而且螢幕暗掉之後它會變得比較安靜）。</li>
+<li>手環放在電腦旁邊，距離一公尺以內最穩。</li>
+<li><b>手機上的 Zepp Life 要先關掉。</b>手環同一時間只肯讓一台裝置連線，手機沒放手，電腦就連不上。</li>
+</ul>
+
+<p>要用的檔案只有一個：<span class="mono">MiBand6BleExplorer.exe</span>。不需要安裝，放哪裡都可以，雙擊就會打開。</p>
+
+</div>
+</section>
+
+<!-- ============================================================ -->
+<section id="quick">
+<h2>快速開始</h2>
+<div class="body">
+
+<p>最常做的一件事是「看看手環現在的狀況」。從打開到看到結果，五步：</p>
+
+<ol class="steps">
+<li>
+  <b>雙擊 <span class="mono">MiBand6BleExplorer.exe</span></b>
+  第一次打開比較慢，大約要等七秒視窗才會出現，之後大概四到五秒。中間沒有反應是正常的，不要連按好幾下。
+</li>
+<li>
+  <b>按左下角綠色的 <span class="mono">Scan</span></b>
+  電腦開始找附近的藍牙裝置，預設找八秒。這段時間所有按鈕會變灰、游標變成等待的圈圈，那表示它正在忙。
+</li>
+<li>
+  <b>在清單裡點一下手環那一列</b>
+  名字通常是 <span class="mono">Mi Smart Band 6</span>，而且這一列的字會<b>比較粗</b>——粗體就是程式在說「這一個看起來是小米或華米的裝置」。
+  <br><span style="color:var(--dim);font-size:14px">找不到？先看下面〈常見問題與疑難排解〉裡「掃描找不到手環」那一條，多半是把秒數調大就好。</span>
+</li>
+<li>
+  <b>按 <span class="mono">Connect</span></b>
+  連線大約要十秒。成功之後左下角的字會變成綠色的 <span class="mono">Connected</span>，右邊那一排按鈕跟著亮起來。
+</li>
+<li>
+  <b>按 <span class="mono">Summary</span></b>
+  這是最省事的一顆：它一次把七項基本資料讀回來——手環型號、序號、硬體與韌體版本、電量、電池細節、手環目前的時間，
+  直接用中文列在上方的紀錄區。
+</li>
+</ol>
+
+<div class="note good">
+用完之後按 <span class="mono">Disconnect</span> 再關視窗最乾淨。忘了按也沒關係，直接關視窗，
+程式會自己把連線收掉再結束——只是關閉的動作會多花一兩秒。
+</div>
+
+</div>
+</section>
+
+<!-- ============================================================ -->
+<section id="tour">
+<h2>畫面導覽</h2>
+<div class="body">
+
+<p>整個程式只有一個視窗，由上到下分成三塊：上面是<b>紀錄區</b>（所有結果都印在這裡），
+中間是<b>紀錄的存檔工具</b>，下面是<b>操作區</b>。</p>
+
+<figure>
+<svg viewBox="0 0 880 470" role="img" aria-label="主視窗各區塊的位置">
+  <rect x="8" y="8" width="864" height="454" rx="8" class="sv-w"/>
+  <rect x="8" y="8" width="864" height="30" rx="8" class="sv-box"/>
+  <text x="26" y="28" class="sv-t b">Mi Band 6 BLE Explorer — Read Only</text>
+
+  <!-- 紀錄區 -->
+  <rect x="24" y="52" width="832" height="186" rx="6" class="sv-box"/>
+  <rect x="36" y="62" width="150" height="24" rx="4" class="sv-w"/>
+  <text x="52" y="79" class="sv-t s b">Communication Log</text>
+  <rect x="192" y="62" width="128" height="24" rx="4" class="sv-box"/>
+  <text x="208" y="79" class="sv-t s">GATT Structure</text>
+
+  <text x="44" y="112" class="sv-t s" style="fill:#0d6efd">[System] Connection successful</text>
+  <text x="44" y="134" class="sv-t s" style="fill:#0d6efd">[System] Band summary (unauthenticated fields only)</text>
+  <text x="44" y="156" class="sv-t s" style="fill:#198754">　裝置名稱: Mi Smart Band 6</text>
+  <text x="44" y="178" class="sv-t s" style="fill:#198754">　電池電量: 78 %</text>
+  <text x="44" y="200" class="sv-t s" style="fill:#198754">　手環時間: 2026-08-30 14:25:44 星期日</text>
+  <text x="44" y="222" class="sv-t s" style="fill:#b8860b">　即時步數: 禁止直接讀取，請用「Start Notify」</text>
+  <circle cx="846" cy="66" r="12" class="pin"/><text x="846" y="70" class="pin-t">1</text>
+
+  <!-- Log Actions -->
+  <rect x="24" y="250" width="832" height="58" rx="6" class="sv-box"/>
+  <text x="38" y="268" class="sv-t s b">Log Actions</text>
+  <rect x="38" y="276" width="112" height="22" rx="4" class="sv-w"/><text x="94" y="291" class="btn-t" style="fill:#6c757d">Clear Log Window</text>
+  <rect x="156" y="276" width="106" height="22" rx="4" class="sv-w"/><text x="209" y="291" class="btn-t" style="fill:#6c757d">Save Printed Log</text>
+  <rect x="268" y="276" width="104" height="22" rx="4" class="btn-ok"/><text x="320" y="291" class="btn-t">Start to Save Log</text>
+  <rect x="378" y="276" width="106" height="22" rx="4" class="btn-dang"/><text x="431" y="291" class="btn-t">Finish to Save Log</text>
+  <rect x="496" y="276" width="80" height="22" rx="4" class="sv-w"/><text x="536" y="291" class="btn-t" style="fill:#6c757d">Path to Save</text>
+  <rect x="582" y="276" width="200" height="22" rx="4" class="sv-w"/><text x="592" y="291" class="sv-t s">…\Documents\MiBand6_Explorer_Log</text>
+  <rect x="794" y="278" width="30" height="16" rx="8" class="sv-box"/><text x="838" y="292" class="sv-t s">Dark</text>
+  <circle cx="846" cy="262" r="12" class="pin"/><text x="846" y="266" class="pin-t">2</text>
+
+  <!-- Device Connection -->
+  <rect x="24" y="320" width="404" height="130" rx="6" class="sv-box"/>
+  <text x="38" y="338" class="sv-t s b">Device Connection</text>
+  <rect x="38" y="346" width="376" height="52" rx="4" class="sv-w"/>
+  <text x="48" y="360" class="sv-t s b">Name　　　　　Address　　　　　RSSI</text>
+  <text x="48" y="376" class="sv-t s b" style="fill:var(--ink)">Mi Smart Band 6　C2:45:**:**:**:2E　−53</text>
+  <text x="48" y="392" class="sv-t s">HUAWEI FreeBuds　　A1:**:**:**:**:0B　−71</text>
+  <text x="38" y="416" class="sv-t s">Timeout (s) [ 8 ]　　( ● ) Named devices only</text>
+  <rect x="38" y="424" width="118" height="22" rx="4" class="btn-ok"/><text x="97" y="439" class="btn-t">Scan</text>
+  <rect x="162" y="424" width="118" height="22" rx="4" class="sv-w" stroke="#0d6efd"/><text x="221" y="439" class="btn-t" style="fill:#0d6efd">Connect</text>
+  <rect x="286" y="424" width="128" height="22" rx="4" class="btn-dang"/><text x="350" y="439" class="btn-t">Disconnect</text>
+  <circle cx="410" cy="334" r="12" class="pin"/><text x="410" y="338" class="pin-t">3</text>
+
+  <!-- Explorer Actions -->
+  <rect x="444" y="320" width="412" height="130" rx="6" class="sv-box"/>
+  <text x="458" y="338" class="sv-t s b">Explorer Actions</text>
+  <text x="458" y="362" class="sv-t s">Read UUID</text>
+  <rect x="520" y="348" width="248" height="20" rx="4" class="sv-w"/><text x="530" y="362" class="sv-t s">2a28</text>
+  <rect x="776" y="348" width="66" height="20" rx="4" class="btn-pri"/><text x="809" y="362" class="btn-t">Read</text>
+  <rect x="458" y="380" width="92" height="22" rx="4" class="btn-info"/><text x="504" y="395" class="btn-t dark">Enumerate GATT</text>
+  <rect x="556" y="380" width="92" height="22" rx="4" class="btn-info"/><text x="602" y="395" class="btn-t dark">Read All</text>
+  <rect x="654" y="380" width="92" height="22" rx="4" class="btn-info"/><text x="700" y="395" class="btn-t dark">Summary</text>
+  <rect x="752" y="380" width="90" height="22" rx="4" class="btn-warn"/><text x="797" y="395" class="btn-t dark">Start Notify</text>
+  <text x="458" y="434" class="sv-t s b" style="fill:#198754">Connected</text>
+  <text x="842" y="434" class="sv-t s" text-anchor="end">Target: Mi Smart Band 6 | C2:45:**:**:**:2E</text>
+  <circle cx="838" cy="334" r="12" class="pin"/><text x="838" y="338" class="pin-t">4</text>
+</svg>
+<figcaption>示意圖。實際視窗會依螢幕大小自動放大，位址與序號在這裡做了遮蔽。</figcaption>
+</figure>
+
+<table>
+<tr><th>區塊</th><th>它在做什麼</th></tr>
+<tr>
+  <td><b>1　紀錄區</b></td>
+  <td>所有結果都印在這裡，由上而下累積。有兩個分頁：<br>
+      <b>Communication Log</b>：一般的訊息與讀到的資料。<br>
+      <b>GATT Structure</b>：手環身上所有「資料格子」的完整清單，排成一棵可以收合的樹（實際有八十幾個項目）。
+      按過 <span class="mono">Enumerate GATT</span> 之後才會有內容。</td>
+</tr>
+<tr>
+  <td><b>2　Log Actions</b></td>
+  <td>把紀錄存成文字檔的地方，還有右邊的 <span class="mono">Dark</span> 開關可以切成深色畫面。細節看〈存下來的紀錄檔〉。</td>
+</tr>
+<tr>
+  <td><b>3　Device Connection</b></td>
+  <td>找裝置、選裝置、連線。<span class="mono">Timeout</span> 是「要找幾秒」，
+      <span class="mono">Named devices only</span> 打開時只列出有名字的裝置（關掉會冒出一大堆沒有名字的，通常沒用）。</td>
+</tr>
+<tr>
+  <td><b>4　Explorer Actions</b></td>
+  <td>連線成功之後才會亮起來的五顆功能鍵，加上左下角的連線狀態與右下角目前選中的裝置。</td>
+</tr>
+</table>
+
+<h3>四顆功能鍵各做什麼</h3>
+<table>
+<tr><th>按鈕</th><th>做什麼</th><th>大概要等多久</th></tr>
+<tr><td><span class="mono">Enumerate GATT</span></td>
+    <td>把手環身上所有資料格子列成一棵樹，放到第二個分頁。這一步只是「看目錄」，不會真的去讀內容</td><td>一兩秒</td></tr>
+<tr><td><span class="mono">Read All</span></td>
+    <td>把每一個標示為「可讀」的格子都讀一次。會有一部分被手環拒絕，那是正常的</td><td>十幾秒</td></tr>
+<tr><td><span class="mono">Summary</span></td>
+    <td><b>最常用的一顆。</b>只讀七項基本資料，直接用中文列出來</td><td>兩三秒</td></tr>
+<tr><td><span class="mono">Start Notify</span></td>
+    <td>換一種方式：不去問手環，而是坐著等它主動送東西過來。按下去之後字會變成 <span class="mono">Stop Notify</span>，
+        想停就再按一次</td><td>要開多久由你決定</td></tr>
+</table>
+
+<p>
+上面那個 <span class="mono">Read UUID</span> 欄位是給知道自己要什麼的人用的：填一組四位數的代號（例如 <span class="mono">2a28</span>）
+按 <span class="mono">Read</span>，就只讀那一格。不知道要填什麼的話，用 <span class="mono">Summary</span> 就好。
+</p>
+
+</div>
+</section>
+
+<!-- ============================================================ -->
+<section id="read">
+<h2>看懂畫面上的東西</h2>
+<div class="body">
+
+<h3>顏色代表什麼</h3>
+<div class="legend">
+  <span class="chip" style="border-color:var(--primary)"><i style="color:var(--primary)">藍色</i> — 程式在報告進度</span>
+  <span class="chip" style="border-color:var(--ok)"><i style="color:var(--ok)">綠色</i> — 成功讀到，而且看得懂</span>
+  <span class="chip" style="border-color:var(--warn)"><i style="color:var(--warn)">黃色</i> — 提醒，不是錯誤</span>
+  <span class="chip" style="border-color:var(--fail)"><i style="color:var(--fail)">紅色</i> — 這一項失敗了</span>
+  <span class="chip" style="border-color:var(--purple)"><i style="color:var(--purple)">紫色</i> — 這一行是某個資料格的名稱</span>
+  <span class="chip"><i style="color:var(--dim)">灰色</i> — 原始資料或補充說明</span>
+</div>
+
+<h3>Summary 的七項</h3>
+<table>
+<tr><th>項目</th><th>怎麼看</th></tr>
+<tr><td>裝置名稱</td><td>手環自己報的名字，例如 <span class="mono">Mi Smart Band 6</span></td></tr>
+<tr><td>序號</td><td>手環的出廠序號。<b>這是識別資訊</b>，要把畫面或紀錄檔給別人看之前，記得先遮掉</td></tr>
+<tr><td>硬體版本</td><td>出廠就固定的，不會變</td></tr>
+<tr><td>韌體版本</td><td>手環軟體的版本，更新韌體之後才會變</td></tr>
+<tr><td>電池電量</td><td>百分比，跟手環螢幕上看到的是同一個數字</td></tr>
+<tr><td>電池詳情</td><td>電量、是不是正在充電、兩個時間戳，還有上一次充飽時的電量。
+    其中兩個時間戳的確切意義沒有官方文件可查，程式只照原樣列出來，<b>不保證解讀正確</b></td></tr>
+<tr><td>手環時間</td><td>手環自己的時鐘。<b>這一項最值得看一眼</b>：如果它跟你的手錶對得上，
+    表示從找裝置、連線、讀取到翻譯這一整條路都沒有出錯</td></tr>
+</table>
+
+<div class="note">
+第八行永遠是黃色的那句「即時步數：禁止直接讀取，請用 Start Notify」。
+這不是失敗——手環就是不讓人主動去問步數，但它自己會一直送過來。想看步數請看下面。
+</div>
+
+<h3>裝置清單裡的 RSSI</h3>
+<p>
+訊號強度，單位是 dBm，永遠是負數，<b>越接近零表示訊號越強</b>。
+手環戴在手上、放在電腦旁邊時大約落在 −50 上下；掉到 −80 以下大概就連不太起來了。
+清單本來就是照訊號由強到弱排的，所以你的手環通常在很前面。
+</p>
+
+<h3>「讀取被拒」是正常的</h3>
+<p>
+按 <span class="mono">Read All</span> 之後，會看到最後有一段紅字列出幾個被拒絕的項目，訊息通常長得像
+<span class="mono">Read Not Permitted</span>。這不是程式壞掉，是<b>手環刻意鎖住的欄位</b>——
+那些資料要先跟手環完成一次配對驗證才拿得到，而這支工具刻意不做那件事。
+</p>
+<p>另外還有一種情況：讀是讀到了，但內容是空的（零個位元組）。那也是手環的選擇，不是讀取失敗。</p>
+
+<h3>看不懂的那一串十六進位</h3>
+<p>
+每讀到一格資料，程式會先原封不動印出它的原始內容，長得像
+<span class="mono">4d 69 20 53 6d 61 72 74 &nbsp;|Mi Smart|</span>：左邊是原始數值，右邊直槓中間是「如果當成文字看會是什麼」。
+</p>
+<p>
+如果程式看得懂這一格，下一行會多一句<b>綠色、以 <span class="mono">=&gt;</span> 開頭</b>的翻譯。
+沒有那一行，就表示程式不確定這串數字是什麼意思，所以只把原樣留給你——
+這是刻意的，寧可不翻譯，也不猜一個看起來很像真的的答案給你。
+</p>
+
+<h3>Start Notify 會看到什麼</h3>
+<p>
+按下去之後，程式會把手環上所有「願意主動送東西」的格子全部訂閱起來，畫面上會告訴你訂閱了幾個。
+接著就是等。實測下來，沒有配對驗證的情況下<b>真的會講話的通常只有一個</b>：即時步數。
+</p>
+<ul>
+<li>每一筆會帶一個帶毫秒的時間戳，方便對照當下發生了什麼。</li>
+<li>戴著手環<b>走個幾十步</b>，大約一秒左右就會推一筆過來，可以看到步數往上跳。</li>
+<li>坐著不動的話可能好幾分鐘都沒有動靜，那不是壞掉。</li>
+<li>看夠了按 <span class="mono">Stop Notify</span>；直接按 <span class="mono">Disconnect</span> 也會一併收掉。</li>
+</ul>
+
+<h3>GATT Structure 分頁</h3>
+<p>
+按過 <span class="mono">Enumerate GATT</span> 之後，第二個分頁會出現一棵樹：
+最外層是「服務」（一組相關資料的集合），點開是「特徵」（一個個具體的資料格），
+再點開是「描述元」（那一格的附註）。每一列右邊會標出它的完整代號、能做哪些事（read／notify …）。
+</p>
+<p>
+實測一支手環大約有八十幾個項目，一頁放不下是正常的。
+這裡是拿來「看看手環身上到底有些什麼」的地圖，不看也不影響前面任何一個功能。
+</p>
+
+</div>
+</section>
+
+<!-- ============================================================ -->
+<section id="files">
+<h2>存下來的紀錄檔</h2>
+<div class="body">
+
+<p>畫面上的內容不會自動保存，關掉視窗就沒了。要留下來有兩種方式：</p>
+
+<table>
+<tr><th>按鈕</th><th>做什麼</th><th>什麼時候用</th></tr>
+<tr><td><span class="mono">Save Printed Log</span></td>
+    <td>把<b>現在畫面上已經有的</b>內容一次存成一個文字檔</td>
+    <td>事情做完了，想留個紀錄</td></tr>
+<tr><td><span class="mono">Start to Save Log</span></td>
+    <td>從按下去的那一刻起，<b>之後每一行</b>都邊出現邊寫進檔案，每行前面加上時間</td>
+    <td>要開著 <span class="mono">Start Notify</span> 等很久的時候。中途當掉也不會白等</td></tr>
+<tr><td><span class="mono">Finish to Save Log</span></td>
+    <td>結束上面那種即時紀錄，把檔案收好</td>
+    <td>錄完了。忘記按也沒關係，關視窗時程式會自己收尾</td></tr>
+<tr><td><span class="mono">Clear Log Window</span></td>
+    <td>清空畫面上的紀錄。<b>只清畫面</b>，已經存成檔案的不受影響</td>
+    <td>畫面太亂，想重新開始看</td></tr>
+<tr><td><span class="mono">Path to Save</span></td>
+    <td>換一個資料夾放這些檔案</td>
+    <td>想存到別的地方時</td></tr>
+</table>
+
+<h3>檔案存在哪、叫什麼</h3>
+<p>
+預設放在你的「文件」資料夾底下一個叫 <span class="mono">MiBand6_Explorer_Log</span> 的資料夾裡，
+再依日期分成子資料夾。目前的路徑一直顯示在 <span class="mono">Path to Save</span> 右邊那一欄，看一眼就知道。
+</p>
+<p>檔名長這樣：</p>
+<p><span class="mono">MiBand6_Log-Printed_20260830-142544.txt</span></p>
+<ul>
+<li><span class="mono">Printed</span>＝一次存下來的；<span class="mono">Interval</span>＝邊跑邊寫的。</li>
+<li>後面兩組數字是日期與時間（<span class="mono">20260830</span> 就是 2026 年 8 月 30 日）。</li>
+</ul>
+<p>都是純文字檔，用記事本或任何文字編輯器打開就好，內容跟畫面上看到的一樣，只是沒有顏色。</p>
+
+<div class="note rule">
+<b>分享之前先看一眼。</b>紀錄檔裡會包含手環的序號與藍牙位址，那些屬於裝置的識別資訊。
+要貼到網路上或傳給別人之前，把它們遮掉。要注意同一組位址可能以另一種寫法在檔案裡出現不只一次，
+所以最好整份搜尋過一遍，而不是只改開頭那幾行。
+</div>
+
+</div>
+</section>
+
+<!-- ============================================================ -->
+<section id="tips">
+<h2>使用建議與限制</h2>
+<div class="body">
+
+<h3>用起來比較順的做法</h3>
+<ul>
+<li><b>先按 Summary，再考慮其他的。</b>七項基本資料就足以回答大部分問題，而且最快。</li>
+<li><b>一次只按一顆。</b>程式忙的時候按鈕會全部變灰，等它們亮回來再按下一顆。硬按沒有用，畫面會告訴你上一個還在跑。</li>
+<li><b>手環戴在手上。</b>螢幕暗掉之後手環會變安靜，訊號也弱，放桌上不好找。抬個手把螢幕點亮再掃描，成功率高很多。</li>
+<li><b>掃不到就把秒數調大。</b>八秒是預設值，二十秒常常就找到了。這件事有運氣成分，同樣的設定跑兩次結果可能不一樣。</li>
+<li><b>要等很久就先開即時存檔。</b>尤其是 <span class="mono">Start Notify</span>。</li>
+</ul>
+
+<h3>它做不到的事</h3>
+<table>
+<tr><th>限制</th><th>說明</th></tr>
+<tr><td>拿不到心率、睡眠、詳細運動紀錄</td>
+    <td>這些欄位手環要求先完成配對驗證，而這支工具刻意不做那一步。<b>這是設計上的選擇，不是故障</b></td></tr>
+<tr><td>不能修改手環</td><td>不能改設定、不能對時、不能刪資料、不能更新韌體。它只會看</td></tr>
+<tr><td>一次只能一台裝置連手環</td><td>手機的 Zepp Life 開著就連不上，反過來也一樣：這裡連著的時候，手機會連不上</td></tr>
+<tr><td>斷線發生在讀取途中會洗版</td><td>如果讀到一半手環走遠了，剩下的項目會一個一個失敗、每個印一行紅字。
+    重新連線再來一次就好</td></tr>
+<tr><td>看得懂的欄位有限</td><td>看不懂的一律只顯示原始數值，不亂猜</td></tr>
+<tr><td>只在 Windows 上用過</td><td>Windows 10 與 11 都可以</td></tr>
+<tr><td>視窗不能縮太小</td><td>低於一定寬度版面會擠在一起，建議維持打開時的大小</td></tr>
+</table>
+
+<div class="note">
+<b>看到的數字只代表當下那一次。</b>訊號強度、掃描要幾秒、兩分鐘內收到幾筆步數，
+這些每次跑都可能不一樣。它們是觀察紀錄，不是規格。
+</div>
+
+</div>
+</section>
+
+<!-- ============================================================ -->
+<section id="faq">
+<h2>常見問題與疑難排解</h2>
+<div class="body">
+
+<div class="faq">
+  <div class="q">雙擊之後好像沒反應</div>
+  <div class="a">先等一下——第一次打開要把內容解開，大約七秒視窗才會出現，之後每次也要四到五秒。
+  這段時間畫面上完全沒有提示是正常的。<b>不要連按好幾下</b>，那樣會同時開好幾個。
+  等超過三十秒還是沒有視窗，才需要換個資料夾（例如桌面）再試一次。</div>
+</div>
+
+<div class="faq">
+  <div class="q">掃描找不到手環</div>
+  <div class="a">照這個順序試：
+  <ol>
+    <li>抬手把手環螢幕點亮，馬上按 <span class="mono">Scan</span>。手環在螢幕暗著的時候會變得比較安靜，比較難被找到。</li>
+    <li>把 <span class="mono">Timeout</span> 從 8 調到 20，再掃一次。</li>
+    <li>把手環拿到電腦旁邊，一公尺以內。</li>
+    <li>確認電腦的藍牙是開著的（Windows 設定裡看得到）。</li>
+  </ol>
+  這件事本來就有運氣成分，同樣的設定連掃兩次，一次找得到一次找不到，是常見的。</div>
+</div>
+
+<div class="faq">
+  <div class="q">連線失敗，畫面出現一行紅字</div>
+  <div class="a">最常見的原因只有一個：<b>手機上的 Zepp Life 還連著手環</b>。手環同一時間只肯讓一台裝置連線。
+  把手機的藍牙關掉，或把 Zepp Life 完全結束掉，再按一次 <span class="mono">Connect</span>。
+  程式在失敗訊息底下也會直接提醒這一點。<br><br>
+  排除之後還是連不上的話，重新掃描一次拿到新的結果再連——舊的掃描結果放太久會失效。</div>
+</div>
+
+<div class="faq">
+  <div class="q">連上了，過一下子自己斷掉</div>
+  <div class="a">通常是走太遠或手環電量低。畫面會自動變回未連線的樣子，按鈕也會收起來，重新 <span class="mono">Connect</span> 即可。
+  如果是斷在 <span class="mono">Read All</span> 跑到一半，會看到一連串紅字，那是後面每一項都失敗了，直接重來就好。</div>
+</div>
+
+<div class="faq">
+  <div class="q">按鈕全都是灰的，按不下去</div>
+  <div class="a">兩種可能：
+  <ul>
+    <li><b>正在忙。</b>游標會變成等待的圈圈，等它跑完就會恢復。掃描八秒、連線十秒、<span class="mono">Read All</span> 十幾秒都算正常。</li>
+    <li><b>還沒連線。</b>右邊那五顆要連線成功才會亮。左下角顯示綠色的 <span class="mono">Connected</span> 才算連上。</li>
+  </ul>
+  另外 <span class="mono">Connect</span> 要先在清單裡點一列才會亮。</div>
+</div>
+
+<div class="faq">
+  <div class="q">Read All 之後出現好幾行紅色的「讀取被拒」</div>
+  <div class="a">正常。那些是手環刻意鎖住、需要先完成配對驗證才拿得到的欄位，而這支工具刻意不做那件事。
+  被拒的項目會集中列在最後，附上手環給的原因。真正讀到的資料在上面。</div>
+</div>
+
+<div class="faq">
+  <div class="q">開了 Start Notify，等半天什麼都沒有</div>
+  <div class="a">先確認畫面上有一行說訂閱成功了幾個。有的話就是手環暫時沒有東西要說。
+  <b>戴著手環走個幾十步</b>，即時步數大約一秒一筆就會開始進來。
+  沒有配對驗證的情況下，真的會主動送東西過來的通常只有這一項，其他訂閱了也是安靜的。</div>
+</div>
+
+<div class="faq">
+  <div class="q">畫面看久了眼睛痛</div>
+  <div class="a">右下角有一個 <span class="mono">Dark</span> 開關，切過去整個介面連同紀錄區都會變成深色。
+  隨時可以切回來，不影響任何正在進行的事情。</div>
+</div>
+
+<div class="faq">
+  <div class="q">找不到剛剛存的檔案</div>
+  <div class="a">看 <span class="mono">Path to Save</span> 右邊那一欄顯示的資料夾，檔案就在那底下、依日期分的子資料夾裡。
+  預設是「文件」資料夾裡的 <span class="mono">MiBand6_Explorer_Log</span>。
+  存檔成功時畫面上也會印一行綠色訊息，寫著完整位置。</div>
+</div>
+
+<div class="faq">
+  <div class="q">關視窗的時候卡了一下</div>
+  <div class="a">正常。關閉之前程式會先把連線好好斷開、把紀錄檔收好，最多等五秒。
+  等它自己關掉就好，不需要去工作管理員強制結束。</div>
+</div>
+
+<div class="faq">
+  <div class="q">用這支工具會不會把手環弄壞</div>
+  <div class="a">不會。它全程只有「讀」這一個動作：不寫入、不改設定、不刪資料、不更新韌體，
+  也不會嘗試繞過手環的驗證。手環上的資料與設定不會有任何改變。</div>
+</div>
+
+</div>
+</section>
+
+<footer>
+Mi Band 6 BLE Explorer　v1　·　本指引對應 2026 年 8 月 31 日的版本。<br>
+文中出現的數字（訊號強度、掃描秒數、封包數量）取自實際使用時的觀察，每次執行都可能不同。
+本工具與小米、華米（Zepp）沒有任何關係，也不是官方軟體。
+</footer>
+
+</main>
+</div>
+
+<button class="toggle" id="themeBtn" type="button">切換深色</button>
+
+<script>
+(function () {
+  document.querySelectorAll('section > h2').forEach(function (h) {
+    h.addEventListener('click', function () {
+      h.parentElement.classList.toggle('collapsed');
+    });
+  });
+
+  document.querySelectorAll('.faq > .q').forEach(function (q) {
+    q.addEventListener('click', function () { q.parentElement.classList.toggle('open'); });
+  });
+
+  var links = Array.prototype.slice.call(document.querySelectorAll('nav a'));
+  var sections = links.map(function (a) {
+    return document.querySelector(a.getAttribute('href'));
+  });
+  function sync() {
+    var current = 0;
+    for (var i = 0; i < sections.length; i++) {
+      if (sections[i] && sections[i].getBoundingClientRect().top <= 120) current = i;
+    }
+    links.forEach(function (a, i) { a.classList.toggle('active', i === current); });
+  }
+  window.addEventListener('scroll', sync, { passive: true });
+  sync();
+
+  var btn = document.getElementById('themeBtn');
+  btn.addEventListener('click', function () {
+    var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark');
+    btn.textContent = dark ? '切換深色' : '切換淺色';
+  });
+})();
+</script>
+</body>
+</html>
