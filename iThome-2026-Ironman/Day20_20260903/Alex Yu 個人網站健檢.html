@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="ycy1997alex.github.io 的健檢與修正紀錄：12 項發現的處理結果、追加檢查與驗證。">
+<style>
+  /* Artifact 環境原本提供的重置，這裡自己補上，讓單檔也能正常顯示 */
+  html { color-scheme: light dark; }
+  body { margin: 0; font: 14px system-ui, -apple-system, "Segoe UI", sans-serif; }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+</style>
+<title>Alex Yu 個人網站健檢</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap">
+
+<style>
+:root {
+  --paper:#eef1f2; --sheet:#f9fafa; --sunk:#e4e9ea;
+  --ink:#142026; --ink-soft:#4a5c65; --ink-faint:#7d8d95;
+  --rule:#c9d2d5; --rule-hair:#dbe2e4;
+  --petrol:#0b6470;
+  --crit:#a5372c; --crit-bg:#f3ddd9;
+  --warn:#8a6212; --warn-bg:#f2e7cf;
+  --ok:#2b6a4c;   --ok-bg:#d9e9df;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:#10171a; --sheet:#171f23; --sunk:#1d272c;
+    --ink:#e2eaec; --ink-soft:#a3b3ba; --ink-faint:#74858d;
+    --rule:#2e3d44; --rule-hair:#232f35;
+    --petrol:#58b7c2;
+    --crit:#e58374; --crit-bg:#3a211d;
+    --warn:#d6ac5c; --warn-bg:#362c17;
+    --ok:#74bf99;   --ok-bg:#1b3128;
+  }
+}
+:root[data-theme="dark"] {
+  --paper:#10171a; --sheet:#171f23; --sunk:#1d272c;
+  --ink:#e2eaec; --ink-soft:#a3b3ba; --ink-faint:#74858d;
+  --rule:#2e3d44; --rule-hair:#232f35;
+  --petrol:#58b7c2;
+  --crit:#e58374; --crit-bg:#3a211d;
+  --warn:#d6ac5c; --warn-bg:#362c17;
+  --ok:#74bf99;   --ok-bg:#1b3128;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--paper); color: var(--ink);
+  font-family: "IBM Plex Serif", Georgia, "Songti TC", serif;
+  font-size: 16px; line-height: 1.72; -webkit-font-smoothing: antialiased;
+}
+.sheet {
+  max-width: 980px; margin: 0 auto; background: var(--sheet);
+  border-left: 1px solid var(--rule-hair); border-right: 1px solid var(--rule-hair);
+  padding: 0 clamp(20px, 5vw, 64px) 88px;
+}
+h1, h2, h3 {
+  font-family: "IBM Plex Sans Condensed", "Helvetica Neue", "Noto Sans TC", sans-serif;
+  text-wrap: balance; margin: 0; line-height: 1.2;
+}
+header.masthead { padding-top: 56px; }
+.masthead .rule-top { height: 4px; background: var(--ink); margin-bottom: 14px; }
+.eyebrow {
+  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--ink-faint);
+}
+.masthead h1 { font-size: clamp(38px, 7vw, 62px); font-weight: 700; letter-spacing: -.015em; margin: 10px 0 14px; }
+.verdict { font-size: 18px; color: var(--ink-soft); max-width: 60ch; margin: 0 0 32px; }
+.verdict strong { color: var(--ink); font-weight: 600; }
+
+.meta {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
+  gap: 1px; background: var(--rule-hair);
+  border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+}
+.meta div { background: var(--sheet); padding: 12px 14px 13px; }
+.meta dt {
+  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint); margin: 0 0 4px;
+}
+.meta dd {
+  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 14px;
+  font-weight: 500; margin: 0; font-variant-numeric: tabular-nums;
+}
+
+section { margin-top: 64px; }
+.sec-head {
+  display: flex; align-items: baseline; gap: 14px;
+  border-bottom: 2px solid var(--ink); padding-bottom: 8px; margin-bottom: 26px;
+}
+.sec-head h2 { font-size: 24px; font-weight: 700; letter-spacing: -.01em; }
+.sec-head .count {
+  margin-left: auto; font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 12px; color: var(--ink-faint); font-variant-numeric: tabular-nums;
+}
+p { margin: 0 0 16px; max-width: 68ch; }
+p:last-child { margin-bottom: 0; }
+.lede { color: var(--ink-soft); }
+
+.chip {
+  display: inline-block; font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px; font-weight: 600; letter-spacing: .06em;
+  padding: 2px 8px 3px; border: 1px solid currentColor; white-space: nowrap;
+}
+.chip.ok { color: var(--ok); background: var(--ok-bg); }
+.chip.warn { color: var(--warn); background: var(--warn-bg); }
+.chip.crit { color: var(--crit); background: var(--crit-bg); }
+
+.find {
+  display: grid; grid-template-columns: 108px minmax(0, 1fr); gap: 0 24px;
+  padding: 22px 0 24px; border-bottom: 1px solid var(--rule-hair);
+}
+.find:first-of-type { border-top: 1px solid var(--rule); }
+.find .gutter { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding-top: 4px; }
+.find .fid {
+  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 13px;
+  font-weight: 600; color: var(--ink-faint); font-variant-numeric: tabular-nums;
+}
+.find h3 { font-size: 20px; font-weight: 600; margin-bottom: 10px; }
+.find p { font-size: 15.5px; margin-bottom: 12px; }
+
+.evidence {
+  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12.5px;
+  line-height: 1.65; background: var(--sunk); border-left: 2px solid var(--rule);
+  padding: 10px 14px; margin: 0 0 12px; overflow-x: auto; white-space: pre; color: var(--ink-soft);
+}
+.did { font-size: 15px; border-top: 1px dotted var(--rule); padding-top: 10px; color: var(--ink-soft); }
+.did b {
+  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--petrol);
+  font-weight: 600; margin-right: 8px;
+}
+code {
+  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .88em;
+  background: var(--sunk); padding: 1px 5px; color: var(--ink);
+}
+
+.ledger { width: 100%; border-collapse: collapse; }
+.ledger th, .ledger td {
+  text-align: left; padding: 11px 12px 11px 0;
+  border-bottom: 1px solid var(--rule-hair); vertical-align: baseline;
+}
+.ledger thead th {
+  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint);
+  font-weight: 500; border-bottom: 1px solid var(--rule);
+}
+.ledger tbody th {
+  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 14px;
+  font-weight: 600; white-space: nowrap; color: var(--ink-faint);
+}
+.ledger td.note { color: var(--ink-soft); font-size: 15px; }
+.ledger td.num {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-variant-numeric: tabular-nums; white-space: nowrap; font-size: 14px;
+}
+
+.todo { list-style: none; padding: 0; margin: 0; counter-reset: step; }
+.todo li {
+  counter-increment: step; display: grid; grid-template-columns: 44px minmax(0, 1fr);
+  gap: 0 20px; padding: 16px 0; border-bottom: 1px solid var(--rule-hair); align-items: baseline;
+}
+.todo li::before {
+  content: counter(step, decimal-leading-zero);
+  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 20px;
+  font-weight: 600; color: var(--petrol); font-variant-numeric: tabular-nums;
+}
+.todo b {
+  font-family: "IBM Plex Sans Condensed", "Noto Sans TC", sans-serif;
+  font-size: 17px; font-weight: 600;
+}
+.todo span { display: block; font-size: 15px; color: var(--ink-soft); }
+
+footer.colophon {
+  margin-top: 72px; border-top: 2px solid var(--ink); padding-top: 14px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11.5px; line-height: 1.9; color: var(--ink-faint);
+}
+@media (max-width: 620px) {
+  .find { grid-template-columns: 1fr; gap: 12px; }
+  .find .gutter { flex-direction: row; align-items: center; gap: 12px; padding-top: 0; }
+}
+</style>
+
+</head>
+<body>
+<div class="sheet">
+
+<header class="masthead">
+  <div class="rule-top"></div>
+  <div class="eyebrow">健檢與修正紀錄 · d:\Repo\ycy1997alex.github.io · 2026-09-03</div>
+  <h1>Alex Yu 個人網站健檢</h1>
+  <p class="verdict">12 項發現全部處理完畢，另加三項追加檢查。<strong>兩個「需修正」等級的問題已解決</strong>：英文站不再是中文站，履歷頁的 7 個 <code>h1</code> 收斂成 1 個。修正過程中也推翻了原本的一項診斷——見 F-06。</p>
+
+  <dl class="meta">
+    <div><dt>Findings</dt><dd>12 / 12</dd></div>
+    <div><dt>Build</dt><dd>0.64 s · 0 warn</dd></div>
+    <div><dt>Pages EN / ZH</dt><dd>51 / 50</dd></div>
+    <div><dt>首頁圖片</dt><dd>173 → 21 KB</dd></div>
+    <div><dt>Files changed</dt><dd>33</dd></div>
+    <div><dt>待你操作</dt><dd>2</dd></div>
+  </dl>
+</header>
+
+<section>
+  <div class="sec-head">
+    <h2>還需要你動手的兩件事</h2>
+    <span class="count">程式碼改不到的部分</span>
+  </div>
+  <p class="lede">其餘都已完成。這兩項需要在 GitHub 網頁介面或你自己的資料上操作。</p>
+
+  <ol class="todo">
+    <li>
+      <div>
+        <b>到 oss-projects 開啟 GitHub Pages</b>
+        <span>Settings → Pages → Source 選 <code>Deploy from a branch</code>，branch 選 <code>main</code>、資料夾選 <code>/ (root)</code>。在這步完成前，四個 demo 的新網址還不會生效，舊網址的轉址頁會指向 404。我已放好 <code>.nojekyll</code>，Pages 不會去跑 Jekyll。</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <b>補上鐵人賽系列頁網址</b>
+        <span>Projects 頁的近期作品區我留了 <code>&lt;!-- TODO: 換成鐵人賽系列頁網址 --&gt;</code>。這個網址無法從磁碟推導，我不猜。中英兩份各一處。</span>
+      </div>
+    </li>
+  </ol>
+</section>
+
+<section>
+  <div class="sec-head">
+    <h2>逐項處理結果</h2>
+    <span class="count">12 項</span>
+  </div>
+
+  <div class="find">
+    <div class="gutter"><span class="fid">F-01</span><span class="chip ok">已修正</span></div>
+    <div>
+      <h3>英文站其實是中文站</h3>
+      <p>三篇依你指定翻成英文，另外三篇加上中文限定標示。翻譯是把互動頁的 fragment 整份重做成英文版，而不是只改標題。</p>
+      <div class="evidence">translate → travel-checklist.en.html         64 個項目 id
+           call-up-list.en.html            90 個項目 id
+           call-up-list-review.en.html     99 個項目 id
+           全部 id 與中文版逐一對應、順序相同，內文零中文殘留
+
+notice   → 2026-setouchi / 2026-tokyo-drive / how-to-build-hugo-pages
+           &gt; **This post is in Traditional Chinese Only.**</div>
+      <p>id 保持一致有實際作用：勾選狀態存在同一個 localStorage key，所以在中文版勾好的項目，切到英文版仍然是勾好的。</p>
+      <p class="did"><b>另外</b><code>how-to-build-hugo-pages</code> 原本只有中文版，我補了英文版並掛上標示，兩個語言的貼文數才對齊（各 7 篇）。README 裡「Every page is available in English and Traditional Chinese」那句不成立的話也改掉了。</p>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="gutter"><span class="fid">F-02</span><span class="chip ok">已修正</span></div>
+    <div>
+      <h3>履歷頁的標題階層是壞的</h3>
+      <p>about 與 projects 的中英四份檔案，<code>#</code> 降成 <code>##</code>、<code>####</code> 降成 <code>###</code>。</p>
+      <div class="evidence">/about/     h1 × 7  →  h1 × 1
+/projects/  h1 × 7  →  h1 × 1
+階層恢復成 h1 → h2 → h3，不再跳級</div>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="gutter"><span class="fid">F-03</span><span class="chip ok">已修正</span></div>
+    <div>
+      <h3>2023 年的殘稿</h3>
+      <p>照你給的五個階段寫成佔位內容：選主題 → 填內容佈署 → 申請 Google 收錄 → 設定 SEO → 2026 年以 Claude 改寫。每段兩三句，標了「這篇是大綱，內容之後會再補完整」，你之後直接改就好。</p>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="gutter"><span class="fid">F-04</span><span class="chip ok">已修正</span></div>
+    <div>
+      <h3>重複的死圖</h3>
+      <p>依你指示保留 <code>尤俊硯大頭貼-24.jpg</code>、移除 <code>avatar.jpg</code>。保留的那張現在有了實際用途——F-07 的分享卡就是用它產生的。</p>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="gutter"><span class="fid">F-05</span><span class="chip ok">已修正</span></div>
+    <div>
+      <h3>demo 頁搬遷</h3>
+      <p>四個 demo 複製到 <code>ycy1997alex-oss-projects/iThome-2026-Ironman/demo/</code>，逐檔 md5 比對確認位元完全相同。個人網站原位置改成轉址頁。</p>
+      <div class="evidence">/demo/flight-simulation/    → …/demo/flight-simulation/     1624 B
+/demo/attention-battery/    → …/demo/attention-battery/     1606 B
+/demo/dmn-glassbrain/       → …/demo/dmn-glassbrain/        1612 B
+/demo/prompt_yt_financial/  → …/demo/prompt-yt-financial/   1652 B
+                               └─ 順手改成連字號，解掉 F-09
+
+轉址頁：meta refresh + canonical + location.replace + 可點的備援連結</div>
+      <p>這樣 Day04／Day05 已發布文章裡的 4 條連結不會斷，你也不用回頭去編輯已發布的文章。</p>
+      <p class="did"><b>注意</b>oss-projects 整包是 MIT 授權。這四個 demo 進去之後預設就落在 MIT 底下，如果你不希望這樣，要在 <code>demo/</code> 裡另外標示授權。</p>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="gutter"><span class="fid">F-06</span><span class="chip warn">診斷有誤</span></div>
+    <div>
+      <h3>「343 KB 的圖示」其實不影響載入</h3>
+      <p>我原本把它寫成效能問題，這是錯的。實際檢查頁面請求後：那三個大圖示全部只被 manifest 或 <code>rel=apple-touch-icon</code> 參照，只有在「加到主畫面／安裝」時才會下載，<strong>一般瀏覽根本不會抓</strong>。每次都載入的 favicon 是 736 B 與 2.3 KB，本來就沒問題。</p>
+      <p>而唯一能省下 60% 的做法（PNG-8 調色盤量化）會把琥珀色那隻眼睛壓成黃綠色——那正是這張圖之所以叫 odd-eyed 的地方。我把兩個版本並排在實際顯示尺寸下比對過，差異看得出來。</p>
+      <div class="evidence">android-chrome-512x512.png   343 KB → 127 KB   眼睛褪色，且從不在載入路徑上
+android-chrome-192x192.png    60 KB →  24 KB   同上
+apple-touch-icon.png          53 KB →  22 KB   同上
+
+實際每次載入的圖片只有：favicon-16 (736 B)、favicon-32 (2.3 KB)、首頁頭像</div>
+      <p class="did"><b>決定</b>不動這三張。拿識別度換一批沒人下載的位元組是虧的。真正的載入成本在頭像，見 F-07 下方。若你之後仍想壓，裝 <code>pngquant</code> 或 <code>oxipng</code> 的品質會比這裡能用的量化器好很多。</p>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="gutter"><span class="fid">F-07</span><span class="chip ok">已修正</span></div>
+    <div>
+      <h3>分享預覽圖與頭像</h3>
+      <p>用 <code>尤俊硯大頭貼-24.jpg</code> 做了 1200×630 的名片卡：圓形人像、中英姓名、職稱，加上你選的三個關鍵字「生醫訊號 · 醫療 AI · 航太工程」。<code>og:image</code> 與 <code>twitter:image</code> 已改指向它，全站每一頁都吃得到。首頁頭像仍是那隻貓，兩者刻意分開。</p>
+      <p>順著這條線查下去，發現真正的效能問題在頭像：原圖 1024×1024／173 KB，但 CSS 只畫成 200 px，而且 <code>alt="avatar"</code> 對螢幕閱讀器毫無意義，也沒有 width/height 會造成版面位移。</p>
+      <div class="evidence">頭像（每次載入首頁都會下載）
+  1024×1024 JPEG  173 KB   alt="avatar"      無尺寸
+       ↓
+   400×400  WebP   20.9 KB  alt="Alex Yu"    width/height 齊全
+                   ↑ 88% 縮減，另附 32.9 KB JPEG 給不支援 WebP 的瀏覽器
+
+分享卡 og-card.jpg  1200×630  55 KB</div>
+      <p class="did"><b>做法</b>原圖移到 <code>assets/</code> 交給 Hugo 處理，並覆寫 theme 的 avatar partial。產卡的腳本收在 <code>tools/make_og_card.py</code>，用的是 repo 相對路徑，之後想改字或換照片直接重跑即可，不會變成一張沒人知道怎麼來的圖。</p>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="gutter"><span class="fid">F-08</span><span class="chip ok">已修正</span></div>
+    <div>
+      <h3>fragment 裡的 h1</h3>
+      <p>兩個 fragment 的 <code>h1</code> 降成 <code>h2</code>，與另外三個一致。中英版共四個檔案都改了。<code>/posts/call-up-list/</code> 的 <code>h1</code> 從 2 個變回 1 個。</p>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="gutter"><span class="fid">F-09</span><span class="chip ok">已修正</span></div>
+    <div>
+      <h3>命名不一致</h3>
+      <p>隨 F-05 一併解決。新位置叫 <code>prompt-yt-financial</code>，舊的底線網址保留為轉址頁，所以改名不會斷連結。</p>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="gutter"><span class="fid">F-10</span><span class="chip ok">已修正</span></div>
+    <div>
+      <h3>Hugo 升版會斷的 API</h3>
+      <p><code>themes/hugo-coder/layouts/_partials/header.html:33</code> 的 <code>.Language.LanguageName</code> 換成 <code>.Language.Label</code>。建置輸出現在是零警告。</p>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="gutter"><span class="fid">F-11</span><span class="chip ok">已修正</span></div>
+    <div>
+      <h3>workflow 的過期註解</h3>
+      <p>提到 <code>Case_A</code> 的三行刪掉，保留「此檔假設 Hugo 專案位於 repo 根目錄」那句。</p>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="gutter"><span class="fid">F-12</span><span class="chip ok">已修正</span></div>
+    <div>
+      <h3>授權聲明</h3>
+      <p>新增 <code>LICENSE</code>，內容與程式碼分開：文章與清單文字採 CC BY-NC 4.0，建站的 layouts／CSS／tools／workflow 採 MIT。人像照片與那張貓圖列為排除項、保留所有權利，theme 則指向它自己的 MIT。兩份 README 都加了授權段落。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <h2>你追加的三項</h2>
+    <span class="count">3 項</span>
+  </div>
+
+  <div class="find">
+    <div class="gutter"><span class="fid">追加 1</span><span class="chip ok">已修正</span></div>
+    <div>
+      <h3>48rem 最佳閱讀寬度</h3>
+      <p>這裡有個單位陷阱：hugo-coder 把 <code>html</code> 設成 <code>font-size: 62.5%</code>，所以這個專案裡 <strong>1rem = 10px</strong>。照字面寫 <code>48rem</code> 會得到 480px，比手機還窄。你想要的那個 48rem（Tailwind <code>max-w-3xl</code> 的慣例值）是 16px 基準下的 768px，換算到這裡是 <code>76.8rem</code>。</p>
+      <p>另一個限制是不能直接還原 <code>ecd82dd</code>：那次 commit 順手拿掉了互動頁用來撐開版面的負邊界 hack，改由全站容器負責。整包 revert 會讓五個互動頁一起變窄。</p>
+      <div class="evidence">.container                    維持 min(96vw, 1720px)   ← 互動頁需要
+.content article &gt; p, ul, …   76.8rem (768px) 置中     ← 只收散文
+
+用直接子選擇器，所以：
+  互動頁根層 div.trip / .seto / .callup  不被選到 → 維持滿版
+  互動頁內部的 p 不是 article 的直接子元素 → 不受影響</div>
+      <p class="did"><b>依據</b>行長過長時，視線換行會找不到下一行起點。一般建議每行 45–75 個西文字元，WCAG 1.4.8 以 80 字元為上限。本站 18px 內文下 768px 約為 42 個中文字一行。</p>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="gutter"><span class="fid">追加 2</span><span class="chip ok">已修正</span></div>
+    <div>
+      <h3>圖片格式與載入最佳化</h3>
+      <p>先量了「一次頁面瀏覽到底會下載哪些圖」，結論是只有頭像。處理結果在 F-07：<strong>173 KB → 20.9 KB WebP</strong>，補上 width/height 消除版面位移，<code>alt</code> 從 <code>avatar</code> 改成真正的名字。原圖移出 <code>static/</code> 之後也不再被發布，等於連那 173 KB 都不會出現在網站上。</p>
+      <p>另外修掉 contact 頁的 <code>![image alt](...)</code>——這個 alt 對螢幕閱讀器等於沒有，中英版分別改成 <code>尤俊硯</code> 與 <code>Alex Yu</code>。</p>
+      <p class="did"><b>沒做的</b>沒有替內文圖片加 lazy loading。全站內文只有 contact 那一張圖，而且在第一屏，加 <code>loading="lazy"</code> 反而會拖慢它。</p>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="gutter"><span class="fid">追加 3</span><span class="chip ok">已修正</span></div>
+    <div>
+      <h3>SEO 設定與 metadata</h3>
+      <p>掃了建置後全部 100 個頁面。基礎設施本來就正確：hreflang 三組齊全、canonical 每頁都有、<code>lang</code> 屬性正確、標題無重複、sitemap 分語言、GA4 只注入一份。</p>
+      <p>找到一個真問題：about 與 projects 沒有 <code>description</code>，theme 於是拿內文開頭去填，產出 <strong>2063 字元</strong>的 meta description。Google 只會截斷，等於白白浪費這個欄位。</p>
+      <div class="evidence">修正前                          修正後
+  /zh-tw/about/     2063 字元  →   57 字元
+  /about/            782 字元  →  143 字元
+  /zh-tw/projects/   503 字元  →   46 字元
+  /projects/         485 字元  →  153 字元</div>
+      <p class="did"><b>沒做的</b>19 個分類／標籤／作者列表頁共用站台預設 description。這類 taxonomy 頁本來就價值低，逐一寫描述的投報比不高，先留著。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <h2>驗證</h2>
+    <span class="count">改完之後實際跑過的</span>
+  </div>
+
+  <table class="ledger">
+    <thead><tr><th>檢查</th><th>結果</th><th>說明</th></tr></thead>
+    <tbody>
+      <tr><th>hugo build</th><td class="num">0 warn / 0 err</td><td class="note">0.64 秒。F-10 修好之後連原本那個 deprecation 警告也沒了。</td></tr>
+      <tr><th>英文站中文殘留</th><td class="num">0</td><td class="note">三個翻譯頁的 <code>&lt;div class=content&gt;</code> 區塊內中文字元數為 0。</td></tr>
+      <tr><th>fragment id 對應</th><td class="num">253 / 253</td><td class="note">64 + 90 + 99，中英逐一對應且順序相同，勾選狀態可跨語言沿用。</td></tr>
+      <tr><th>h1 數量</th><td class="num">1 / 頁</td><td class="note">about、projects、call-up-list、travel-checklist 全部收斂為 1。</td></tr>
+      <tr><th>demo 檔案完整性</th><td class="num">4 / 4 md5 相同</td><td class="note">搬到 oss-projects 後與原檔位元完全一致。</td></tr>
+      <tr><th>og:image</th><td class="num">100 / 100 頁</td><td class="note">全部指向新的 og-card.jpg。</td></tr>
+      <tr><th>meta description</th><td class="num">無超長</td><td class="note">已無超過 160 字元的頁面。</td></tr>
+      <tr><th>custom.css 產出</th><td class="num">兩條規則都在</td><td class="note">壓縮後仍含 <code>76.8rem</code> 與 <code>min(96vw,1720px)</code>。</td></tr>
+    </tbody>
+  </table>
+
+  <p style="margin-top:22px" class="lede">兩個 repo 動工前工作樹都是乾淨的，所以全部改動都能用 <code>git diff</code> 檢視、<code>git checkout</code> 還原。我沒有執行任何 <code>git add</code> 或 <code>commit</code>。</p>
+</section>
+
+<footer class="colophon">
+  已驗證：建置輸出、100 個頁面的 metadata、fragment id 對應、demo 檔案 md5、圖片實際請求路徑。<br>
+  未驗證：瀏覽器實機外觀（CSS 寬度改動只做過選擇器與 DOM 結構比對）、GitHub Pages 啟用後的線上行為、加密頁解開後的內容。<br>
+  基準 commit c875d4c · Hugo 0.163.3 extended · 更新於 2026-09-03
+</footer>
+
+</div>
+
+</body>
+</html>
