@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 公開版：起點已改為桃園機場，內容與作者本機的版本不同。 -->
+<title>廣島・高松 5 日 互動行程地圖｜2026.09.24–09.28</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  :root{--ink:#0E2A3B;--sea:#1C6E8C;--torii:#C4452F;--grey:#5A6B75;--line:#DCE5EA;--bg:#F2F6F8}
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",system-ui,sans-serif;color:var(--ink)}
+  #app{display:flex;flex-direction:column;height:100%}
+  header{background:var(--ink);color:#fff;padding:14px 20px;flex:0 0 auto}
+  header h1{margin:0;font-size:19px;letter-spacing:.5px}
+  header p{margin:4px 0 0;font-size:12px;color:#A9C4D1}
+  #chips{display:flex;gap:8px;flex-wrap:wrap;padding:10px 20px;background:#fff;border-bottom:1px solid var(--line);flex:0 0 auto}
+  .chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 14px;font-size:13px;cursor:pointer;color:var(--grey);white-space:nowrap}
+  .chip.on{color:#fff;border-color:transparent;font-weight:700}
+  #main{flex:1 1 auto;display:flex;min-height:0}
+  #side{width:340px;flex:0 0 340px;overflow-y:auto;background:var(--bg);border-right:1px solid var(--line);padding:12px}
+  #map{flex:1 1 auto}
+  .dayhead{font-size:13px;font-weight:700;margin:14px 4px 8px;display:flex;align-items:center;gap:8px}
+  .dayhead span.dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+  .dayhead small{font-weight:400;color:var(--grey)}
+  .card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:8px;cursor:pointer;transition:.15s}
+  .card:hover{border-color:var(--sea);transform:translateX(2px)}
+  .card .t{font-size:12px;font-weight:700;font-family:ui-monospace,Menlo,monospace}
+  .card .n{font-size:14px;font-weight:700;margin:2px 0 3px}
+  .card .d{font-size:11.5px;color:var(--grey);line-height:1.5}
+  .kind{font-size:10px;color:#fff;border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:2px}
+  .pin{border-radius:50%;color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35)}
+  .leaflet-popup-content{margin:12px 14px;font-family:inherit}
+  .pop .h{font-size:15px;font-weight:700;margin-bottom:2px}
+  .pop .m{font-size:11.5px;color:var(--grey);margin-bottom:6px}
+  .pop .x{font-size:12.5px;line-height:1.6;margin-bottom:8px}
+  .pop a{display:inline-block;font-size:12px;text-decoration:none;background:var(--sea);color:#fff;padding:5px 10px;border-radius:5px;margin-right:6px}
+  .pop a.alt{background:#fff;color:var(--sea);border:1px solid var(--sea)}
+  #legend{position:absolute;right:12px;bottom:22px;z-index:500;background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:11.5px;line-height:1.8}
+  #legend b{display:block;margin-bottom:4px;font-size:12px}
+  #legend i{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:6px}
+  @media(max-width:820px){#main{flex-direction:column}#side{width:auto;flex:0 0 42%;border-right:0;border-bottom:1px solid var(--line)}#legend{display:none}}
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <h1>廣島・高松 5 日　互動行程地圖</h1>
+    <p>2026.09.24 (四) – 09.28 (一)　廣島進・高松出　※ 點選地圖圖釘或左側卡片可查看細節與導航連結</p>
+  </header>
+  <div id="chips"></div>
+  <div id="main">
+    <div id="side"></div>
+    <div id="map"><div id="legend"></div></div>
+  </div>
+</div>
+<script>
+const DATA = {"days": [{"id": "Day 1", "date": "09/24 (四)", "route": "桃園 → 廣島 → 宮島 → 廣島市區", "stay": "廣島麗嘉皇家酒店", "color": "#1C6E8C"}, {"id": "Day 2", "date": "09/25 (五)", "route": "廣島 →(瀨戶內海汽船)→ 松山 → 道後 → 今治", "stay": "今治國際飯店", "color": "#2E8B6F"}, {"id": "Day 3", "date": "09/26 (六)", "route": "今治 → 高松", "stay": "JR Hotel Clement 高松", "color": "#C08327"}, {"id": "Day 4", "date": "09/27 (日)", "route": "高松 → 坂出 → 琴平", "stay": "琴平溫泉 琴參閣", "color": "#C4452F"}, {"id": "Day 5", "date": "09/28 (一)", "route": "琴平 → 高松 → 高松機場 → 桃園", "stay": "溫暖的家", "color": "#5B4B8A"}], "points": [{"day": 1, "t": "05:10", "name": "桃園國際機場 第二航廈", "kind": "機場", "lat": 25.0801, "lng": 121.233, "note": "華航 8 號櫃檯｜CI112 07:10 起飛"}, {"day": 1, "t": "10:35", "name": "廣島機場 HIJ", "kind": "機場", "lat": 34.4373, "lng": 132.92062, "note": "抵達後通關約 40–50 分"}, {"day": 1, "t": "12:45", "name": "宮島口渡輪站", "kind": "交通", "lat": 34.31129, "lng": 132.3051, "note": "換搭渡輪往宮島，航程約 10 分"}, {"day": 1, "t": "13:10", "name": "宮島棧橋", "kind": "交通", "lat": 34.2996, "lng": 132.3237, "note": "上島後步行約 10 分至嚴島神社"}, {"day": 1, "t": "14:10", "name": "嚴島神社・海上大鳥居", "kind": "景點", "lat": 34.29599, "lng": 132.31983, "note": "世界文化遺產｜留意當日潮汐時間"}, {"day": 1, "t": "15:25", "name": "千疊閣（豐國神社）", "kind": "景點", "lat": 34.29732, "lng": 132.32028, "note": "豐臣秀吉大經堂，旁為五重塔"}, {"day": 1, "t": "15:55", "name": "宮島表參道商店街", "kind": "自由", "lat": 34.29897, "lng": 132.32184, "note": "自由活動 60 分｜現烤牡蠣、紅葉饅頭"}, {"day": 1, "t": "19:25", "name": "廣島麗嘉皇家酒店", "kind": "住宿", "lat": 34.39744, "lng": 132.45738, "note": "第 1 夜｜+81 82-502-1121"}, {"day": 2, "t": "08:30", "name": "廣島港（宇品）", "kind": "交通", "lat": 34.35251, "lng": 132.45503, "note": "搭瀨戶內海汽船前往吳、松山"}, {"day": 2, "t": "09:45", "name": "吳中央碼頭", "kind": "交通", "lat": 34.24066, "lng": 132.55625, "note": "中途停靠｜可眺望吳港軍艦"}, {"day": 2, "t": "11:40", "name": "松山觀光港", "kind": "交通", "lat": 33.88868, "lng": 132.70435, "note": "登陸四國，換遊覽車"}, {"day": 2, "t": "13:10", "name": "松山城", "kind": "景點", "lat": 33.84558, "lng": 132.76553, "note": "日本 12 現存天守｜東雲口站搭纜車上山"}, {"day": 2, "t": "15:15", "name": "道後溫泉本館", "kind": "景點", "lat": 33.85207, "lng": 132.78641, "note": "日本三大古湯｜放生園足湯、商店街"}, {"day": 2, "t": "17:55", "name": "今治國際飯店", "kind": "住宿", "lat": 34.06206, "lng": 133.00058, "note": "第 2 夜｜+81 898-36-1111"}, {"day": 3, "t": "09:15", "name": "今治毛巾美術館", "kind": "景點", "lat": 33.96929, "lng": 133.03267, "note": "全球首座毛巾主題美術館｜歐式庭園"}, {"day": 3, "t": "14:20", "name": "JR Hotel Clement 高松", "kind": "住宿", "lat": 34.35199, "lng": 134.0483, "note": "第 3 夜｜JR 高松站旁"}, {"day": 3, "t": "14:50", "name": "高松中央（丸龜町）商店街", "kind": "自由", "lat": 34.3436, "lng": 134.05001, "note": "自由活動 180 分｜晚餐代金 ¥5,000 自理"}, {"day": 4, "t": "09:15", "name": "瀨戶大橋塔・紀念公園", "kind": "景點", "lat": 34.35219, "lng": 133.82534, "note": "360° 旋轉展望台，一輪約 10 分"}, {"day": 4, "t": "12:30", "name": "金刀比羅宮", "kind": "景點", "lat": 34.184, "lng": 133.80954, "note": "御本宮 785 階｜奧社需再加 60–90 分"}, {"day": 4, "t": "16:15", "name": "琴平溫泉 琴參閣", "kind": "住宿", "lat": 34.19022, "lng": 133.81689, "note": "第 4 夜｜溫泉會席晚宴"}, {"day": 5, "t": "08:50", "name": "善通寺", "kind": "景點", "lat": 34.22596, "lng": 133.77677, "note": "四國八十八所第 75 番｜空海誕生地"}, {"day": 5, "t": "10:55", "name": "高松中央商店街", "kind": "自由", "lat": 34.3436, "lng": 134.05001, "note": "自由活動 180 分｜午餐自理"}, {"day": 5, "t": "14:10", "name": "栗林公園", "kind": "景點", "lat": 34.3299, "lng": 134.04577, "note": "米其林三星名園｜掬月亭抹茶體驗"}, {"day": 5, "t": "16:20", "name": "高松機場 TAK", "kind": "機場", "lat": 34.2149, "lng": 134.01472, "note": "CI179 19:05 起飛，20:55 抵桃園"}]};
+const KINDC = {景點:"#C4452F",自由:"#2E8B6F",住宿:"#5B4B8A",交通:"#1C6E8C",機場:"#0E2A3B"};
+let active = new Set([1,2,3,4,5]);
+
+const map = L.map("map",{scrollWheelZoom:true}).setView([34.15,133.2],8);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
+  maxZoom:19, attribution:'&copy; OpenStreetMap contributors'
+}).addTo(map);
+
+const layers = {};
+const markers = {};
+
+DATA.days.forEach((d,i)=>{
+  const n=i+1, pts=DATA.points.filter(p=>p.day===n);
+  const g=L.layerGroup();
+  L.polyline(pts.map(p=>[p.lat,p.lng]),{color:d.color,weight:3,opacity:.65,dashArray:"7,6"}).addTo(g);
+  pts.forEach((p,k)=>{
+    const c=KINDC[p.kind]||d.color;
+    const m=L.marker([p.lat,p.lng],{icon:L.divIcon({className:"",iconSize:[26,26],iconAnchor:[13,13],
+      html:'<div class="pin" style="width:26px;height:26px;background:'+c+'">'+(k+1)+'</div>'})});
+    const q=p.lat+","+p.lng;
+    m.bindPopup('<div class="pop"><div class="h">'+p.name+'</div>'+
+      '<div class="m">'+d.id+' '+d.date+'　'+p.t+'　'+p.kind+'</div>'+
+      '<div class="x">'+p.note+'</div>'+
+      '<a target="_blank" href="https://www.google.com/maps/search/?api=1&query='+q+'">Google 地圖</a>'+
+      '<a class="alt" target="_blank" href="https://www.google.com/maps/dir/?api=1&destination='+q+'">導航</a></div>',{maxWidth:280});
+    m.addTo(g); markers[n+"_"+k]=m;
+  });
+  layers[n]=g; g.addTo(map);
+});
+
+// 側欄
+const side=document.getElementById("side");
+function renderSide(){
+  side.innerHTML="";
+  DATA.days.forEach((d,i)=>{
+    const n=i+1; if(!active.has(n)) return;
+    const h=document.createElement("div"); h.className="dayhead";
+    h.innerHTML='<span class="dot" style="background:'+d.color+'"></span>'+d.id+'　<small>'+d.date+'　'+d.route+'</small>';
+    side.appendChild(h);
+    DATA.points.filter(p=>p.day===n).forEach((p,k)=>{
+      const c=KINDC[p.kind]||d.color;
+      const el=document.createElement("div"); el.className="card";
+      el.innerHTML='<div class="t" style="color:'+c+'">'+p.t+
+        '<span class="kind" style="background:'+c+'">'+p.kind+'</span></div>'+
+        '<div class="n">'+(k+1)+'. '+p.name+'</div><div class="d">'+p.note+'</div>';
+      el.onclick=()=>{const m=markers[n+"_"+k];map.setView(m.getLatLng(),14,{animate:true});m.openPopup();};
+      side.appendChild(el);
+    });
+  });
+}
+
+// 篩選鈕
+const chips=document.getElementById("chips");
+function chip(label,color,on,fn){
+  const b=document.createElement("button"); b.className="chip"+(on?" on":"");
+  b.textContent=label; if(on&&color) b.style.background=color;
+  b.onclick=fn; chips.appendChild(b); return b;
+}
+function renderChips(){
+  chips.innerHTML="";
+  chip("全部",("#0E2A3B"),active.size===5,()=>{active=new Set([1,2,3,4,5]);sync();});
+  DATA.days.forEach((d,i)=>{
+    const n=i+1;
+    chip(d.id+"　"+d.date,d.color,active.has(n),()=>{
+      active = (active.size===1&&active.has(n)) ? new Set([1,2,3,4,5]) : new Set([n]);
+      sync();
+    });
+  });
+}
+function sync(){
+  renderChips(); renderSide();
+  const b=[];
+  for(let n=1;n<=5;n++){
+    if(active.has(n)){ if(!map.hasLayer(layers[n])) layers[n].addTo(map);
+      DATA.points.filter(p=>p.day===n).forEach(p=>b.push([p.lat,p.lng]));
+    } else if(map.hasLayer(layers[n])) map.removeLayer(layers[n]);
+  }
+  // 全部顯示時排除台灣段，讓日本本島填滿畫面
+  const jp=b.filter(x=>x[1]>130);
+  if(jp.length) map.fitBounds(L.latLngBounds(jp).pad(.18));
+}
+
+document.getElementById("legend").innerHTML="<b>圖例</b>"+
+  Object.entries(KINDC).map(([k,v])=>'<i style="background:'+v+'"></i>'+k).join("<br>");
+
+sync();
+</script>
+</body>
+</html>
