@@ -1,0 +1,38 @@
+<需求>
+Day29 (09/12) 打算做的內容為 "如何教接觸AI不多的人使用AI" (例如我要教爸媽怎麼用)。
+請幫我用下面內容做規劃，並製作一個簡報，套用 /design 做美化。
+
+<環境>
+Anaconda: office
+
+<討論>
+我現在規劃的內容如以下簡報內容，你覺得有需要增加或刪減什麼再告訴我、與我討論。
+
+<簡報內容>
+1. AI / LLM 是什麼?? (一頁說明)
+1-1. 從 2012 年後的 AI 與 LLM 發展歷程 (一頁時間軸說明，2012年前用一個點帶過)
+1-2. 從 ChatGPT 成立後的 LLM 發展歷程 (一頁時間軸說明)
+2. 現在主流的模型有哪些?? (下面要附網址、一頁列舉)
+2-1. 介紹世界主流模型: Claude, ChatGPT, Grok, Gemini, Meta, Copilot (一頁比較表)
+2-2. 辨識中國模型 (台灣避免使用): Kimi, DeepSeek, 智譜, Qwen, 文心一言, 豆包 (一頁比較表)
+2-3. AI Stupid Meter: https://aistupidlevel.info/, https://arena.ai/leaderboard/agent (判斷AI程度的比較表) (一頁說明)
+2-4. LLM 的歷史里程碑 (一頁說明: 以時間軸方式寫出大事記)
+2-5. LLM 的快速迭代 (以 Claude 與 ChatGPT 為例) (一頁時間軸說明，上為 ChatGPT、下為 Claude)
+3. 如何用對話獲取想知道的知識?? (Claude, ChatGPT, Grok, Gemini, Meta, Copilot) (一頁說明: 可以白話文提出問題)
+3-1. 他是怎麼做?? (1. 用既有知識 2. 去網路搜尋) (一頁說明)
+3-2. AI 有記憶性，能夠記住個人偏好與個人背景知識 (一頁說明)
+3-3. 侷限性介紹: (1) 幻覺 (2) 使用者偏好 (例如過去習慣用特定邏輯思考事情，他可能傾向用這樣的方式回你) (3) 上下文限制 (一頁說明)
+3-4. 進行邏輯: (1) AI 對齊 (2) AI Harness Engineering (一頁說明)
+3-5. 問話方式 (含實作 Claude, ChatGPT, Gemini): (1) 開放式 (2) 敘述式且較有邊界規則 (一頁說明)
+3-6. 建議的 AI 對話問法規範 (一頁說明)
+3-7. 設定規則，例如引入 SKILL 與 RULE 的概念 (一頁說明)
+4. 如何用 AI 幫忙製作 Office 檔案 (EXCEL, WORD, PPT)?? 引入在對話中直接請他做 (一頁說明)
+4-1. 實作請 Claude, Gemini 生出 Office 檔案 (EXCEL, WORD, PPT) ，主題是介紹應該服用的保健食品、用量、頻率 (一頁說明)
+4-2. Gemini Notebook 使用介紹-1: 搜尋網頁內容、上傳內容、建立知識庫，並對話找資料 (一頁說明)
+4-3. Gemini Notebook 使用介紹-2: Youtube 轉字幕檔 (一頁說明)
+4-4. Gemini Notebook 使用介紹-3: 可以請他製作 PPT 或生成側邊有的功能 (一頁說明)
+4-5. 實作請 Claude, Gemini 修改既有 Office 檔案 (EXCEL, WORD, PPT) (一頁說明)
+5. 結論: (1) 多用 AI 但不要全部相信 (2) 討論: 跟用 Google 一樣小心被騙 (3) AI整合 (一頁說明)
+
+<Day29 MD>
+請先生成簡報檔案後，屆時用一頁簡報檔案、一頁說明的方式呈現在 MD 之中。
